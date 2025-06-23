@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fernly Health Recovery</title>
+  <style>
+    /* Reset & Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { height: 100%; font-family: 'Poppins', sans-serif; color: #333; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; }
+
+    /* Layout */
+    .layout { display: flex; height: 100%; }
+    .sidebar {
+      width: 280px; background: #fff; border-right: 1px solid #eee;
+      display: flex; flex-direction: column; padding: 2rem 1.5rem;
+    }
+    .main { flex-grow: 1; background: #F9FAFC; overflow-y: auto; }
+
+    /* Sidebar */
+    .logo { font-size: 1.75rem; font-weight: 700; color: #5C4DFF; margin-bottom: 2rem; }
+    .info { font-size: 0.85rem; color: #555; margin-bottom: 1rem; }
+    .info span { display: block; margin-top: 0.5rem; }
+    .waiting { margin: 2rem 0; }
+    .waiting input { width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.5rem; }
+    .waiting button { width: 100%; padding: 0.6rem; background: #5C4DFF; color: #fff; border-radius: 4px; font-weight: 600; }
+    .country { font-size: 0.85rem; color: #555; margin-top: auto; }
+
+    /* Hero Video */
+    .hero { position: relative; height: 60vh; min-height: 360px; overflow: hidden; }
+    .hero video, .hero img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      text-align: center; color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+    .hero-overlay h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .hero-overlay .btn-primary { margin-top: 1rem; padding: 0.75rem 1.5rem; background: #F29F05; color: #fff; border-radius: 4px; font-weight: 600; }
+
+    /* Programs Section */
+    .container { width: 90%; max-width: 1200px; margin: 3rem auto; }
+    .programs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; }
+    .card { background: #fff; border-radius: 8px; padding: 1.5rem; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    .card-icon { font-size: 2rem; margin-bottom: 1rem; color: #5C4DFF; }
+    .card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+    .card p { font-size: 0.95rem; color: #555; margin-bottom: 1rem; }
+    .card a { font-weight: 600; color: #5C4DFF; }
+
+    /* Footer */
+    footer { text-align: center; padding: 1.5rem 0; color: #777; font-size: 0.85rem; border-top: 1px solid #eee; margin-top: 3rem; }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="logo">Fernly Health</div>
+      <div class="info">
+        <strong>Current Program:</strong><span>Recovery Cohort #3</span>
+        <strong>Starts In:</strong><span>15d 04h 12m</span>
+      </div>
+      <div class="waiting">
+        <label for="phone">Join Waiting List</label>
+        <input type="tel" id="phone" placeholder="Mobile Number" />
+        <button>Join Now</button>
+      </div>
+      <div class="country">Country: 🇺🇸 US</div>
+    </aside>
+
+    <section class="main">
+      <div class="hero">
+        <!-- Replace src with actual video or image -->
+        <img src="https://via.placeholder.com/1200x600?text=Hero+Video+Placeholder" alt="Recovery journey video">
+        <div class="hero-overlay">
+          <h1>Start Your Recovery Journey</h1>
+          <p style="color:#eee; max-width:600px; margin:0 auto;">Empowering you with 1:1 counseling, peer support, and structured aftercare.</p>
+          <button class="btn-primary">View Programs</button>
+        </div>
+      </div>
+
+      <div class="container">
+        <h2 style="text-align:center; margin-bottom:1.5rem; color:#5C4DFF;">Our Programs</h2>
+        <div class="programs">
+          <div class="card">
+            <div class="card-icon">🧠</div>
+            <h3>Individual Recovery</h3>
+            <p>Tailored one-on-one therapy & coaching to support your healing path.</p>
+            <a href="#">Learn More →</a>
+          </div>
+          <div class="card">
+            <div class="card-icon">👥</div>
+            <h3>Group Support</h3>
+            <p>Peer circles and community check-ins for shared accountability.</p>
+            <a href="#">Learn More →</a>
+          </div>
+          <div class="card">
+            <div class="card-icon">📋</div>
+            <h3>Aftercare Planning</h3>
+            <p>Structured take-home plans with ongoing follow-up support.</p>
+            <a href="#">Learn More →</a>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        &copy; 2025 Fernly Health. All rights reserved.
+      </footer>
+    </section>
+  </div>
+</body>
+</html>
