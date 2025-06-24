@@ -26,10 +26,10 @@
     /* Hero */
     .hero { text-align: center; padding: 4rem 0; background: url('images/hero.jpg') center/cover no-repeat; color: #fff; }
     .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.4); }
-    .hero p { font-size: 1.1rem; max-width: 600px; margin: 0 auto 2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.4); }
+    .hero p { font-size: 1.1rem; max-width: 600px; margin: 0 auto; text-shadow: 0 2px 4px rgba(0,0,0,0.4); }
 
-    /* Services (like Sawa) */
-    #services { padding: 3rem 0; }
+    /* Services */
+    #services { padding: 1rem 0; margin-top: 2rem; }
     .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
     .services-grid .card { background: #fff; border-radius: 8px; padding: 1.5rem; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
     .services-grid .card:hover { transform: translateY(-4px); }
@@ -37,6 +37,15 @@
     .services-grid h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: #4F7942; }
     .services-grid p { font-size: 0.95rem; color: #555; margin-bottom: 1rem; }
     .services-grid a { font-weight: 600; color: #4F7942; }
+
+    /* About & Contact tweaks */
+    #about { background: #fff; margin-top: 3rem; padding: 2rem 0; }
+    #contact { margin-top: 1rem; padding: 2rem 0; }
+
+    /* Mood Meter */
+    .mood-meter { position: relative; overflow: hidden; height: 240px; margin-top: 3rem; }
+    .mood-meter::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, #8fbf8f, #bf4f4f, #8fbf8f); background-size: 400% 400%; animation: moodShift 12s ease-in-out infinite; z-index: -1; }
+    @keyframes moodShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
     /* Footer */
     footer { text-align: center; padding: 1.5rem 0; color: #777; font-size: 0.9rem; border-top: 1px solid #e0e0e0; }
@@ -48,7 +57,7 @@
       <nav>
         <div class="logo">
           <img src="images/Fernly-logo.png" alt="Fernly Health Logo">
-          <span>  Fernly Health</span>
+          <span>Fernly Health</span>
         </div>
         <ul class="nav-links">
           <li><a href="#services">Services</a></li>
@@ -69,56 +78,25 @@
 
   <section id="services">
     <div class="container">
-      <h2 class="section-title">Our Services</h2>
       <div class="services-grid">
-        <div class="card">
-          <img src="images/Walkin.png" alt="Walk-In Care">
-          <h3>Walk-In Care</h3>
-          <p>Immediate assessments in a friendly lounge setting.</p>
-          <a href="#contact">Book Now →</a>
-        </div>
-        <div class="card">
-          <img src="images/iop.png" alt="Intensive Outpatient (IOP)">
-          <h3>Intensive Outpatient (IOP)</h3>
-          <p>Group therapy in a cozy, supportive space.</p>
-          <a href="#contact">Learn More →</a>
-        </div>
-        <div class="card">
-          <img src="images/php.png" alt="Partial Hospitalization (PHP)">
-          <h3>Partial Hospitalization (PHP)</h3>
-          <p>Full-day care in a serene, home-like environment.</p>
-          <a href="#contact">Learn More →</a>
-        </div>
-        <div class="card">
-          <img src="images/mat.png" alt="Medication-Assisted Treatment (MAT)">
-          <h3>Medication-Assisted Treatment</h3>
-          <p>Gentle medication plans with ongoing personal support.</p>
-          <a href="#contact">Learn More →</a>
-        </div>
-        <div class="card">
-          <img src="images/medmgmt.png" alt="Medication Management">
-          <h3>Medication Management</h3>
-          <p>Tailored oversight for your mental wellness journey.</p>
-          <a href="#contact">Learn More →</a>
-        </div>
-        <div class="card">
-          <img src="images/therapy.png" alt="Therapy & Counseling">
-          <h3>Therapy & Counseling</h3>
-          <p>Personal sessions that foster genuine connection and healing.</p>
-          <a href="#contact">Learn More →</a>
-        </div>
+        <div class="card"><img src="images/Walkin.png" alt="Walk-In Care"><h3>Walk-In Care</h3><p>Immediate assessments in a friendly lounge setting.</p><a href="#contact">Book Now →</a></div>
+        <div class="card"><img src="images/iop.png" alt="Intensive Outpatient (IOP)"><h3>Intensive Outpatient (IOP)</h3><p>Group therapy in a cozy, supportive space.</p><a href="#contact">Learn More →</a></div>
+        <div class="card"><img src="images/php.png" alt="Partial Hospitalization (PHP)"><h3>Partial Hospitalization (PHP)</h3><p>Full-day care in a serene, home-like environment.</p><a href="#contact">Learn More →</a></div>
+        <div class="card"><img src="images/mat.png" alt="Medication-Assisted Treatment (MAT)"><h3>Medication-Assisted Treatment</h3><p>Gentle medication plans with ongoing personal support.</p><a href="#contact">Learn More →</a></div>
+        <div class="card"><img src="images/medmgmt.png" alt="Medication Management"><h3>Medication Management</h3><p>Tailored oversight for your mental wellness journey.</p><a href="#contact">Learn More →</a></div>
+        <div class="card"><img src="images/therapy.png" alt="Therapy & Counseling"><h3>Therapy & Counseling</h3><p>Personal sessions that foster genuine connection and healing.</p><a href="#contact">Learn More →</a></div>
       </div>
     </div>
   </section>
 
-  <section id="about" style="padding:3rem 0; background:#fff;">
+  <section id="about">
     <div class="container">
       <h2 class="section-title">About Us</h2>
       <p class="about-text">Fernly Health offers a full spectrum of mental health and recovery services across Arizona, led by a board-certified PMHNP. Our mission is to provide compassionate, evidence-based care in a boutique-style environment.</p>
     </div>
   </section>
 
-  <section id="contact" style="padding:3rem 0;">
+  <section id="contact">
     <div class="container">
       <h2 class="section-title">Contact Us</h2>
       <form style="max-width:500px; margin:0 auto; display:flex; flex-direction:column; gap:1rem;">
@@ -130,8 +108,11 @@
     </div>
   </section>
 
+  <section class="mood-meter"></section>
+
   <footer>
     <div class="container">&copy; 2025 Fernly Health. All rights reserved.</div>
   </footer>
 </body>
 </html>
+
