@@ -1,0 +1,452 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Meet Our Team - Fernly Health&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>* {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-sizing: border-box;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>html,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-family: 'Poppins', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #333;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: linear-gradient(45deg, #8fbf8f, #bf4f4f, #8fbf8f);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background-size: 400% 400%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>animation: moodShift 12s ease-in-out infinite;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>@keyframes moodShift {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>0% {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>background-position: 0% 50%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>50% {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>background-position: 100% 50%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>100% {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>background-position: 0% 50%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>@media (prefers-reduced-motion: reduce) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>html,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>animation: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>a {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-decoration: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: inherit;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.container {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 90%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>max-width: 1200px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>header {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(255, 255, 255, 0.95);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>backdrop-filter: blur(10px);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: fixed;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>left: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>right: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>z-index: 1000;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: all 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>nav {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 1rem 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.logo {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.logo img {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 40px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-right: 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.logo span {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #4F7942;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.nav-links {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>list-style: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.nav-links a {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 500;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: color 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.nav-links a:hover {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #619251;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.nav-links a::after {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>content: '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 2px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>bottom: -5px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>left: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background-color: #619251;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: width 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.nav-links a:hover::after {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-primary {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #619251;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 0.75rem 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 25px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: all 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 2px solid #619251;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-primary:hover {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: transparent;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #619251;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform: translateY(-2px);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.page-header {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 8rem 1rem 4rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(255, 255, 255, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.page-header h1 {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 3rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.page-header p {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.2rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>max-width: 600px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 300;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>#team {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 4rem 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(255, 255, 255, 0.05);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.section-title {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 2.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 3rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.team-grid {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gap: 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 3rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.team-member {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(255, 255, 255, 0.95);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: all 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.team-member:hover {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform: translateY(-5px);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.team-photo {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 120px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 120px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: linear-gradient(45deg, #8fbf8f, #619251);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0 auto 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 3rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.team-member h3 {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #4F7942;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 0.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.team-member .title {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #619251;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 500;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.team-member p {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #666;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>line-height: 1.6;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>#founders-note {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 4rem 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(255, 255, 255, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.founders-content {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>max-width: 800px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>line-height: 1.8;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.1rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.founders-content p {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: left;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.founders-signature {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: right;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.founders-signature .name {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.2rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 0.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.founders-signature .title {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #ccc;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.9rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.back-to-home {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 3rem 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(255, 255, 255, 0.05);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.back-to-home a {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.1rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: 500;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: color 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.back-to-home a:hover {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #619251;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>footer {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.9rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 2rem 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(0, 0, 0, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>html {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>scroll-behavior: smooth;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>@media (max-width: 768px) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>.nav-links {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>display: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>.page-header h1 {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>font-size: 2.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>.team-grid {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>grid-template-columns: 1fr;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>.container {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>padding: 0 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;header&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;nav&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="logo"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;img src="images/Fernly-logo.png" alt="Fernly Health Logo"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span&gt;Fernly Health&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;ul class="nav-links"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li&gt;&lt;a href="index.html"&gt;Home&lt;/a&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li&gt;&lt;a href="services.html"&gt;Services&lt;/a&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li&gt;&lt;a href="team.html"&gt;Team&lt;/a&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li&gt;&lt;a href="index.html#contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li&gt;&lt;a href="index.html#contact" class="btn-primary"&gt;Get Started&lt;/a&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/nav&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;section class="page-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h1&gt;Meet Our Team&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;Dedicated professionals committed to your mental health and recovery journey&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;section id="team"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="team-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="team-member"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="team-photo"&gt;DR&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3&gt;Dr. Sarah Johnson&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="title"&gt;Lead Psychiatrist&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;Board-certified psychiatrist with over 15 years of experience in mental health care, specializing in mood disorders and addiction treatment.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="team-member"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="team-photo"&gt;LM&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3&gt;Lisa Martinez&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="title"&gt;Licensed Therapist&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;Compassionate therapist with expertise in trauma-informed care and cognitive behavioral therapy, helping clients navigate their healing journey.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="team-member"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="team-photo"&gt;NP&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3&gt;Nurse Practitioner Bill Nyaoga&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="title"&gt;Psychiatric Mental Health NP&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;Dedicated nurse practitioner providing comprehensive medication management and therapeutic support for optimal mental wellness.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="team-member"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="team-photo"&gt;CT&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3&gt;Carlos Torres&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="title"&gt;Clinical Counselor&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;Experienced counselor specializing in group therapy and family systems, creating supportive environments for recovery and growth.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;section id="founders-note"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2 class="section-title"&gt;A Note from Our Founder&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="founders-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;I started Fernly because I believe mental health care should feel like care — not a cold, clinical transaction.&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;Over the years, working as a nurse and now a psychiatric mental health nurse practitioner, I've sat with people in their toughest moments — in hospital rooms, during breakdowns, through recovery. I've seen how overwhelming it can be just to find someone who listens, especially when you're hurting or in crisis.&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;That's why I built Fernly: to create a space that's not just professional, but personal. A place where you can walk in — scheduled or not — and know someone will be there to meet you with compassion, not a clipboard.&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;We welcome emergency walk-ins because we know that anxiety, depression, trauma, or addiction don't always follow a calendar. And neither should care.&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;At Fernly, you're not just another intake form. You're a whole person — and we're here to walk alongside you, however that journey looks.&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="founders-signature"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="name"&gt;— Bill Nyaoga, MSN, RN, PMHNP-BC&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="title"&gt;Founder &amp; Medical Director, Fernly Health&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;section class="back-to-home"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;a href="index.html"&gt;← Back to Home&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;footer&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&amp;copy; 2025 Fernly Health. All rights reserved.</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/footer&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Navbar scroll effect</p>
+<p class="p1"><span class="Apple-converted-space">    </span>window.addEventListener('scroll', function() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const header = document.querySelector('header');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (window.scrollY &gt; 100) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>header.style.background = 'rgba(255,255,255,0.98)';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>header.style.background = 'rgba(255,255,255,0.95)';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Intersection Observer for animations</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const observerOptions = {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>threshold: 0.1,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>rootMargin: '0px 0px -50px 0px'</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const observer = new IntersectionObserver((entries) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>entries.forEach(entry =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (entry.isIntersecting) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>entry.target.style.opacity = '1';</p>
+<p class="p1"><span class="Apple-converted-space">          </span>entry.target.style.transform = 'translateY(0)';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}, observerOptions);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Observe all team members</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.querySelectorAll('.team-member').forEach(el =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>el.style.opacity = '0';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>el.style.transform = 'translateY(30px)';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>observer.observe(el);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
