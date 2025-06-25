@@ -27,18 +27,15 @@
       0% {
         background-position: 0% 50%;
       }
-
       50% {
         background-position: 100% 50%;
       }
-
       100% {
         background-position: 0% 50%;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-
       html,
       body {
         animation: none;
@@ -54,6 +51,48 @@
       width: 90%;
       max-width: 1200px;
       margin: 0 auto;
+    }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, #8fbf8f, #bf4f4f, #8fbf8f);
+      background-size: 400% 400%;
+      animation: moodShift 12s ease-in-out infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 1s ease, visibility 1s ease;
+    }
+
+    .loading-screen.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-content {
+      text-align: center;
+      color: white;
+    }
+
+    .loading-text {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     header {
@@ -83,12 +122,43 @@
     .logo img {
       height: 40px;
       margin-right: 0.75rem;
+      opacity: 0;
+      transform: translateY(-50px) rotate(-15deg);
+      animation: leafDrop 2s ease-out forwards;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes leafDrop {
+      0% {
+        opacity: 0;
+        transform: translateY(-50px) rotate(-15deg);
+      }
+      30% {
+        opacity: 0.3;
+        transform: translateY(-30px) rotate(-10deg);
+      }
+      60% {
+        opacity: 0.7;
+        transform: translateY(-10px) rotate(-5deg);
+      }
+      80% {
+        opacity: 0.9;
+        transform: translateY(-2px) rotate(-2deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+      }
     }
 
     .logo span {
       font-size: 1.5rem;
       font-weight: 700;
       color: #4F7942;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s ease forwards;
+      animation-delay: 2.5s;
     }
 
     .nav-links {
@@ -123,6 +193,7 @@
       width: 100%;
     }
 
+    /* ORIGINAL WORKING BUTTON STYLES */
     .btn-primary {
       background: #619251;
       color: #fff;
@@ -136,6 +207,22 @@
     .btn-primary:hover {
       background: transparent;
       color: #619251;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 600;
+      border: 2px solid #fff;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: #fff;
+      color: #333;
       transform: translateY(-2px);
     }
 
@@ -162,6 +249,43 @@
       margin: 0 auto 2rem;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
       font-weight: 300;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1.2s ease;
+    }
+
+    .hero .tagline.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero h1 .word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: ghostFadeIn 2s ease forwards;
+    }
+
+    .hero h1 .word:nth-child(1) { animation-delay: 1s; }
+    .hero h1 .word:nth-child(2) { animation-delay: 2.5s; }
+    .hero h1 .word:nth-child(3) { animation-delay: 4s; }
+
+    @keyframes ghostFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+        filter: blur(2px);
+      }
+      50% {
+        opacity: 0.5;
+        transform: translateY(10px) scale(0.98);
+        filter: blur(1px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+      }
     }
 
     .hero-buttons {
@@ -169,22 +293,6 @@
       gap: 1rem;
       justify-content: center;
       flex-wrap: wrap;
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: #fff;
-      padding: 0.75rem 1.5rem;
-      border-radius: 25px;
-      font-weight: 600;
-      border: 2px solid #fff;
-      transition: all 0.3s ease;
-    }
-
-    .btn-secondary:hover {
-      background: #fff;
-      color: #333;
-      transform: translateY(-2px);
     }
 
     #services {
@@ -206,6 +314,7 @@
       gap: 2rem;
     }
 
+    /* ORIGINAL WORKING CARD STYLES */
     .card {
       background: rgba(255, 255, 255, 0.95);
       border-radius: 15px;
@@ -263,6 +372,7 @@
       margin-top: 3rem;
     }
 
+    /* ORIGINAL WORKING TEAM MEMBER STYLES */
     .team-member {
       background: rgba(255, 255, 255, 0.95);
       border-radius: 15px;
@@ -319,6 +429,7 @@
       margin-top: 3rem;
     }
 
+    /* ORIGINAL WORKING BLOG CARD STYLES */
     .blog-card {
       background: rgba(255, 255, 255, 0.95);
       border-radius: 15px;
@@ -393,6 +504,41 @@
       font-size: 1.1rem;
     }
 
+    .founders-content {
+      color: #fff;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .founders-content p {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .founders-signature {
+      margin-top: 2rem;
+      text-align: right;
+    }
+
+    .founders-signature .name {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .founders-signature .title {
+      color: #ccc;
+      font-size: 0.9rem;
+    }
+
+    #founders-note {
+      color: white;
+      padding: 4rem 0;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
     .contact-cta {
       font-size: 1.2rem;
       margin-bottom: 2rem;
@@ -437,6 +583,46 @@
       background: rgba(0, 0, 0, 0.1);
     }
 
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #619251;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+      z-index: 1000;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background: #4F7942;
+      transform: translateY(-3px);
+    }
+
+    /* Cursor Trail Effect */
+    .cursor-trail {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      background: rgba(97, 146, 81, 0.8);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transition: all 0.1s ease;
+    }
+
     html {
       scroll-behavior: smooth;
     }
@@ -469,13 +655,17 @@
         padding: 0 1rem;
       }
     }
-#founders-note {
-  color: white;
-}
   </style>
 </head>
 
 <body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-content">
+      <div class="loading-text">Welcome to Fernly Health</div>
+    </div>
+  </div>
+
   <header>
     <div class="container">
       <nav>
@@ -496,8 +686,12 @@
 
   <section id="home" class="hero">
     <div class="container">
-      <h1>Recover. Rebuild. Thrive.</h1>
-      <p class="tagline"> Because just ‘okay’ isn’t good enough </p>
+      <h1>
+        <span class="word" data-word="Recover.">Recover.</span>
+        <span class="word" data-word="Rebuild.">Rebuild.</span>
+        <span class="word" data-word="Thrive.">Thrive.</span>
+      </h1>
+      <p class="tagline">Because just 'okay' isn't good enough</p>
       <div class="hero-buttons">
         <a href="#services" class="btn-primary">Our Services</a>
         <a href="#contact" class="btn-secondary">Free Consultation</a>
@@ -589,7 +783,7 @@
           <div class="blog-image">ANX</div>
           <div class="blog-content">
             <div class="blog-source">Psychology Today</div>
-            <h3 class="blog-title">What to Do When Your Anxiety Won’t Go Away</h3>
+            <h3 class="blog-title">What to Do When Your Anxiety Won't Go Away</h3>
             <p class="blog-excerpt">A practical guide to calming persistent anxiety using simple, everyday strategies rooted in mindfulness and self-care.</p>
             <a href="https://www.psychologytoday.com/us/blog/anxiety-zen/201505/what-do-when-your-anxiety-won-t-go-away" target="_blank" class="read-more">Read More →</a>
           </div>
@@ -635,7 +829,7 @@
           <div class="blog-content">
             <div class="blog-source">Psychology Today</div>
             <h3 class="blog-title">What Is Group Counseling?</h3>
-            <p class="blog-excerpt">Discover how group counseling creates a space for shared healing—where people connect, grow, and gain strength through each other’s stories and support.</p>
+            <p class="blog-excerpt">Discover how group counseling creates a space for shared healing—where people connect, grow, and gain strength through each other's stories and support.</p>
             <a href="https://www.psychologytoday.com/us/basics/therapy/what-is-group-counseling" target="_blank" class="read-more">Read More →</a>
           </div>
         </div>
@@ -690,7 +884,16 @@
     </div>
   </footer>
 
+  <!-- Back to Top Button -->
+  <button id="backToTop" class="back-to-top">↑</button>
+
   <script>
+    // Loading screen
+    setTimeout(() => {
+      document.getElementById('loadingScreen').classList.add('fade-out');
+    }, 2000);
+
+    // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
         e.preventDefault();
@@ -703,6 +906,8 @@
         }
       });
     });
+
+    // Navbar scroll effect
     window.addEventListener('scroll', function() {
       const header = document.querySelector('header');
       if (window.scrollY > 100) {
@@ -710,6 +915,62 @@
       } else {
         header.style.background = 'rgba(255,255,255,0.95)';
       }
+    });
+
+    // Back to top button
+    const backToTopBtn = document.getElementById('backToTop');
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    });
+
+    backToTopBtn.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Tagline animation
+    setTimeout(() => {
+      const tagline = document.querySelector('.hero .tagline');
+      tagline.classList.add('show');
+    }, 5000);
+
+    // Cursor trail effect
+    let cursorTrails = [];
+    const maxTrails = 20;
+
+    document.addEventListener('mousemove', function(e) {
+      const trail = document.createElement('div');
+      trail.className = 'cursor-trail';
+      trail.style.left = e.pageX - 3 + 'px';
+      trail.style.top = e.pageY - 3 + 'px';
+      document.body.appendChild(trail);
+
+      cursorTrails.push(trail);
+
+      if (cursorTrails.length > maxTrails) {
+        const oldTrail = cursorTrails.shift();
+        if (oldTrail && oldTrail.parentNode) {
+          oldTrail.parentNode.removeChild(oldTrail);
+        }
+      }
+
+      setTimeout(() => {
+        if (trail.parentNode) {
+          trail.style.opacity = '0';
+          trail.style.transform = 'scale(0.5)';
+          setTimeout(() => {
+            if (trail.parentNode) {
+              trail.parentNode.removeChild(trail);
+            }
+          }, 200);
+        }
+      }, 100);
     });
   </script>
 </body>
