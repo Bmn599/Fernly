@@ -295,7 +295,13 @@
       flex-wrap: wrap;
     }
 
-    #services {
+    /* Blank section between hero and resources */
+    .blank-section {
+      height: 50vh;
+      background: transparent;
+    }
+
+    #blog {
       padding: 4rem 0;
       background: rgba(255, 255, 255, 0.1);
     }
@@ -306,120 +312,6 @@
       font-size: 2.5rem;
       margin-bottom: 3rem;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    /* ORIGINAL WORKING CARD STYLES */
-    .card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 15px;
-      padding: 2rem;
-      text-align: center;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-      transition: all 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    }
-
-    .card img {
-      width: 80px;
-      height: 80px;
-      object-fit: contain;
-      margin: 0 auto 1.5rem;
-      display: block;
-    }
-
-    .card h3 {
-      color: #4F7942;
-      margin-bottom: 1rem;
-      font-size: 1.3rem;
-    }
-
-    .card p {
-      color: #666;
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-    }
-
-    .card a {
-      color: #619251;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
-
-    .card a:hover {
-      color: #4F7942;
-    }
-
-    #team {
-      padding: 4rem 0;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-
-    /* ORIGINAL WORKING TEAM MEMBER STYLES */
-    .team-member {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 15px;
-      padding: 2rem;
-      text-align: center;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-      transition: all 0.3s ease;
-    }
-
-    .team-member:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    }
-
-    .team-photo {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: linear-gradient(45deg, #8fbf8f, #619251);
-      margin: 0 auto 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
-      color: white;
-      font-weight: 700;
-    }
-
-    .team-member h3 {
-      color: #4F7942;
-      margin-bottom: 0.5rem;
-    }
-
-    .team-member .title {
-      color: #619251;
-      font-weight: 500;
-      margin-bottom: 1rem;
-    }
-
-    .team-member p {
-      color: #666;
-      line-height: 1.6;
-    }
-
-    #blog {
-      padding: 4rem 0;
-      background: rgba(255, 255, 255, 0.1);
     }
 
     .blog-grid {
@@ -502,41 +394,6 @@
       color: #fff;
       line-height: 1.8;
       font-size: 1.1rem;
-    }
-
-    .founders-content {
-      color: #fff;
-      max-width: 800px;
-      margin: 0 auto;
-      line-height: 1.8;
-      font-size: 1.1rem;
-    }
-
-    .founders-content p {
-      margin-bottom: 1.5rem;
-      text-align: left;
-    }
-
-    .founders-signature {
-      margin-top: 2rem;
-      text-align: right;
-    }
-
-    .founders-signature .name {
-      font-weight: 700;
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .founders-signature .title {
-      color: #ccc;
-      font-size: 0.9rem;
-    }
-
-    #founders-note {
-      color: white;
-      padding: 4rem 0;
-      background: rgba(255, 255, 255, 0.1);
     }
 
     .contact-cta {
@@ -623,6 +480,223 @@
       transition: all 0.1s ease;
     }
 
+    /* AI Chatbot Widget */
+    .chat-widget {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 1000;
+    }
+
+    .chat-toggle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #619251;
+      color: white;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chat-toggle:hover {
+      background: #4F7942;
+      transform: scale(1.1);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .chat-container {
+      position: fixed;
+      bottom: 5rem;
+      right: 2rem;
+      width: 350px;
+      height: 500px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px) scale(0.9);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .chat-container.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .chat-header {
+      background: #619251;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 15px 15px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .chat-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.3s ease;
+    }
+
+    .chat-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-height: 300px;
+      scroll-behavior: smooth;
+    }
+
+    .message {
+      padding: 0.75rem 1rem;
+      border-radius: 15px;
+      max-width: 80%;
+      word-wrap: break-word;
+      animation: messageSlideIn 0.3s ease;
+    }
+
+    @keyframes messageSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message.user {
+      background: #619251;
+      color: white;
+      margin-left: auto;
+      margin-right: 8px;
+    }
+
+    .message.bot {
+      background: #f0f0f0;
+      color: #333;
+      margin-right: auto;
+      margin-left: 8px;
+    }
+
+    /* Typing indicator styles */
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 8px 12px;
+    }
+
+    .typing-indicator span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #619251;
+      animation: typing 1.4s infinite ease-in-out;
+    }
+
+    .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+    .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes typing {
+      0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+      }
+      40% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .chat-input-container {
+      padding: 1rem;
+      border-top: 1px solid #eee;
+      position: relative;
+    }
+
+    .chat-input {
+      width: 100%;
+      padding: 0.75rem 3rem 0.75rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      resize: none;
+      font-family: inherit;
+      font-size: 0.9rem;
+      transition: border-color 0.3s ease;
+      max-height: 100px;
+      min-height: 40px;
+    }
+
+    .chat-input:focus {
+      outline: none;
+      border-color: #619251;
+    }
+
+    .chat-send {
+      position: absolute;
+      right: 1.5rem;
+      bottom: 1.5rem;
+      background: #619251;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chat-send:hover {
+      background: #4F7942;
+      transform: scale(1.1);
+    }
+
+    .disclaimer {
+      font-size: 0.7rem;
+      color: #999;
+      text-align: center;
+      padding: 0.5rem;
+      background: rgba(255, 255, 255, 0.8);
+      border-top: 1px solid #eee;
+    }
+
     html {
       scroll-behavior: smooth;
     }
@@ -645,14 +719,26 @@
         align-items: center;
       }
 
-      .services-grid,
-      .team-grid,
       .blog-grid {
         grid-template-columns: 1fr;
       }
 
       .container {
         padding: 0 1rem;
+      }
+
+      /* Mobile chat adjustments */
+      .chat-container {
+        width: calc(100vw - 2rem);
+        height: 60vh;
+        right: 1rem;
+        left: 1rem;
+        bottom: 5rem;
+      }
+
+      .chat-widget {
+        right: 1rem;
+        bottom: 1rem;
       }
     }
   </style>
@@ -675,8 +761,8 @@
         </div>
         <ul class="nav-links">
           <li><a href="#home">Home</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#team">Team</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="team.html">Team</a></li>
           <li><a href="#contact">Contact</a></li>
           <li><a href="#contact" class="btn-primary">Get Started</a></li>
         </ul>
@@ -693,87 +779,14 @@
       </h1>
       <p class="tagline">Because just 'okay' isn't good enough</p>
       <div class="hero-buttons">
-        <a href="#services" class="btn-primary">Our Services</a>
+        <a href="services.html" class="btn-primary">Our Services</a>
         <a href="#contact" class="btn-secondary">Free Consultation</a>
       </div>
     </div>
   </section>
 
-  <section id="services">
-    <div class="container">
-      <h2 class="section-title">Our Services</h2>
-      <div class="services-grid">
-        <div class="card">
-          <img src="images/Walkin.png" alt="Walk-In Care">
-          <h3>Walk-In Care</h3>
-          <p>Emergency assessments in a friendly lounge setting.</p>
-          <a href="#contact">Book Now →</a>
-        </div>
-        <div class="card">
-          <img src="images/iop.png" alt="Intensive Outpatient">
-          <h3>Intensive Outpatient (IOP)</h3>
-          <p>Group therapy in a cozy, supportive space.</p>
-          <a href="#contact">Learn More →</a>
-        </div>
-        <div class="card">
-          <img src="images/php.png" alt="Partial Hospitalization">
-          <h3>Partial Hospitalization (PHP)</h3>
-          <p>Full-day care in a serene, home-like environment.</p>
-          <a href="#contact">Learn More →</a>
-        </div>
-        <div class="card">
-          <img src="images/mat.png" alt="Medication-Assisted Treatment">
-          <h3>Medication-Assisted Treatment</h3>
-          <p>Gentle medication plans with ongoing personal support.</p>
-          <a href="#contact">Learn More →</a>
-        </div>
-        <div class="card">
-          <img src="images/medmgmt.png" alt="Medication Management">
-          <h3>Medication Management</h3>
-          <p>Tailored oversight for your mental wellness journey.</p>
-          <a href="#contact">Learn More →</a>
-        </div>
-        <div class="card">
-          <img src="images/therapy.png" alt="Therapy & Counseling">
-          <h3>Therapy & Counseling</h3>
-          <p>Personal sessions that foster genuine connection and healing.</p>
-          <a href="#contact">Learn More →</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="team">
-    <div class="container">
-      <h2 class="section-title">Meet Our Team</h2>
-      <div class="team-grid">
-        <div class="team-member">
-          <div class="team-photo">DR</div>
-          <h3>Dr. Sarah Johnson</h3>
-          <div class="title">Lead Psychiatrist</div>
-          <p>Board-certified psychiatrist with over 15 years of experience in mental health care, specializing in mood disorders and addiction treatment.</p>
-        </div>
-        <div class="team-member">
-          <div class="team-photo">LM</div>
-          <h3>Lisa Martinez</h3>
-          <div class="title">Licensed Therapist</div>
-          <p>Compassionate therapist with expertise in trauma-informed care and cognitive behavioral therapy, helping clients navigate their healing journey.</p>
-        </div>
-        <div class="team-member">
-          <div class="team-photo">NP</div>
-          <h3>Nurse Practitioner Bill Nyaoga</h3>
-          <div class="title">Psychiatric Mental Health NP</div>
-          <p>Dedicated nurse practitioner providing comprehensive medication management and therapeutic support for optimal mental wellness.</p>
-        </div>
-        <div class="team-member">
-          <div class="team-photo">CT</div>
-          <h3>Carlos Torres</h3>
-          <div class="title">Clinical Counselor</div>
-          <p>Experienced counselor specializing in group therapy and family systems, creating supportive environments for recovery and growth.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- Blank section between hero and resources -->
+  <section class="blank-section"></section>
 
   <section id="blog">
     <div class="container">
@@ -843,27 +856,6 @@
       <p>Fernly Health offers comprehensive mental health and recovery services across Arizona, led by a multidisciplinary team of board certified psychiatrists, psychologists, therapists, counselors, and a Psychiatric Mental Health Nurse Practitioner. We are committed to delivering compassionate, evidence-based care in a welcoming, supportive environment where individuals can heal, grow, and thrive.</p>
     </div>
   </section>
-  <section id="founders-note">
-    <div class="container">
-      <h2 class="section-title">A Note from Our Founder</h2>
-      <div class="founders-content">
-        <p>I started Fernly because I believe mental health care should feel like care — not a cold, clinical transaction.</p>
-
-        <p>Over the years, working as a nurse and now a psychiatric mental health nurse practitioner, I've sat with people in their toughest moments — in hospital rooms, during breakdowns, through recovery. I've seen how overwhelming it can be just to find someone who listens, especially when you're hurting or in crisis.</p>
-
-        <p> That's why I built Fernly: to create a space that's not just professional, but personal. A place where you can walk in — scheduled or not — and know someone will be there to meet you with compassion, not a clipboard.</p>
-
-        <p>We welcome emergency walk-ins because we know that anxiety, depression, trauma, or addiction don't always follow a calendar. And neither should care.</p>
-
-        <p>At Fernly, you're not just another intake form. You're a whole person — and we're here to walk alongside you, however that journey looks.</p>
-
-        <div class="founders-signature">
-          <div class="name">— Bill Nyaoga, MSN, RN, PMHNP-BC</div>
-          <div class="title">Founder & Medical Director, Fernly Health</div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <section id="contact">
     <div class="container">
@@ -886,6 +878,34 @@
 
   <!-- Back to Top Button -->
   <button id="backToTop" class="back-to-top">↑</button>
+
+  <!-- AI Chatbot Widget -->
+  <div class="chat-widget">
+    <button class="chat-toggle" id="chatToggle">💬</button>
+    <div class="chat-container" id="chatContainer">
+      <div class="chat-header">
+        <h3>Mental Health Assistant</h3>
+        <button class="chat-close" id="chatClose">×</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="message bot">
+          Hi there! I'm here to listen and help. How are you feeling today? 💚
+        </div>
+      </div>
+      <div class="chat-input-container">
+        <textarea 
+          class="chat-input" 
+          id="chatInput" 
+          placeholder="Tell me what's on your mind..."
+          rows="1"
+        ></textarea>
+        <button class="chat-send" id="chatSend">→</button>
+      </div>
+      <div class="disclaimer">
+        This AI assistant provides general information only. It's not a substitute for professional medical advice. If you're in crisis, please call 988 or seek immediate help.
+      </div>
+    </div>
+  </div>
 
   <script>
     // Loading screen
@@ -972,8 +992,194 @@
         }
       }, 100);
     });
+
+    // AI Chatbot Functionality - Part 1: Basic UI Structure
+    const chatToggle = document.getElementById('chatToggle');
+    const chatContainer = document.getElementById('chatContainer');
+    const chatClose = document.getElementById('chatClose');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const chatSend = document.getElementById('chatSend');
+
+    // Chat toggle functionality
+    chatToggle.addEventListener('click', () => {
+      chatContainer.classList.toggle('open');
+      if (chatContainer.classList.contains('open')) {
+        chatInput.focus();
+        // Add welcome message if this is the first time opening
+        if (chatMessages.children.length === 0) {
+          addMessage("Hello! I'm here to listen and support you. How are you feeling today?", 'bot');
+        }
+      }
+    });
+
+    // Chat close functionality
+    chatClose.addEventListener('click', () => {
+      chatContainer.classList.remove('open');
+    });
+
+    // Auto-resize textarea for better UX
+    chatInput.addEventListener('input', () => {
+      chatInput.style.height = 'auto';
+      chatInput.style.height = Math.min(chatInput.scrollHeight, 100) + 'px';
+    });
+
+    // Send message on Enter key (but allow Shift+Enter for new lines)
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    // Send message on button click
+    chatSend.addEventListener('click', sendMessage);
+
+    // Enhanced message sending function with better responses
+    async function sendMessage() {
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      // Add user message
+      addMessage(message, 'user');
+      chatInput.value = '';
+      chatInput.style.height = 'auto';
+
+      // Show typing indicator
+      const typingIndicator = addMessage('...', 'bot typing');
+      
+      // Simulate AI thinking time
+      setTimeout(() => {
+        chatMessages.removeChild(typingIndicator);
+        const response = generateSmartResponse(message);
+        addMessage(response, 'bot');
+      }, 1000 + Math.random() * 1000); // Random delay between 1-2 seconds
+    }
+
+    // Enhanced message display function
+    function addMessage(text, type) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${type}`;
+      
+      // Handle different message types
+      if (type === 'bot typing') {
+        messageDiv.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+      } else {
+        messageDiv.textContent = text;
+      }
+      
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return messageDiv;
+    }
+
+    // Smart response generation
+    function generateSmartResponse(userMessage) {
+      const lowerMessage = userMessage.toLowerCase();
+      
+      // Crisis detection
+      if (lowerMessage.includes('suicide') || lowerMessage.includes('kill myself') || lowerMessage.includes('want to die')) {
+        return "I'm very concerned about what you're going through. If you're having thoughts of harming yourself, please call 988 (the Suicide & Crisis Lifeline) right now. They have trained counselors available 24/7. You're not alone, and help is available.";
+      }
+      
+      // Emotional state detection
+      if (lowerMessage.includes('anxiety') || lowerMessage.includes('anxious') || lowerMessage.includes('worried')) {
+        return "I hear you're dealing with anxiety. That can be really overwhelming. Have you tried any breathing exercises? Sometimes taking slow, deep breaths can help calm your nervous system. Would you like to talk more about what's causing your anxiety?";
+      }
+      
+      if (lowerMessage.includes('depression') || lowerMessage.includes('sad') || lowerMessage.includes('hopeless')) {
+        return "I'm sorry you're feeling this way. Depression can make everything feel heavy and overwhelming. Remember that these feelings are temporary, even if they don't feel that way right now. Have you considered talking to a mental health professional? They can provide support and treatment options.";
+      }
+      
+      if (lowerMessage.includes('stress') || lowerMessage.includes('overwhelmed')) {
+        return "Stress can really take a toll on our mental health. It sounds like you're carrying a lot right now. What's one small thing you could do today to take care of yourself? Even something simple like taking a walk or calling a friend can help.";
+      }
+      
+      // Greeting responses
+      if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+        return "Hello! I'm here to listen and support you. How are you feeling today?";
+      }
+      
+      if (lowerMessage.includes('how are you')) {
+        return "I'm doing well, thank you for asking! I'm here to focus on you though - how are you feeling?";
+      }
+      
+      // Help requests
+      if (lowerMessage.includes('help') || lowerMessage.includes('need help')) {
+        return "I'm here to help! I can listen, offer support, and provide information about mental health resources. What specific help do you need right now?";
+      }
+      
+      // Therapy and treatment questions
+      if (lowerMessage.includes('therapy') || lowerMessage.includes('counseling')) {
+        return "Therapy can be incredibly helpful for many people. It provides a safe space to talk through challenges with a trained professional. Would you like to know more about different types of therapy or how to find a therapist?";
+      }
+      
+      if (lowerMessage.includes('medication') || lowerMessage.includes('meds')) {
+        return "Medication can be an important part of mental health treatment for some people. It's best to discuss this with a psychiatrist or psychiatric nurse practitioner who can evaluate your specific needs. Have you talked to a mental health professional about medication options?";
+      }
+      
+      // Self-care suggestions
+      if (lowerMessage.includes('self care') || lowerMessage.includes('self-care')) {
+        return "Self-care is so important! Some ideas: take a warm bath, go for a walk, call a friend, practice deep breathing, or do something creative. What activities usually help you feel better?";
+      }
+      
+      // Sleep issues
+      if (lowerMessage.includes('sleep') || lowerMessage.includes('insomnia')) {
+        return "Sleep problems can really impact our mental health. Some tips: try to go to bed and wake up at the same time, avoid screens before bed, and create a relaxing bedtime routine. Are you having trouble falling asleep or staying asleep?";
+      }
+      
+      // Relationship issues
+      if (lowerMessage.includes('relationship') || lowerMessage.includes('partner') || lowerMessage.includes('family')) {
+        return "Relationships can be complex and challenging. It's normal to have difficulties sometimes. Would you like to talk more about what's happening in your relationship? Sometimes just talking it through can help clarify things.";
+      }
+      
+      // Work stress
+      if (lowerMessage.includes('work') || lowerMessage.includes('job') || lowerMessage.includes('career')) {
+        return "Work stress is really common and can affect our mental health significantly. What specifically about work is causing you stress? Sometimes setting boundaries or talking to a supervisor can help.";
+      }
+      
+      // General support responses
+      if (lowerMessage.includes('thank you') || lowerMessage.includes('thanks')) {
+        return "You're very welcome! I'm glad I could help. Remember, I'm here whenever you need to talk.";
+      }
+      
+      // Default empathetic response
+      return "I hear you, and I want you to know that your feelings are valid. It sounds like you're going through a difficult time. Would you like to talk more about what's on your mind? I'm here to listen.";
+    }
+
+    // Form submission
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Thank you for your message! We\'ll get back to you soon.');
+      this.reset();
+    });
+
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe all cards and team members
+    document.querySelectorAll('.blog-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+
   </script>
 </body>
 
 </html>
+
 
