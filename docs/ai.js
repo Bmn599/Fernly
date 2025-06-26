@@ -509,26 +509,24 @@ async function initializeAI() {
 function getMedicationInfoFromMessage(message) {
   const lowerMessage = message.toLowerCase();
   
-  // Check if the message is asking about medications
-  if (!lowerMessage.includes('medication') && 
-      !lowerMessage.includes('medicine') && 
-      !lowerMessage.includes('drug') && 
-      !lowerMessage.includes('prescription') && 
-      !lowerMessage.includes('pill') &&
-      !lowerMessage.includes('dose') &&
-      !lowerMessage.includes('side effect')) {
-    return null;
-  }
-  
-  // Look for specific medication names
+  // First, look for specific medication names (even without keyword context)
   for (const medKey in medicationDatabase) {
     if (lowerMessage.includes(medKey)) {
       return medicationDatabase[medKey];
     }
   }
   
-  // If asking generally about medications without a specific name
-  if (lowerMessage.includes('antidepressant') || lowerMessage.includes('ssri')) {
+  // Then check if the message is asking about medications in general
+  if (lowerMessage.includes('medication') || 
+      lowerMessage.includes('medicine') || 
+      lowerMessage.includes('drug') || 
+      lowerMessage.includes('prescription') || 
+      lowerMessage.includes('pill') ||
+      lowerMessage.includes('dose') ||
+      lowerMessage.includes('side effect') ||
+      lowerMessage.includes('antidepressant') || 
+      lowerMessage.includes('ssri')) {
+    
     return {
       name: "Antidepressant Medications",
       type: "General Information",
