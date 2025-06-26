@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fernly Health - Mental Wellness Reimagined</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- TRANSFORMERS.JS FOR AI -->
+  <script src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0/dist/transformers.min.js"></script>
+  <!-- CSS STYLES WILL GO HERE -->
   <style>
     * {
       margin: 0;
@@ -484,6 +487,89 @@
       line-height: 1.4;
     }
 
+    /* Medical Disclaimer - NEW */
+    .medical-disclaimer {
+      background: rgba(219, 54, 69, 0.1);
+      border-left: 3px solid #db3645;
+      padding: 0.8rem 1rem;
+      margin-top: 0.5rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      color: #842029;
+    }
+
+    /* Medication Info Style - NEW */
+    .medication-info {
+      background: rgba(97, 146, 81, 0.1);
+      border: 1px solid #619251;
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+
+    .medication-info h4 {
+      color: #4F7942;
+      margin-bottom: 8px;
+    }
+
+    .medication-info ul {
+      margin: 8px 0;
+      padding-left: 20px;
+    }
+
+    .medication-info .med-disclaimer {
+      font-style: italic;
+      font-size: 0.9em;
+      margin-top: 8px;
+      color: #666;
+    }
+
+    .medication-info .verify-link {
+      display: inline-block;
+      margin-top: 8px;
+      color: #4F7942;
+      font-weight: 600;
+    }
+
+    /* Wellness Assessment Style - NEW */
+    .wellness-assessment {
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .wellness-assessment h4 {
+      color: #4F7942;
+      margin-bottom: 10px;
+    }
+
+    .wellness-assessment .assessment-areas {
+      margin: 10px 0;
+    }
+
+    .wellness-assessment .area-item {
+      background: #f0f8f1;
+      border-left: 3px solid #619251;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      border-radius: 4px;
+    }
+
+    .wellness-assessment .assessment-note {
+      font-style: italic;
+      margin-top: 12px;
+      font-size: 0.9em;
+      color: #666;
+    }
+
+    .wellness-assessment .assessment-action {
+      margin-top: 12px;
+      font-weight: 600;
+      color: #4F7942;
+    }
+
     /* Typing indicator for the new chat interface */
     .typing-indicator {
       display: flex;
@@ -515,6 +601,40 @@
         transform: scale(1);
         opacity: 1;
       }
+    }
+
+    /* Resource Card - NEW */
+    .resource-card {
+      background: #f8f9fa;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+    }
+    
+    .resource-card h4 {
+      color: #4F7942;
+      margin-bottom: 0.5rem;
+    }
+    
+    .resource-links {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .resource-link {
+      background: #e7f1e8;
+      color: #4F7942;
+      padding: 0.3rem 0.6rem;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+    }
+    
+    .resource-link:hover {
+      background: #4F7942;
+      color: white;
     }
 
     /* Blank section between hero and resources */
@@ -715,6 +835,40 @@
       scroll-behavior: smooth;
     }
 
+    /* AI Loading Indicator */
+    .ai-loading {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 10000;
+      text-align: center;
+    }
+    
+    .ai-loading.hidden {
+      display: none;
+    }
+    
+    .progress-bar {
+      width: 200px;
+      height: 4px;
+      background: #333;
+      border-radius: 2px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: #619251;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
     @media (max-width: 768px) {
       .nav-links {
         display: none;
@@ -770,6 +924,15 @@
     </div>
   </div>
 
+  <!-- AI Loading Indicator -->
+  <div class="ai-loading hidden" id="aiLoading">
+    <div>Loading AI Model...</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div id="loadingText">Initializing...</div>
+  </div>
+
   <header>
     <div class="container">
       <nav>
@@ -817,6 +980,16 @@
               <div class="message-avatar">🤖</div>
               <div class="message-text">
                 Hi there! I'm here to listen and help. How are you feeling today? 💚
+              </div>
+            </div>
+          </div>
+          <div class="message bot">
+            <div class="message-content">
+              <div class="message-avatar">🤖</div>
+              <div class="message-text">
+                <div class="medical-disclaimer">
+                  <strong>Wellness Support:</strong> I can provide general information about mental health and medications, along with resources to verify that information. I can also help you explore your wellness concerns. Please consult with a healthcare provider for medical advice.
+                </div>
               </div>
             </div>
           </div>
@@ -897,12 +1070,12 @@
           </div>
         </div>
         <div class="blog-card">
-          <div class="blog-image">GRP</div>
+          <div class="blog-image">MED</div>
           <div class="blog-content">
-            <div class="blog-source">Psychology Today</div>
-            <h3 class="blog-title">What Is Group Counseling?</h3>
-            <p class="blog-excerpt">Discover how group counseling creates a space for shared healing—where people connect, grow, and gain strength through each other's stories and support.</p>
-            <a href="https://www.psychologytoday.com/us/basics/therapy/what-is-group-counseling" target="_blank" class="read-more">Read More →</a>
+            <div class="blog-source">MedlinePlus</div>
+            <h3 class="blog-title">Psychiatric Medications Guide</h3>
+            <p class="blog-excerpt">Comprehensive information about psychiatric medications, including uses, side effects, and considerations for different mental health conditions.</p>
+            <a href="https://medlineplus.gov/druginformation.html" target="_blank" class="read-more">Read More →</a>
           </div>
         </div>
       </div>
@@ -938,289 +1111,1100 @@
   <!-- Back to Top Button -->
   <button id="backToTop" class="back-to-top">↑</button>
 
+  <!-- JAVASCRIPT WILL GO HERE -->
   <script>
-    // Loading screen
+// AI INITIALIZATION
+let pipeline = null;
+let isAILoaded = false;
+
+// MEDICATION INFORMATION DATABASE
+const medicationDatabase = {
+  // ANTIDEPRESSANTS - SSRIs
+  "prozac": {
+    name: "Prozac (Fluoxetine)",
+    class: "SSRI Antidepressant",
+    uses: ["Major Depressive Disorder", "Obsessive-Compulsive Disorder", "Panic Disorder", "Bulimia Nervosa", "Treatment-Resistant Depression (with Olanzapine)"],
+    commonSideEffects: ["Nausea", "Insomnia", "Headache", "Drowsiness", "Dry mouth", "Diarrhea", "Decreased appetite"],
+    seriousSideEffects: ["Serotonin syndrome", "Increased risk of suicidal thoughts in young adults", "Abnormal bleeding"],
+    source: "https://medlineplus.gov/druginfo/meds/a689006.html"
+  },
+  "fluoxetine": {
+    name: "Fluoxetine (Prozac)",
+    class: "SSRI Antidepressant",
+    uses: ["Major Depressive Disorder", "Obsessive-Compulsive Disorder", "Panic Disorder", "Bulimia Nervosa", "Treatment-Resistant Depression (with Olanzapine)"],
+    commonSideEffects: ["Nausea", "Insomnia", "Headache", "Drowsiness", "Dry mouth", "Diarrhea", "Decreased appetite"],
+    seriousSideEffects: ["Serotonin syndrome", "Increased risk of suicidal thoughts in young adults", "Abnormal bleeding"],
+    source: "https://medlineplus.gov/druginfo/meds/a689006.html"
+  },
+  "zoloft": {
+    name: "Zoloft (Sertraline)",
+    class: "SSRI Antidepressant",
+    uses: ["Major Depressive Disorder", "Obsessive-Compulsive Disorder", "Panic Disorder", "Post-Traumatic Stress Disorder", "Social Anxiety Disorder", "Premenstrual Dysphoric Disorder"],
+    commonSideEffects: ["Nausea", "Diarrhea", "Insomnia", "Drowsiness", "Dry mouth", "Increased sweating", "Decreased appetite"],
+    seriousSideEffects: ["Serotonin syndrome", "Increased risk of suicidal thoughts in young adults", "Abnormal bleeding"],
+    source: "https://medlineplus.gov/druginfo/meds/a697048.html"
+  },
+  "sertraline": {
+    name: "Sertraline (Zoloft)",
+    class: "SSRI Antidepressant",
+    uses: ["Major Depressive Disorder", "Obsessive-Compulsive Disorder", "Panic Disorder", "Post-Traumatic Stress Disorder", "Social Anxiety Disorder", "Premenstrual Dysphoric Disorder"],
+    commonSideEffects: ["Nausea", "Diarrhea", "Insomnia", "Drowsiness", "Dry mouth", "Increased sweating", "Decreased appetite"],
+    seriousSideEffects: ["Serotonin syndrome", "Increased risk of suicidal thoughts in young adults", "Abnormal bleeding"],
+    source: "https://medlineplus.gov/druginfo/meds/a697048.html"
+  },
+  "lexapro": {
+    name: "Lexapro (Escitalopram)",
+    class: "SSRI Antidepressant",
+    uses: ["Major Depressive Disorder", "Generalized Anxiety Disorder"],
+    commonSideEffects: ["Nausea", "Insomnia", "Drowsiness", "Dizziness", "Sweating", "Decreased sexual desire"],
+    seriousSideEffects: ["Serotonin syndrome", "Increased risk of suicidal thoughts in young adults", "QT interval prolongation"],
+    source: "https://medlineplus.gov/druginfo/meds/a603005.html"
+  },
+  
+  // BENZODIAZEPINES
+  "xanax": {
+    name: "Xanax (Alprazolam)",
+    class: "Benzodiazepine",
+    uses: ["Anxiety Disorders", "Panic Disorder", "Short-term relief of anxiety symptoms"],
+    commonSideEffects: ["Drowsiness", "Lightheadedness", "Dry mouth", "Coordination problems", "Memory problems", "Irritability"],
+    seriousSideEffects: ["Physical and psychological dependence", "Severe withdrawal symptoms", "Respiratory depression when combined with other substances"],
+    source: "https://medlineplus.gov/druginfo/meds/a684001.html",
+    boxedWarning: "Risk of abuse, misuse, addiction, physical dependence, and withdrawal reactions. Risk increases with higher doses and longer use."
+  },
+  "klonopin": {
+    name: "Klonopin (Clonazepam)",
+    class: "Benzodiazepine",
+    uses: ["Panic Disorder", "Certain seizure disorders"],
+    commonSideEffects: ["Drowsiness", "Dizziness", "Unsteadiness", "Problems with coordination", "Difficulty thinking or remembering"],
+    seriousSideEffects: ["Physical and psychological dependence", "Severe withdrawal symptoms", "Respiratory depression when combined with other substances"],
+    source: "https://medlineplus.gov/druginfo/meds/a682279.html",
+    boxedWarning: "Risk of abuse, misuse, addiction, physical dependence, and withdrawal reactions. Risk increases with higher doses and longer use."
+  },
+  
+  // ANTIPSYCHOTICS
+  "abilify": {
+    name: "Abilify (Aripiprazole)",
+    class: "Atypical Antipsychotic",
+    uses: ["Schizophrenia", "Bipolar Disorder", "Major Depressive Disorder (as add-on)", "Irritability associated with Autism", "Tourette's Disorder"],
+    commonSideEffects: ["Weight gain", "Headache", "Agitation", "Anxiety", "Nausea", "Vomiting", "Constipation", "Dizziness"],
+    seriousSideEffects: ["Increased risk of death in elderly people with dementia-related psychosis", "Neuroleptic malignant syndrome", "Tardive dyskinesia", "High blood sugar", "Stroke in elderly patients"],
+    source: "https://medlineplus.gov/druginfo/meds/a603012.html"
+  },
+  "seroquel": {
+    name: "Seroquel (Quetiapine)",
+    class: "Atypical Antipsychotic",
+    uses: ["Schizophrenia", "Bipolar Disorder", "Major Depressive Disorder (as add-on)"],
+    commonSideEffects: ["Drowsiness", "Dizziness", "Dry mouth", "Weight gain", "Constipation", "Increased appetite"],
+    seriousSideEffects: ["Increased risk of death in elderly people with dementia-related psychosis", "Neuroleptic malignant syndrome", "Tardive dyskinesia", "High blood sugar", "Cataracts"],
+    source: "https://medlineplus.gov/druginfo/meds/a698019.html"
+  },
+  
+  // MOOD STABILIZERS
+  "lithium": {
+    name: "Lithium (Lithobid, Lithonate)",
+    class: "Mood Stabilizer",
+    uses: ["Bipolar Disorder", "Prevention of manic episodes"],
+    commonSideEffects: ["Increased thirst", "Increased urination", "Nausea", "Tremor", "Weight gain", "Mild diarrhea"],
+    seriousSideEffects: ["Lithium toxicity", "Kidney problems", "Thyroid problems", "Heart rhythm changes"],
+    source: "https://medlineplus.gov/druginfo/meds/a681039.html",
+    monitoring: "Regular blood tests needed to check lithium levels and kidney function"
+  },
+  "lamictal": {
+    name: "Lamictal (Lamotrigine)",
+    class: "Anticonvulsant/Mood Stabilizer",
+    uses: ["Bipolar Disorder", "Epilepsy"],
+    commonSideEffects: ["Headache", "Dizziness", "Double vision", "Blurred vision", "Nausea", "Drowsiness"],
+    seriousSideEffects: ["Severe skin rashes (including Stevens-Johnson syndrome)", "Immune system reaction affecting multiple organs"],
+    source: "https://medlineplus.gov/druginfo/meds/a695007.html",
+    boxedWarning: "Serious, potentially life-threatening skin rashes require immediate medical attention"
+  },
+  
+  // ADHD MEDICATIONS
+  "adderall": {
+    name: "Adderall (Mixed Amphetamine Salts)",
+    class: "Stimulant",
+    uses: ["Attention-Deficit/Hyperactivity Disorder (ADHD)", "Narcolepsy"],
+    commonSideEffects: ["Decreased appetite", "Weight loss", "Dry mouth", "Insomnia", "Headache", "Increased heart rate", "Increased blood pressure"],
+    seriousSideEffects: ["Heart-related problems", "Psychiatric problems", "Circulation problems in fingers and toes", "Slowed growth in children"],
+    source: "https://medlineplus.gov/druginfo/meds/a601234.html",
+    boxedWarning: "High potential for abuse and dependence"
+  },
+  "concerta": {
+    name: "Concerta (Methylphenidate Extended-Release)",
+    class: "Stimulant",
+    uses: ["Attention-Deficit/Hyperactivity Disorder (ADHD)"],
+    commonSideEffects: ["Decreased appetite", "Headache", "Dry mouth", "Nausea", "Insomnia", "Anxiety", "Increased blood pressure"],
+    seriousSideEffects: ["Heart-related problems", "Psychiatric problems", "Priapism (prolonged and painful erection)", "Slowed growth in children"],
+    source: "https://medlineplus.gov/druginfo/meds/a682188.html",
+    boxedWarning: "High potential for abuse and dependence"
+  }
+};
+
+// DSM-5 CONDITIONS AND SYMPTOMS DATABASE
+const mentalHealthConditions = {
+  "depression": {
+    name: "Major Depressive Disorder",
+    symptoms: [
+      "Persistent sad, anxious, or 'empty' mood",
+      "Feelings of hopelessness or pessimism",
+      "Irritability",
+      "Feelings of guilt, worthlessness, or helplessness",
+      "Loss of interest or pleasure in hobbies and activities",
+      "Decreased energy or fatigue",
+      "Moving or talking more slowly",
+      "Difficulty concentrating, remembering, or making decisions",
+      "Difficulty sleeping, early-morning awakening, or oversleeping",
+      "Appetite and/or weight changes",
+      "Thoughts of death or suicide, or suicide attempts",
+      "Aches or pains, headaches, cramps, or digestive problems without clear physical cause"
+    ],
+    referenceLink: "https://www.nimh.nih.gov/health/topics/depression"
+  },
+  "anxiety": {
+    name: "Generalized Anxiety Disorder",
+    symptoms: [
+      "Persistent and excessive worry about various things",
+      "Overthinking plans and solutions to all possible worst-case scenarios",
+      "Perceiving situations and events as threatening, even when they aren't",
+      "Difficulty handling uncertainty",
+      "Indecisiveness and fear of making the wrong decision",
+      "Inability to set aside or let go of a worry",
+      "Inability to relax, feeling restless, and feeling keyed up or on edge",
+      "Difficulty concentrating, or the feeling that your mind 'goes blank'"
+    ],
+    physicalSymptoms: [
+      "Fatigue",
+      "Trouble sleeping",
+      "Muscle tension or muscle aches",
+      "Trembling, feeling twitchy",
+      "Nervousness or being easily startled",
+      "Sweating",
+      "Nausea, diarrhea or irritable bowel syndrome",
+      "Irritability"
+    ],
+    referenceLink: "https://www.nimh.nih.gov/health/topics/anxiety-disorders"
+  },
+  "bipolar": {
+    name: "Bipolar Disorder",
+    symptoms: {
+      "manic": [
+        "Abnormally upbeat, jumpy or wired",
+        "Increased activity, energy or agitation",
+        "Exaggerated sense of well-being and self-confidence (euphoria)",
+        "Decreased need for sleep",
+        "Unusual talkativeness",
+        "Racing thoughts",
+        "Distractibility",
+        "Poor decision-making (excessive spending, risky sexual behavior, etc.)"
+      ],
+      "depressive": [
+        "Depressed mood (feeling sad, empty, hopeless or tearful)",
+        "Marked loss of interest or feeling no pleasure in activities",
+        "Significant weight loss, weight gain, or decrease or increase in appetite",
+        "Insomnia or sleeping too much",
+        "Restlessness or slowed behavior",
+        "Fatigue or loss of energy",
+        "Feelings of worthlessness or excessive guilt",
+        "Decreased ability to think or concentrate",
+        "Thinking about, planning or attempting suicide"
+      ]
+    },
+    referenceLink: "https://www.nimh.nih.gov/health/topics/bipolar-disorder"
+  },
+  "ptsd": {
+    name: "Post-Traumatic Stress Disorder",
+    symptoms: [
+      "Intrusive memories (recurrent, unwanted memories, flashbacks, nightmares)",
+      "Avoidance (avoiding thinking or talking about the traumatic event, avoiding places, people or activities that remind you of the event)",
+      "Negative changes in thinking and mood (negative thoughts about yourself or others, hopelessness about the future, memory problems, difficulty maintaining close relationships, feeling detached from family and friends, lack of interest in activities you once enjoyed, difficulty experiencing positive emotions)",
+      "Changes in physical and emotional reactions (being easily startled or frightened, always being on guard, self-destructive behavior, trouble sleeping, trouble concentrating, irritability, aggressive behavior, overwhelming guilt or shame)"
+    ],
+    referenceLink: "https://www.nimh.nih.gov/health/topics/post-traumatic-stress-disorder-ptsd"
+  },
+  "adhd": {
+    name: "Attention-Deficit/Hyperactivity Disorder",
+    symptoms: {
+      "inattention": [
+        "Often fails to give close attention to details or makes careless mistakes",
+        "Often has difficulty sustaining attention in tasks or activities",
+        "Often does not seem to listen when spoken to directly",
+        "Often does not follow through on instructions and fails to finish duties",
+        "Often has difficulty organizing tasks and activities",
+        "Often avoids, dislikes, or is reluctant to engage in tasks that require sustained mental effort",
+        "Often loses things necessary for tasks or activities",
+        "Is often easily distracted by extraneous stimuli",
+        "Is often forgetful in daily activities"
+      ],
+      "hyperactivity": [
+        "Often fidgets or taps hands or feet, or squirms in seat",
+        "Often leaves seat in situations when remaining seated is expected",
+        "Often runs about or climbs in situations where it is inappropriate",
+        "Often unable to play or engage in leisure activities quietly",
+        "Is often 'on the go,' acting as if 'driven by a motor'",
+        "Often talks excessively",
+        "Often blurts out answers before questions have been completed",
+        "Often has difficulty waiting their turn",
+        "Often interrupts or intrudes on others"
+      ]
+    },
+    referenceLink: "https://www.nimh.nih.gov/health/topics/attention-deficit-hyperactivity-disorder-adhd"
+  }
+};
+
+// Track conversation for wellness assessment
+let conversationContext = {
+  messages: [],
+  detectedSymptoms: {},
+  mentalHealthTopics: [],
+  assessmentInProgress: false,
+  assessmentStage: 0,
+  assessmentResponses: {}
+};
+
+// Show AI loading indicator
+function showAILoading() {
+  document.getElementById('aiLoading').classList.remove('hidden');
+}
+
+// Update loading progress
+function updateProgress(percent, text) {
+  const progressFill = document.getElementById('progressFill');
+  const loadingText = document.getElementById('loadingText');
+  if (progressFill) progressFill.style.width = percent + '%';
+  if (loadingText) loadingText.textContent = text;
+}
+
+// Hide AI loading indicator
+function hideAILoading() {
+  document.getElementById('aiLoading').classList.add('hidden');
+}
+
+// Initialize AI Model
+async function initializeAI() {
+  if (!window.transformers) {
+    console.error('Transformers.js not loaded');
+    hideAILoading();
+    return;
+  }
+
+  try {
+    showAILoading();
+    updateProgress(10, 'Loading transformers.js...');
+    
+    updateProgress(30, 'Loading DistilGPT-2 model...');
+    
+    // Load the text generation pipeline
+    pipeline = await window.transformers.pipeline('text-generation', 'Xenova/distilgpt2', {
+      progress_callback: (progress) => {
+        const percent = Math.round(progress * 50) + 30; // 30-80%
+        updateProgress(percent, `Downloading model... ${Math.round(progress * 100)}%`);
+      }
+    });
+    
+    updateProgress(90, 'Initializing model...');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    updateProgress(100, 'AI Ready!');
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    hideAILoading();
+    isAILoaded = true;
+    console.log('AI Model loaded successfully!');
+    
+  } catch (error) {
+    console.error('AI loading failed:', error);
+    hideAILoading();
+    // Add a subtle notification that fallback mode is active
+    console.log('Using fallback response system');
+    addMessage("I'm operating in standard mode today. How can I support you?", 'bot');
+  }
+}
+
+// Check if message is about medications and extract info
+function getMedicationInfoFromMessage(message) {
+  const lowerMessage = message.toLowerCase();
+  
+  // Check if the message is asking about medications
+  if (!lowerMessage.includes('medication') && 
+      !lowerMessage.includes('medicine') && 
+      !lowerMessage.includes('drug') && 
+      !lowerMessage.includes('prescription') && 
+      !lowerMessage.includes('pill') &&
+      !lowerMessage.includes('dose') &&
+      !lowerMessage.includes('side effect')) {
+    return null;
+  }
+  
+  // Look for specific medication names
+  for (const medKey in medicationDatabase) {
+    if (lowerMessage.includes(medKey)) {
+      return medicationDatabase[medKey];
+    }
+  }
+  
+  // If asking generally about medications without a specific name
+  if (lowerMessage.includes('antidepressant') || lowerMessage.includes('ssri')) {
+    return {
+      general: "antidepressant",
+      examples: ["Prozac (fluoxetine)", "Zoloft (sertraline)", "Lexapro (escitalopram)", "Celexa (citalopram)", "Paxil (paroxetine)"]
+    };
+  }
+  
+  if (lowerMessage.includes('anxiety medication') || lowerMessage.includes('anti-anxiety') || lowerMessage.includes('benzo')) {
+    return {
+      general: "anti-anxiety",
+      examples: ["Xanax (alprazolam)", "Klonopin (clonazepam)", "Ativan (lorazepam)", "Valium (diazepam)", "BuSpar (buspirone)"]
+    };
+  }
+  
+  if (lowerMessage.includes('antipsychotic')) {
+    return {
+      general: "antipsychotic",
+      examples: ["Abilify (aripiprazole)", "Seroquel (quetiapine)", "Risperdal (risperidone)", "Zyprexa (olanzapine)", "Latuda (lurasidone)"]
+    };
+  }
+  
+  if (lowerMessage.includes('mood stabilizer')) {
+    return {
+      general: "mood stabilizer",
+      examples: ["Lithium", "Lamictal (lamotrigine)", "Depakote (valproic acid)", "Tegretol (carbamazepine)"]
+    };
+  }
+  
+  return { general: "medication" };
+}
+
+// Generate medication information response
+function generateMedicationResponse(medicationInfo) {
+  if (medicationInfo.name) {
+    // Specific medication info found
+    let response = `<div class="medication-info">
+      <h4>${medicationInfo.name}</h4>
+      <p><strong>Class:</strong> ${medicationInfo.class}</p>
+      <p><strong>Common uses:</strong> ${medicationInfo.uses.join(", ")}</p>
+      <p><strong>Common side effects:</strong></p>
+      <ul>
+        ${medicationInfo.commonSideEffects.map(effect => `<li>${effect}</li>`).join("")}
+      </ul>`;
+      
+    if (medicationInfo.boxedWarning) {
+      response += `<p><strong>Important warning:</strong> ${medicationInfo.boxedWarning}</p>`;
+    }
+    
+    response += `<p class="med-disclaimer">This information is for educational purposes only. Please consult with a healthcare provider for medical advice tailored to your specific situation.</p>
+      <a href="${medicationInfo.source}" target="_blank" class="verify-link">Verify this information →</a>
+    </div>`;
+    
+    return response;
+  } 
+  else if (medicationInfo.general && medicationInfo.examples) {
+    // Information about a class of medications
+    let response = `<div class="medication-info">
+      <h4>${capitalizeFirstLetter(medicationInfo.general)} Medications</h4>
+      <p>Common examples include:</p>
+      <ul>
+        ${medicationInfo.examples.map(med => `<li>${med}</li>`).join("")}
+      </ul>
+      <p class="med-disclaimer">This is general information only. Different medications have different uses, side effects, and considerations. Please consult with a healthcare provider for personalized medical advice.</p>
+      <a href="https://medlineplus.gov/druginformation.html" target="_blank" class="verify-link">Learn more about these medications →</a>
+    </div>`;
+    return response;
+  }
+  else {
+    // General medication information
+    return `<div class="medication-info">
+      <h4>Mental Health Medications</h4>
+      <p>There are several types of medications used for mental health conditions:</p>
+      <ul>
+        <li><strong>Antidepressants:</strong> Used for depression, anxiety disorders, and sometimes other conditions</li>
+        <li><strong>Anti-anxiety medications:</strong> Used for anxiety disorders and panic attacks</li>
+        <li><strong>Mood stabilizers:</strong> Used primarily for bipolar disorder</li>
+        <li><strong>Antipsychotics:</strong> Used for schizophrenia, bipolar disorder, and sometimes depression</li>
+        <li><strong>Stimulants:</strong> Used primarily for ADHD</li>
+      </ul>
+      <p class="med-disclaimer">If you have questions about specific medications, please ask. Remember that this information is educational only and not a substitute for professional medical advice.</p>
+      <a href="https://www.nimh.nih.gov/health/topics/mental-health-medications" target="_blank" class="verify-link">Learn more about mental health medications →</a>
+    </div>`;
+  }
+}
+
+// Helper function to capitalize first letter
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+</script>
+  <script>
+// Check if the message is requesting a wellness assessment
+function isWellnessAssessmentRequest(message) {
+  const lowerMessage = message.toLowerCase();
+  return (
+    (lowerMessage.includes('assessment') || 
+     lowerMessage.includes('evaluate') || 
+     lowerMessage.includes('check') || 
+     lowerMessage.includes('examine') ||
+     lowerMessage.includes('test') ||
+     lowerMessage.includes('diagnose')) && 
+    (lowerMessage.includes('mental') || 
+     lowerMessage.includes('wellness') || 
+     lowerMessage.includes('health') || 
+     lowerMessage.includes('condition') ||
+     lowerMessage.includes('problem') ||
+     lowerMessage.includes('issue') ||
+     lowerMessage.includes('symptoms'))
+  );
+}
+
+// Start the wellness assessment
+function startWellnessAssessment() {
+  conversationContext.assessmentInProgress = true;
+  conversationContext.assessmentStage = 1;
+  
+  return `I'd be happy to help you with a wellness check. This is not a diagnosis, but it can help identify patterns that might be worth discussing with a healthcare provider.
+
+Let's start with some general questions. Over the past two weeks, how often have you felt down, depressed, or hopeless?
+- Not at all
+- Several days
+- More than half the days
+- Nearly every day`;
+}
+
+// Continue the wellness assessment based on stage
+function continueWellnessAssessment(userResponse) {
+  // Store the user's response for the current stage
+  conversationContext.assessmentResponses[conversationContext.assessmentStage] = userResponse;
+  
+  // Move to the next stage
+  conversationContext.assessmentStage++;
+  
+  // Questions for each stage
+  switch (conversationContext.assessmentStage) {
+    case 2:
+      return "Over the past two weeks, how often have you had little interest or pleasure in doing things you usually enjoy?";
+    
+    case 3:
+      return "How would you describe your sleep patterns lately? Have you had trouble falling asleep, staying asleep, or sleeping too much?";
+    
+    case 4:
+      return "How has your energy been? Do you often feel tired or have little energy?";
+    
+    case 5:
+      return "Have you noticed changes in your appetite or weight recently?";
+    
+    case 6:
+      return "How would you describe your ability to concentrate or focus on tasks?";
+    
+    case 7:
+      return "Do you often feel nervous, anxious, or on edge? If so, how often?";
+    
+    case 8:
+      return "Do you find yourself worrying excessively about different things?";
+    
+    case 9:
+      return "Last question: Have you experienced any rapid mood changes, periods of unusual energy, or times when you needed much less sleep than usual?";
+    
+    case 10:
+      // Assessment complete - generate results
+      return generateWellnessAssessmentResults();
+      
+    default:
+      // Reset if somehow we get past the last stage
+      conversationContext.assessmentInProgress = false;
+      return "Thank you for sharing. If you'd like more specific support, please let me know how I can help.";
+  }
+}
+
+// Generate wellness assessment results
+function generateWellnessAssessmentResults() {
+  // Reset the assessment status
+  conversationContext.assessmentInProgress = false;
+  
+  // Analyze the responses (simplified analysis)
+  const responses = conversationContext.assessmentResponses;
+  
+  // Check for depression indicators
+  const depressionIndicators = hasDepressionIndicators(responses);
+  
+  // Check for anxiety indicators
+  const anxietyIndicators = hasAnxietyIndicators(responses);
+  
+  // Check for potential bipolar indicators
+  const bipolarIndicators = hasBipolarIndicators(responses);
+  
+  // Generate the assessment HTML
+  let result = `<div class="wellness-assessment">
+    <h4>Wellness Assessment Summary</h4>
+    <p>Based on our conversation, here's a summary of areas that might be worth discussing with a healthcare provider:</p>
+    <div class="assessment-areas">`;
+  
+  if (depressionIndicators) {
+    result += `<div class="area-item">
+      <strong>Mood:</strong> Your responses suggest you may be experiencing some symptoms commonly associated with low mood or depression.
+    </div>`;
+  }
+  
+  if (anxietyIndicators) {
+    result += `<div class="area-item">
+      <strong>Anxiety:</strong> Your responses suggest you may be experiencing some symptoms commonly associated with anxiety.
+    </div>`;
+  }
+  
+  if (bipolarIndicators) {
+    result += `<div class="area-item">
+      <strong>Mood Variability:</strong> Your responses suggest you may experience significant changes in energy or mood.
+    </div>`;
+  }
+  
+  // Always include sleep since it's common in many conditions
+  result += `<div class="area-item">
+    <strong>Sleep:</strong> Your responses about sleep patterns might be worth discussing with a healthcare provider.
+  </div>`;
+  
+  result += `</div>
+    <p class="assessment-note">This is not a diagnosis. These patterns are based on limited information and are intended only as a starting point for discussion with a qualified healthcare provider.</p>
+    <p class="assessment-action">Would you like me to help you find resources for any of these areas?</p>
+  </div>`;
+  
+  return result;
+}
+
+// Helper functions to analyze assessment responses
+function hasDepressionIndicators(responses) {
+  const lowerResponses = Object.values(responses).map(r => r.toLowerCase());
+  
+  let count = 0;
+  
+  for (const response of lowerResponses) {
+    if (
+      response.includes("every day") || 
+      response.includes("more than half") || 
+      response.includes("most days") ||
+      response.includes("all the time") ||
+      response.includes("often") ||
+      response.includes("yes") && (
+        response.includes("down") || 
+        response.includes("sad") || 
+        response.includes("depress") || 
+        response.includes("hopeless") ||
+        response.includes("tired") ||
+        response.includes("no energy") ||
+        response.includes("no interest") ||
+        response.includes("don't enjoy") ||
+        response.includes("trouble sleeping") ||
+        response.includes("too much sleep")
+      )
+    ) {
+      count++;
+    }
+  }
+  
+  return count >= 2;
+}
+
+function hasAnxietyIndicators(responses) {
+  const lowerResponses = Object.values(responses).map(r => r.toLowerCase());
+  
+  let count = 0;
+  
+  for (const response of lowerResponses) {
+    if (
+      response.includes("nervous") || 
+      response.includes("anxious") || 
+      response.includes("worry") || 
+      response.includes("on edge") ||
+      response.includes("panic") ||
+      response.includes("stress") ||
+      response.includes("overthink") ||
+      response.includes("can't relax")
+    ) {
+      count++;
+    }
+  }
+  
+  return count >= 2;
+}
+
+function hasBipolarIndicators(responses) {
+  const response9 = responses[9]?.toLowerCase() || '';
+  
+  return (
+    response9.includes("yes") &&
+    (response9.includes("high energy") || 
+     response9.includes("less sleep") || 
+     response9.includes("rapid") || 
+     response9.includes("manic") ||
+     response9.includes("hyper") ||
+     response9.includes("racing thoughts") ||
+     response9.includes("mood swings") ||
+     response9.includes("ups and downs"))
+  );
+}
+</script>
+  <script>
+// Analyze user messages for symptoms
+function analyzeForSymptoms(message) {
+  const lowerMessage = message.toLowerCase();
+  
+  // Look for depression symptoms
+  for (const symptom of mentalHealthConditions.depression.symptoms) {
+    const lowerSymptom = symptom.toLowerCase();
+    if (lowerMessage.includes(lowerSymptom) || 
+        (lowerSymptom.includes("sad") && lowerMessage.includes("sad")) ||
+        (lowerSymptom.includes("hopeless") && lowerMessage.includes("hopeless")) ||
+        (lowerSymptom.includes("guilt") && lowerMessage.includes("guilt")) ||
+        (lowerSymptom.includes("sleep") && (lowerMessage.includes("can't sleep") || lowerMessage.includes("sleeping too much") || lowerMessage.includes("insomnia")))) {
+      
+      if (!conversationContext.detectedSymptoms.depression) {
+        conversationContext.detectedSymptoms.depression = [];
+      }
+      conversationContext.detectedSymptoms.depression.push(symptom);
+    }
+  }
+  
+  // Look for anxiety symptoms
+  for (const symptom of mentalHealthConditions.anxiety.symptoms) {
+    const lowerSymptom = symptom.toLowerCase();
+    if (lowerMessage.includes(lowerSymptom) || 
+        (lowerSymptom.includes("worry") && lowerMessage.includes("worry")) ||
+        (lowerSymptom.includes("anxious") && lowerMessage.includes("anxious")) ||
+        (lowerSymptom.includes("nervous") && lowerMessage.includes("nervous"))) {
+      
+      if (!conversationContext.detectedSymptoms.anxiety) {
+        conversationContext.detectedSymptoms.anxiety = [];
+      }
+      conversationContext.detectedSymptoms.anxiety.push(symptom);
+    }
+  }
+  
+  // Add topic to mental health topics if related words are found
+  if (lowerMessage.includes("depress") || lowerMessage.includes("sad") || lowerMessage.includes("mood") || lowerMessage.includes("hopeless")) {
+    if (!conversationContext.mentalHealthTopics.includes("depression")) {
+      conversationContext.mentalHealthTopics.push("depression");
+    }
+  }
+  
+  if (lowerMessage.includes("anxious") || lowerMessage.includes("anxiety") || lowerMessage.includes("worry") || lowerMessage.includes("stress") || lowerMessage.includes("panic")) {
+    if (!conversationContext.mentalHealthTopics.includes("anxiety")) {
+      conversationContext.mentalHealthTopics.push("anxiety");
+    }
+  }
+}
+
+// Check if we should suggest assessment based on detected symptoms
+function shouldSuggestAssessment() {
+  // If depression symptoms >= 3 or anxiety symptoms >= 3, suggest assessment
+  const depressionCount = conversationContext.detectedSymptoms.depression?.length || 0;
+  const anxietyCount = conversationContext.detectedSymptoms.anxiety?.length || 0;
+  
+  return (depressionCount >= 3 || anxietyCount >= 3) && 
+         !conversationContext.assessmentInProgress && 
+         conversationContext.messages.length >= 4;
+}
+
+// Generate suggestion for wellness assessment
+function suggestWellnessAssessment() {
+  return `I've noticed you've mentioned several experiences that might be related to your mental wellness. Would you like to explore this further with a quick wellness check? This isn't a diagnosis, but it might help identify patterns worth discussing with a healthcare provider. Just let me know if you'd like to proceed.`;
+}
+
+// ENHANCED AI Response Generation with conversation context
+async function generateAIResponse(userMessage) {
+  // Add message to conversation context
+  conversationContext.messages.push({
+    role: 'user',
+    content: userMessage
+  });
+  
+  // Check for crisis indicators first
+  const lowerMessage = userMessage.toLowerCase();
+  if (lowerMessage.includes('suicide') || lowerMessage.includes('kill myself') || lowerMessage.includes('want to die')) {
+    return "I'm very concerned about what you're going through. If you're having thoughts of harming yourself, please call 988 (the Suicide & Crisis Lifeline) right now. They have trained counselors available 24/7. You're not alone, and help is available.";
+  }
+  
+  // Check for medication questions
+  const medicationInfo = getMedicationInfoFromMessage(userMessage);
+  if (medicationInfo) {
+    return generateMedicationResponse(medicationInfo);
+  }
+  
+  // Check if wellness assessment is in progress or being requested
+  if (isWellnessAssessmentRequest(userMessage)) {
+    return startWellnessAssessment();
+  } else if (conversationContext.assessmentInProgress) {
+    return continueWellnessAssessment(userMessage);
+  }
+  
+  // Analyze the message for mental health symptoms
+  analyzeForSymptoms(userMessage);
+  
+  // If we detect multiple significant symptoms, suggest assessment
+  if (shouldSuggestAssessment()) {
+    return suggestWellnessAssessment();
+  }
+  
+  // Regular AI response generation
+  if (!isAILoaded || !pipeline) {
+    return generateSmartResponse(userMessage); // Fallback
+  }
+  
+  try {
+    // Build conversation history string (last 3-4 exchanges)
+    let conversationHistory = "";
+    // Get last few messages (limiting to avoid token issues)
+    const recentMessages = conversationContext.messages.slice(-6); // Last 3 exchanges (6 messages)
+    
+    for (const msg of recentMessages) {
+      if (msg.role === 'user') {
+        conversationHistory += `User: ${msg.content}\n`;
+      } else if (msg.role === 'assistant') {
+        conversationHistory += `Assistant: ${msg.content}\n`;
+      }
+    }
+    
+    // Create context-aware prompt with conversation history
+    const prompt = `Mental health support conversation.\n${conversationHistory}Assistant:`;
+    
+    // Generate AI response
+    const result = await pipeline(prompt, {
+      max_new_tokens: 100,
+      temperature: 0.7,
+      do_sample: true,
+      pad_token_id: 50256
+    });
+    
+    let aiResponse = result[0].generated_text;
+    
+    // Extract only the AI response part (after the last "Assistant:")
+    aiResponse = aiResponse.split('Assistant:').pop() || aiResponse;
+    aiResponse = aiResponse.trim();
+    
+    // Clean up the response
+    aiResponse = aiResponse.replace(/User:.*$/s, '').trim();
+    
+    // Ensure response is appropriate and helpful
+    if (aiResponse.length < 10 || aiResponse.includes('User:')) {
+      return generateSmartResponse(userMessage); // Fallback
+    }
+    
+    // Add to conversation context
+    conversationContext.messages.push({
+      role: 'assistant',
+      content: aiResponse
+    });
+    
+    return aiResponse;
+    
+  } catch (error) {
+    console.error('AI generation error:', error);
+    return generateSmartResponse(userMessage); // Fallback
+  }
+}
+
+// Smart response generation (fallback)
+function generateSmartResponse(userMessage) {
+  const lowerMessage = userMessage.toLowerCase();
+  
+  // Crisis detection
+  if (lowerMessage.includes('suicide') || lowerMessage.includes('kill myself') || lowerMessage.includes('want to die')) {
+    return "I'm very concerned about what you're going through. If you're having thoughts of harming yourself, please call 988 (the Suicide & Crisis Lifeline) right now. They have trained counselors available 24/7. You're not alone, and help is available.";
+  }
+  
+  // Medication questions - detect and redirect
+  const medicationInfo = getMedicationInfoFromMessage(userMessage);
+  if (medicationInfo) {
+    return generateMedicationResponse(medicationInfo);
+  }
+  
+  // Emotional state detection
+  if (lowerMessage.includes('anxiety') || lowerMessage.includes('anxious') || lowerMessage.includes('worried')) {
+    return "I hear you're dealing with anxiety. That can be really overwhelming. Have you tried any breathing exercises? Sometimes taking slow, deep breaths can help calm your nervous system. Would you like to talk more about what's causing your anxiety?";
+  }
+  
+  if (lowerMessage.includes('depression') || lowerMessage.includes('sad') || lowerMessage.includes('hopeless')) {
+    return "I'm sorry you're feeling this way. Depression can make everything feel heavy and overwhelming. Remember that these feelings are temporary, even if they don't feel that way right now. Have you considered talking to a mental health professional? They can provide support and treatment options.";
+  }
+  
+  if (lowerMessage.includes('stress') || lowerMessage.includes('overwhelmed')) {
+    return "Stress can really take a toll on our mental health. It sounds like you're carrying a lot right now. What's one small thing you could do today to take care of yourself? Even something simple like taking a walk or calling a friend can help.";
+  }
+  
+  // Greeting responses
+  if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+    return "Hello! I'm here to listen and support you. How are you feeling today?";
+  }
+  
+  if (lowerMessage.includes('how are you')) {
+    return "I'm doing well, thank you for asking! I'm here to focus on you though - how are you feeling?";
+  }
+  
+  // Help requests
+  if (lowerMessage.includes('help') || lowerMessage.includes('need help')) {
+    return "I'm here to help! I can listen, offer support, and provide information about mental health resources. What specific help do you need right now?";
+  }
+  
+  // Therapy and treatment questions
+  if (lowerMessage.includes('therapy') || lowerMessage.includes('counseling')) {
+    return "Therapy can be incredibly helpful for many people. It provides a safe space to talk through challenges with a trained professional. Would you like to know more about different types of therapy or how to find a therapist?";
+  }
+  
+  // Self-care suggestions
+  if (lowerMessage.includes('self care') || lowerMessage.includes('self-care')) {
+    return "Self-care is so important! Some ideas: take a warm bath, go for a walk, call a friend, practice deep breathing, or do something creative. What activities usually help you feel better?";
+  }
+  
+  // Sleep issues
+  if (lowerMessage.includes('sleep') || lowerMessage.includes('insomnia')) {
+    return "Sleep problems can really impact our mental health. Some tips: try to go to bed and wake up at the same time, avoid screens before bed, and create a relaxing bedtime routine. Are you having trouble falling asleep or staying asleep?";
+  }
+  
+  // Relationship issues
+  if (lowerMessage.includes('relationship') || lowerMessage.includes('partner') || lowerMessage.includes('family')) {
+    return "Relationships can be complex and challenging. It's normal to have difficulties sometimes. Would you like to talk more about what's happening in your relationship? Sometimes just talking it through can help clarify things.";
+  }
+  
+  // Work stress
+  if (lowerMessage.includes('work') || lowerMessage.includes('job') || lowerMessage.includes('career')) {
+    return "Work stress is really common and can affect our mental health significantly. What specifically about work is causing you stress? Sometimes setting boundaries or talking to a supervisor can help.";
+  }
+  
+  // General support responses
+  if (lowerMessage.includes('thank you') || lowerMessage.includes('thanks')) {
+    return "You're very welcome! I'm glad I could help. Remember, I'm here whenever you need to talk.";
+  }
+  
+  // Default empathetic response
+  return "I hear you, and I want you to know that your feelings are valid. It sounds like you're going through a difficult time. Would you like to talk more about what's on your mind? I'm here to listen.";
+}
+</script>
+  <script>
+// Loading screen
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loadingScreen').classList.add('fade-out');
     setTimeout(() => {
-      document.getElementById('loadingScreen').classList.add('fade-out');
-    }, 2000);
+      document.getElementById('loadingScreen').style.display = 'none';
+      // Initialize AI after loading screen fades
+      initializeAI();
+    }, 1000);
+  }, 2000);
+});
 
-    // Smooth scrolling
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
+// Smooth scrolling
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
       });
-    });
+    }
+  });
+});
 
-    // Navbar scroll effect
-    window.addEventListener('scroll', function() {
-      const header = document.querySelector('header');
-      if (window.scrollY > 100) {
-        header.style.background = 'rgba(255,255,255,0.98)';
-      } else {
-        header.style.background = 'rgba(255,255,255,0.95)';
-      }
-    });
+// Navbar scroll effect
+window.addEventListener('scroll', function() {
+  const header = document.querySelector('header');
+  if (window.scrollY > 100) {
+    header.style.background = 'rgba(255,255,255,0.98)';
+  } else {
+    header.style.background = 'rgba(255,255,255,0.95)';
+  }
+});
 
-    // Back to top button
-    const backToTopBtn = document.getElementById('backToTop');
-    window.addEventListener('scroll', function() {
-      if (window.scrollY > 300) {
-        backToTopBtn.classList.add('visible');
-      } else {
-        backToTopBtn.classList.remove('visible');
-      }
-    });
+// Back to top button
+const backToTopBtn = document.getElementById('backToTop');
+window.addEventListener('scroll', function() {
+  if (window.scrollY > 300) {
+    backToTopBtn.classList.add('visible');
+  } else {
+    backToTopBtn.classList.remove('visible');
+  }
+});
 
-    backToTopBtn.addEventListener('click', function() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
+backToTopBtn.addEventListener('click', function() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
 
-    // Tagline animation
-    setTimeout(() => {
-      const tagline = document.querySelector('.hero .tagline');
-      tagline.classList.add('show');
-    }, 5000);
+// Tagline animation
+setTimeout(() => {
+  const tagline = document.querySelector('.hero .tagline');
+  tagline.classList.add('show');
+}, 5000);
 
-    // Cursor trail effect
-    let cursorTrails = [];
-    const maxTrails = 20;
+// Cursor trail effect
+let cursorTrails = [];
+const maxTrails = 20;
 
-    document.addEventListener('mousemove', function(e) {
-      const trail = document.createElement('div');
-      trail.className = 'cursor-trail';
-      trail.style.left = e.pageX - 3 + 'px';
-      trail.style.top = e.pageY - 3 + 'px';
-      document.body.appendChild(trail);
+document.addEventListener('mousemove', function(e) {
+  const trail = document.createElement('div');
+  trail.className = 'cursor-trail';
+  trail.style.left = e.pageX - 3 + 'px';
+  trail.style.top = e.pageY - 3 + 'px';
+  document.body.appendChild(trail);
 
-      cursorTrails.push(trail);
+  cursorTrails.push(trail);
 
-      if (cursorTrails.length > maxTrails) {
-        const oldTrail = cursorTrails.shift();
-        if (oldTrail && oldTrail.parentNode) {
-          oldTrail.parentNode.removeChild(oldTrail);
-        }
-      }
+  if (cursorTrails.length > maxTrails) {
+    const oldTrail = cursorTrails.shift();
+    if (oldTrail && oldTrail.parentNode) {
+      oldTrail.parentNode.removeChild(oldTrail);
+    }
+  }
 
+  setTimeout(() => {
+    if (trail.parentNode) {
+      trail.style.opacity = '0';
+      trail.style.transform = 'scale(0.5)';
       setTimeout(() => {
         if (trail.parentNode) {
-          trail.style.opacity = '0';
-          trail.style.transform = 'scale(0.5)';
-          setTimeout(() => {
-            if (trail.parentNode) {
-              trail.parentNode.removeChild(trail);
-            }
-          }, 200);
+          trail.parentNode.removeChild(trail);
         }
-      }, 100);
-    });
-
-    // AI Chatbot Functionality for the new interface
-    const chatMessages = document.getElementById('chatMessages');
-    const chatInput = document.getElementById('chatInput');
-    const chatSend = document.getElementById('chatSend');
-
-    // Auto-resize textarea
-    chatInput.addEventListener('input', () => {
-      chatInput.style.height = 'auto';
-      chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + 'px';
-    });
-
-    // Send message on Enter key (but allow Shift+Enter for new lines)
-    chatInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
-    });
-
-    // Send message on button click
-    chatSend.addEventListener('click', sendMessage);
-
-    // Enhanced message sending function
-    async function sendMessage() {
-      const message = chatInput.value.trim();
-      if (!message) return;
-
-      // Disable send button and input
-      chatSend.disabled = true;
-      chatInput.disabled = true;
-
-      // Add user message
-      addMessage(message, 'user');
-      chatInput.value = '';
-      chatInput.style.height = 'auto';
-
-      // Show typing indicator
-      const typingIndicator = addTypingIndicator();
-      
-      // Simulate AI thinking time
-      setTimeout(() => {
-        chatMessages.removeChild(typingIndicator);
-        const response = generateSmartResponse(message);
-        addMessage(response, 'bot');
-        
-        // Re-enable send button and input
-        chatSend.disabled = false;
-        chatInput.disabled = false;
-        chatInput.focus();
-      }, 1000 + Math.random() * 1000);
+      }, 200);
     }
+  }, 100);
+});
 
-    // Enhanced message display function
-    function addMessage(text, type) {
-      const messageDiv = document.createElement('div');
-      messageDiv.className = `message ${type}`;
-      
-      const avatar = type === 'user' ? '👤' : '🤖';
-      
-      messageDiv.innerHTML = `
-        <div class="message-content">
-          <div class="message-avatar">${avatar}</div>
-          <div class="message-text">${text}</div>
-        </div>
-      `;
-      
-      chatMessages.appendChild(messageDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      return messageDiv;
+// AI Chatbot Functionality for the new interface
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const chatSend = document.getElementById('chatSend');
+
+// Auto-resize textarea
+chatInput.addEventListener('input', () => {
+  chatInput.style.height = 'auto';
+  chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + 'px';
+});
+
+// Send message on Enter key (but allow Shift+Enter for new lines)
+chatInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+// Send message on button click
+chatSend.addEventListener('click', sendMessage);
+
+// Enhanced message sending function with AI
+async function sendMessage() {
+  const message = chatInput.value.trim();
+  if (!message) return;
+
+  // Disable send button and input
+  chatSend.disabled = true;
+  chatInput.disabled = true;
+
+  // Add user message
+  addMessage(message, 'user');
+  chatInput.value = '';
+  chatInput.style.height = 'auto';
+
+  // Show typing indicator
+  const typingIndicator = addTypingIndicator();
+  
+  try {
+    // Generate response using AI or fallback
+    const response = await generateAIResponse(message);
+    
+    // Remove typing indicator and add AI response
+    chatMessages.removeChild(typingIndicator);
+    addMessage(response, 'bot');
+  } catch (error) {
+    console.error('Error generating response:', error);
+    chatMessages.removeChild(typingIndicator);
+    addMessage("I'm sorry, I'm having trouble processing that right now. Let me try again with a different approach.", 'bot');
+  } finally {
+    // Re-enable send button and input
+    chatSend.disabled = false;
+    chatInput.disabled = false;
+    chatInput.focus();
+  }
+}
+
+// Enhanced message display function
+function addMessage(text, type) {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `message ${type}`;
+  
+  const avatar = type === 'user' ? '👤' : '🤖';
+  
+  // Check if the message contains HTML (for resource cards)
+  if (text.includes('<div class="medication-info">') || text.includes('<div class="wellness-assessment">') || text.includes('<div class="resource-card">')) {
+    messageDiv.innerHTML = `
+      <div class="message-content">
+        <div class="message-avatar">${avatar}</div>
+        <div class="message-text">${text}</div>
+      </div>
+    `;
+  } else {
+    messageDiv.innerHTML = `
+      <div class="message-content">
+        <div class="message-avatar">${avatar}</div>
+        <div class="message-text">${text}</div>
+      </div>
+    `;
+  }
+  
+  chatMessages.appendChild(messageDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  return messageDiv;
+}
+
+// Typing indicator function
+function addTypingIndicator() {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = 'message bot';
+  
+  messageDiv.innerHTML = `
+    <div class="message-content">
+      <div class="message-avatar">🤖</div>
+      <div class="typing-indicator">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  `;
+  
+  chatMessages.appendChild(messageDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  return messageDiv;
+}
+
+// Form submission
+document.querySelector('form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  alert('Thank you for your message! We\'ll get back to you soon.');
+  this.reset();
+});
+
+// Intersection Observer for animations
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
     }
+  });
+}, observerOptions);
 
-    // Typing indicator function
-    function addTypingIndicator() {
-      const messageDiv = document.createElement('div');
-      messageDiv.className = 'message bot';
-      
-      messageDiv.innerHTML = `
-        <div class="message-content">
-          <div class="message-avatar">🤖</div>
-          <div class="typing-indicator">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-      `;
-      
-      chatMessages.appendChild(messageDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      return messageDiv;
-    }
-
-    // Smart response generation
-    function generateSmartResponse(userMessage) {
-      const lowerMessage = userMessage.toLowerCase();
-      
-      // Crisis detection
-      if (lowerMessage.includes('suicide') || lowerMessage.includes('kill myself') || lowerMessage.includes('want to die')) {
-        return "I'm very concerned about what you're going through. If you're having thoughts of harming yourself, please call 988 (the Suicide & Crisis Lifeline) right now. They have trained counselors available 24/7. You're not alone, and help is available.";
-      }
-      
-      // Emotional state detection
-      if (lowerMessage.includes('anxiety') || lowerMessage.includes('anxious') || lowerMessage.includes('worried')) {
-        return "I hear you're dealing with anxiety. That can be really overwhelming. Have you tried any breathing exercises? Sometimes taking slow, deep breaths can help calm your nervous system. Would you like to talk more about what's causing your anxiety?";
-      }
-      
-      if (lowerMessage.includes('depression') || lowerMessage.includes('sad') || lowerMessage.includes('hopeless')) {
-        return "I'm sorry you're feeling this way. Depression can make everything feel heavy and overwhelming. Remember that these feelings are temporary, even if they don't feel that way right now. Have you considered talking to a mental health professional? They can provide support and treatment options.";
-      }
-      
-      if (lowerMessage.includes('stress') || lowerMessage.includes('overwhelmed')) {
-        return "Stress can really take a toll on our mental health. It sounds like you're carrying a lot right now. What's one small thing you could do today to take care of yourself? Even something simple like taking a walk or calling a friend can help.";
-      }
-      
-      // Greeting responses
-      if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-        return "Hello! I'm here to listen and support you. How are you feeling today?";
-      }
-      
-      if (lowerMessage.includes('how are you')) {
-        return "I'm doing well, thank you for asking! I'm here to focus on you though - how are you feeling?";
-      }
-      
-      // Help requests
-      if (lowerMessage.includes('help') || lowerMessage.includes('need help')) {
-        return "I'm here to help! I can listen, offer support, and provide information about mental health resources. What specific help do you need right now?";
-      }
-      
-      // Therapy and treatment questions
-      if (lowerMessage.includes('therapy') || lowerMessage.includes('counseling')) {
-        return "Therapy can be incredibly helpful for many people. It provides a safe space to talk through challenges with a trained professional. Would you like to know more about different types of therapy or how to find a therapist?";
-      }
-      
-      if (lowerMessage.includes('medication') || lowerMessage.includes('meds')) {
-        return "Medication can be an important part of mental health treatment for some people. It's best to discuss this with a psychiatrist or psychiatric nurse practitioner who can evaluate your specific needs. Have you talked to a mental health professional about medication options?";
-      }
-      
-      // Self-care suggestions
-      if (lowerMessage.includes('self care') || lowerMessage.includes('self-care')) {
-        return "Self-care is so important! Some ideas: take a warm bath, go for a walk, call a friend, practice deep breathing, or do something creative. What activities usually help you feel better?";
-      }
-      
-      // Sleep issues
-      if (lowerMessage.includes('sleep') || lowerMessage.includes('insomnia')) {
-        return "Sleep problems can really impact our mental health. Some tips: try to go to bed and wake up at the same time, avoid screens before bed, and create a relaxing bedtime routine. Are you having trouble falling asleep or staying asleep?";
-      }
-      
-      // Relationship issues
-      if (lowerMessage.includes('relationship') || lowerMessage.includes('partner') || lowerMessage.includes('family')) {
-        return "Relationships can be complex and challenging. It's normal to have difficulties sometimes. Would you like to talk more about what's happening in your relationship? Sometimes just talking it through can help clarify things.";
-      }
-      
-      // Work stress
-      if (lowerMessage.includes('work') || lowerMessage.includes('job') || lowerMessage.includes('career')) {
-        return "Work stress is really common and can affect our mental health significantly. What specifically about work is causing you stress? Sometimes setting boundaries or talking to a supervisor can help.";
-      }
-      
-      // General support responses
-      if (lowerMessage.includes('thank you') || lowerMessage.includes('thanks')) {
-        return "You're very welcome! I'm glad I could help. Remember, I'm here whenever you need to talk.";
-      }
-      
-      // Default empathetic response
-      return "I hear you, and I want you to know that your feelings are valid. It sounds like you're going through a difficult time. Would you like to talk more about what's on your mind? I'm here to listen.";
-    }
-
-    // Form submission
-    document.querySelector('form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('Thank you for your message! We\'ll get back to you soon.');
-      this.reset();
-    });
-
-    // Intersection Observer for animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, observerOptions);
-
-    // Observe all cards and team members
-    document.querySelectorAll('.blog-card').forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(30px)';
-      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-      observer.observe(el);
-    });
-
-  </script>
+// Observe all cards and team members
+document.querySelectorAll('.blog-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(30px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
 </body>
 
 </html>
