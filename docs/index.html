@@ -15,7 +15,9 @@ Date: December 2024
   <!-- TRANSFORMERS.JS FOR AI -->
   <!-- CRITICAL: This script must load BEFORE ai.js to ensure window.transformers is available -->
   <!-- Using UMD build to ensure global transformers object is available -->
-  <script src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0/dist/transformers.umd.js"></script>
+  <script id="transformers-script" src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0/dist/transformers.umd.js"></script>
+  <!-- Fallback CDN for Transformers.js -->
+  <script id="transformers-fallback" src="https://unpkg.com/@xenova/transformers@2.6.0/dist/transformers.umd.js" style="display: none;"></script>
   <!-- AI Chat functionality - depends on Transformers.js being loaded first -->
   <script src="ai.js"></script>
   <!-- CSS STYLES WILL GO HERE -->
@@ -1134,14 +1136,50 @@ Date: December 2024
 
   <!-- JAVASCRIPT WILL GO HERE -->
   <script>
-// Loading screen
+// Enhanced loading screen with Transformers.js verification
+let transformersLoadAttempted = false;
+let transformersLoadSuccess = false;
+
+// Track Transformers.js loading
+function setupTransformersLoading() {
+  const primaryScript = document.getElementById('transformers-script');
+  const fallbackScript = document.getElementById('transformers-fallback');
+  
+  if (primaryScript) {
+    primaryScript.onload = () => {
+      console.log('Transformers.js loaded successfully from primary CDN');
+      transformersLoadSuccess = true;
+    };
+    
+    primaryScript.onerror = () => {
+      console.warn('Primary Transformers.js CDN failed, trying fallback...');
+      if (fallbackScript && !transformersLoadAttempted) {
+        transformersLoadAttempted = true;
+        fallbackScript.style.display = '';
+        fallbackScript.onload = () => {
+          console.log('Transformers.js loaded successfully from fallback CDN');
+          transformersLoadSuccess = true;
+        };
+        fallbackScript.onerror = () => {
+          console.error('Both Transformers.js CDNs failed to load');
+          transformersLoadSuccess = false;
+        };
+        document.head.appendChild(fallbackScript);
+      }
+    };
+  }
+}
+
+// Initialize loading screen and AI
 window.addEventListener('load', () => {
+  setupTransformersLoading();
+  
   setTimeout(() => {
     document.getElementById('loadingScreen').classList.add('fade-out');
     setTimeout(() => {
       document.getElementById('loadingScreen').style.display = 'none';
       // Initialize AI chat after loading screen fades
-      // This ensures DOM is ready and gives time for Transformers.js CDN to load
+      // Enhanced timing to allow more time for Transformers.js CDN to load
       if (typeof initializeAIChat === 'function') {
         initializeAIChat();
       }

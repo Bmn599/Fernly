@@ -338,7 +338,7 @@ let conversationContext = {
 
 // Check if Transformers.js is loaded and available
 // Returns a Promise that resolves when transformers is available or rejects after timeout
-function checkTransformersLoaded(maxWaitTime = 10000) {
+function checkTransformersLoaded(maxWaitTime = 20000) { // Increased timeout to 20 seconds
   return new Promise((resolve, reject) => {
     // If already loaded, resolve immediately
     if (window.transformers) {
@@ -349,14 +349,37 @@ function checkTransformersLoaded(maxWaitTime = 10000) {
     
     const startTime = Date.now();
     const checkInterval = 100; // Check every 100ms
+    let retryCount = 0;
+    const maxRetries = 3;
     
     const checkForTransformers = () => {
+      const elapsed = Date.now() - startTime;
+      
       if (window.transformers) {
-        console.log('Transformers.js loaded successfully');
+        console.log(`Transformers.js loaded successfully after ${elapsed}ms`);
         resolve(true);
-      } else if (Date.now() - startTime > maxWaitTime) {
-        console.error('Transformers.js not loaded - timeout after', maxWaitTime, 'ms');
-        reject(new Error('Transformers.js loading timeout'));
+      } else if (elapsed > maxWaitTime) {
+        retryCount++;
+        if (retryCount < maxRetries) {
+          console.warn(`Transformers.js not loaded after ${elapsed}ms, retry ${retryCount}/${maxRetries}`);
+          // Reset start time for retry
+          const newStartTime = Date.now();
+          const retryCheck = () => {
+            const retryElapsed = Date.now() - newStartTime;
+            if (window.transformers) {
+              console.log(`Transformers.js loaded successfully on retry ${retryCount} after ${retryElapsed}ms`);
+              resolve(true);
+            } else if (retryElapsed > 5000) { // 5 second retry timeout
+              checkForTransformers(); // Try next retry or fail
+            } else {
+              setTimeout(retryCheck, checkInterval);
+            }
+          };
+          setTimeout(retryCheck, checkInterval);
+        } else {
+          console.error(`Transformers.js not loaded - timeout after ${elapsed}ms with ${retryCount} retries`);
+          reject(new Error(`Transformers.js loading timeout after ${elapsed}ms`));
+        }
       } else {
         // Continue checking
         setTimeout(checkForTransformers, checkInterval);
@@ -410,14 +433,23 @@ function showAIErrorNotification(message) {
       <div class="message-content">
         <div class="message-avatar">⚠️</div>
         <div class="message-text">
-          <strong>AI Chat Temporarily Unavailable</strong><br>
-          ${message}
+          <strong>AI Chat Status</strong><br>
+          ${message}<br>
+          <small style="color: #666; margin-top: 8px; display: block;">
+            You can still use the chat - I'll do my best to help with basic responses.
+            <button onclick="location.reload()" style="margin-left: 10px; padding: 4px 8px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
+              Retry Loading
+            </button>
+          </small>
         </div>
       </div>
     `;
     chatMessages.appendChild(errorDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
+  
+  // Also log to console for debugging
+  console.warn('AI Error Notification:', message);
 }
 
 // Initialize AI Model
@@ -868,14 +900,35 @@ function generateSmartResponse(userMessage) {
 // This function will be called from the main page after DOM is ready
 async function initializeAIChat() {
   try {
-    // Wait for transformers to be loaded with timeout
+    console.log('Starting AI chat initialization...');
+    // Wait for transformers to be loaded with extended timeout and retry logic
     await checkTransformersLoaded();
     console.log('Transformers.js confirmed loaded, initializing AI...');
     initializeAI();
   } catch (error) {
-    // Show error message if transformers failed to load
-    console.error('Transformers.js not loaded - AI chat initialization failed:', error.message);
-    showAIErrorNotification('The AI library failed to load. Please refresh the page or try again later.');
+    // Enhanced error handling with more specific messages
+    console.error('AI chat initialization failed:', error.message);
+    
+    // Try to provide helpful error messages based on the error type
+    let errorMessage = 'The AI library failed to load. ';
+    
+    if (error.message.includes('timeout')) {
+      errorMessage += 'This might be due to a slow internet connection or CDN issues. Please check your connection and try refreshing the page.';
+    } else if (error.message.includes('network')) {
+      errorMessage += 'There appears to be a network connectivity issue. Please check your internet connection and try again.';
+    } else {
+      errorMessage += 'Please refresh the page or try again later. If the problem persists, the chat will operate in fallback mode.';
+    }
+    
+    showAIErrorNotification(errorMessage);
+    
+    // Log detailed error information for debugging
+    console.error('Detailed error information:', {
+      message: error.message,
+      stack: error.stack,
+      transformersAvailable: !!window.transformers,
+      timestamp: new Date().toISOString()
+    });
   }
 }
 
