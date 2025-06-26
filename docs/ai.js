@@ -862,13 +862,29 @@ function addFeedbackPrompt() {
   
   awaitingFeedback = true;
   
+  // Create unique IDs for this feedback prompt
+  const feedbackId = 'feedback_' + Date.now();
+  
+  setTimeout(() => {
+    // Add event listeners after the HTML is rendered
+    const helpfulBtn = document.getElementById(feedbackId + '_helpful');
+    const notHelpfulBtn = document.getElementById(feedbackId + '_not_helpful');
+    
+    if (helpfulBtn) {
+      helpfulBtn.addEventListener('click', () => provideFeedback('helpful'));
+    }
+    if (notHelpfulBtn) {
+      notHelpfulBtn.addEventListener('click', () => provideFeedback('not_helpful'));
+    }
+  }, 100);
+  
   return `
 
 <div class="feedback-prompt" style="background: #f0f8ff; border: 1px solid #b3d9ff; border-radius: 8px; padding: 12px; margin-top: 10px;">
   <strong>Was this helpful?</strong> 
   <div style="margin-top: 8px;">
-    <span style="cursor: pointer; background: #4CAF50; color: white; padding: 4px 8px; border-radius: 4px; margin-right: 8px;" onclick="provideFeedback('helpful')">👍 Yes</span>
-    <span style="cursor: pointer; background: #f44336; color: white; padding: 4px 8px; border-radius: 4px;" onclick="provideFeedback('not_helpful')">👎 No</span>
+    <span id="${feedbackId}_helpful" style="cursor: pointer; background: #4CAF50; color: white; padding: 4px 8px; border-radius: 4px; margin-right: 8px;">👍 Yes</span>
+    <span id="${feedbackId}_not_helpful" style="cursor: pointer; background: #f44336; color: white; padding: 4px 8px; border-radius: 4px;">👎 No</span>
   </div>
   <small style="color: #666; margin-top: 8px; display: block;">Your feedback helps me improve my responses.</small>
 </div>`;
@@ -1393,17 +1409,16 @@ window.resetLearningData = resetLearningData;
  * Global function for providing feedback (called from HTML)
  */
 function provideFeedback(feedbackType) {
-  if (feedbackType === 'helpful') {
-    // Simulate user typing "helpful"
-    handleUserFeedback('helpful');
-  } else if (feedbackType === 'not_helpful') {
-    // Simulate user typing "not helpful"
-    handleUserFeedback('not helpful');
-  }
+  // Process the feedback
+  const feedbackMessage = feedbackType === 'helpful' ? 'helpful' : 'not helpful';
+  
+  // Handle the feedback in the AI system
+  const response = handleUserFeedback(feedbackMessage);
   
   // Update the chat interface to show the feedback was received
   const chatMessages = document.getElementById('chatMessages');
   if (chatMessages) {
+    // Add user feedback message
     const feedbackDiv = document.createElement('div');
     feedbackDiv.className = 'message user feedback-response';
     feedbackDiv.innerHTML = `
@@ -1416,20 +1431,25 @@ function provideFeedback(feedbackType) {
     `;
     chatMessages.appendChild(feedbackDiv);
     
-    // Generate AI response to the feedback
-    generateAIResponse(feedbackType === 'helpful' ? 'helpful' : 'not helpful').then(response => {
-      const aiResponseDiv = document.createElement('div');
-      aiResponseDiv.className = 'message bot';
-      aiResponseDiv.innerHTML = `
-        <div class="message-content">
-          <div class="message-avatar">🤖</div>
-          <div class="message-text">${response}</div>
-        </div>
-      `;
-      chatMessages.appendChild(aiResponseDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
+    // Add AI response to the feedback
+    const aiResponseDiv = document.createElement('div');
+    aiResponseDiv.className = 'message bot';
+    aiResponseDiv.innerHTML = `
+      <div class="message-content">
+        <div class="message-avatar">🤖</div>
+        <div class="message-text">${response}</div>
+      </div>
+    `;
+    chatMessages.appendChild(aiResponseDiv);
+    
+    // Remove the feedback prompt by finding and hiding it
+    const feedbackPrompts = chatMessages.querySelectorAll('.feedback-prompt');
+    feedbackPrompts.forEach(prompt => {
+      prompt.style.display = 'none';
     });
     
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
+  
+  return response;
 }
