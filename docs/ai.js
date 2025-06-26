@@ -1,7 +1,7 @@
 /* GitHub Pages Deployment Fix - Force rebuild to clear caches - December 2024 */
 // AI Chat Functionality for Fernly Health
 // This file handles all AI-related functionality including model loading, response generation, and chat features
-// Updated to use WebLLM with TinyLlama model for enhanced conversational AI
+// Updated to use WebLLM with Phi-3-mini model for enhanced conversational AI
 
 // WebLLM AI Model Variables
 let webllmEngine = null;
@@ -438,13 +438,13 @@ function showFallbackModeNotification() {
       <div class="message-content">
         <div class="message-avatar">🤖</div>
         <div class="message-text">
-          <div style="background: #e3f2fd; border: 1px solid #bbdefb; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
-            <strong>ℹ️ Enhanced Fallback Mode Active</strong><br>
-            <small style="color: #1976d2;">
-              I'm operating in fallback mode (AI model not loaded), but I'm still here to help with comprehensive mental health support, crisis detection, self-assessments, and resourceful advice. My responses may be less dynamic but are carefully crafted for your wellbeing.
+          <div style="background: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
+            <strong>✅ Smart Fallback Mode Active</strong><br>
+            <small style="color: #2e7d32;">
+              The Phi-3-mini AI model isn't loaded, but I'm operating with an enhanced fallback system that provides comprehensive mental health information, personalized responses, and crisis support. I can answer detailed questions about symptoms, treatments, medications, and more.
             </small>
           </div>
-          Hello! I'm here to support your mental health and wellbeing. I can help with anxiety, depression, stress, sleep issues, relationships, and more. I also offer mental health assessments and crisis support. How are you feeling today?
+          Hello! I'm here to support your mental health and wellbeing. I can provide detailed information about mental health conditions like depression, anxiety, ADHD, PTSD, bipolar disorder, and many others. Feel free to ask about symptoms, treatments, medications, or any mental health topics. How can I help you today?
         </div>
       </div>
     `;
@@ -452,6 +452,73 @@ function showFallbackModeNotification() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 }
+
+// Show AI success notification
+function showAISuccessNotification() {
+  const chatMessages = document.getElementById('chatMessages');
+  if (chatMessages) {
+    const successDiv = document.createElement('div');
+    successDiv.className = 'message bot ai-success-info';
+    successDiv.innerHTML = `
+      <div class="message-content">
+        <div class="message-avatar">🤖</div>
+        <div class="message-text">
+          <div style="background: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
+            <strong>🚀 Phi-3-mini AI Model Loaded Successfully!</strong><br>
+            <small style="color: #2e7d32;">
+              I'm now running with Microsoft's Phi-3-mini model, which provides enhanced reasoning capabilities for mental health support. I can engage in more nuanced conversations and provide personalized guidance.
+            </small>
+          </div>
+          Hello! I'm your AI-powered mental health companion. I can help you with detailed information about mental health conditions, provide supportive guidance, and engage in meaningful conversations about your wellbeing. What would you like to talk about today?
+        </div>
+      </div>
+    `;
+    chatMessages.appendChild(successDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+}
+
+// Update AI status indicator
+function updateAIStatusIndicator(status, message) {
+  const indicator = document.getElementById('aiStatusIndicator');
+  if (indicator) {
+    indicator.style.display = 'block';
+    indicator.className = `ai-status-indicator ${status}`;
+    
+    const statusContent = indicator.querySelector('.status-content');
+    if (statusContent) {
+      let icon = '⏳';
+      switch (status) {
+        case 'loading':
+          icon = '⏳';
+          break;
+        case 'ai-active':
+          icon = '🚀';
+          break;
+        case 'fallback-active':
+          icon = '🛡️';
+          break;
+        case 'error':
+          icon = '⚠️';
+          break;
+      }
+      
+      statusContent.innerHTML = `
+        <span class="status-icon">${icon}</span>
+        <span class="status-text">${message}</span>
+      `;
+    }
+  }
+}
+
+// Hide AI status indicator
+function hideAIStatusIndicator() {
+  const indicator = document.getElementById('aiStatusIndicator');
+  if (indicator) {
+    indicator.style.display = 'none';
+  }
+}
+
 function showAIErrorNotification(message) {
   const chatMessages = document.getElementById('chatMessages');
   if (chatMessages) {
@@ -500,9 +567,9 @@ function showAIErrorNotification(message) {
   console.warn('AI Error Notification:', message);
 }
 
-// Initialize WebLLM AI Model with TinyLlama
+// Initialize WebLLM AI Model with Phi-3-mini
 // WebLLM License: Apache 2.0 - Suitable for commercial use and redistribution
-// TinyLlama Model License: Apache 2.0 - Suitable for commercial use and redistribution
+// Phi-3-mini Model License: MIT - Suitable for commercial use and redistribution
 async function initializeAI() {
   // OPTIONAL: Advanced Local LLM Fallback for Power Users
   // ====================================================
@@ -537,18 +604,19 @@ async function initializeAI() {
   }
 
   try {
+    updateAIStatusIndicator('loading', 'Loading Phi-3-mini AI model...');
     showAILoading();
     updateProgress(10, 'Loading WebLLM...');
     
     // Initialize WebLLM engine
     webllmEngine = new window.WebLLM.Engine();
     
-    updateProgress(30, 'Loading TinyLlama model...');
+    updateProgress(30, 'Loading Phi-3-mini model...');
     
-    // Load TinyLlama model - a small but capable model for in-browser use
-    // Model: TinyLlama-1.1B-Chat-v1.0-q4f16_1 (quantized for efficiency)
-    // License: Apache 2.0, suitable for commercial use
-    await webllmEngine.reload("TinyLlama-1.1B-Chat-v1.0-q4f16_1", {
+    // Load Phi-3-mini model - a more capable model with better reasoning for in-browser use
+    // Model: Phi-3-mini-4k-instruct-q4f16_1 (quantized for efficiency, better than TinyLlama)
+    // License: MIT, suitable for commercial use
+    await webllmEngine.reload("Phi-3-mini-4k-instruct-q4f16_1", {
       progress_callback: (progress) => {
         const percent = Math.round(progress.progress * 50) + 30; // 30-80%
         const progressText = progress.text || `Loading model... ${Math.round(progress.progress * 100)}%`;
@@ -564,13 +632,16 @@ async function initializeAI() {
     
     hideAILoading();
     isAILoaded = true;
-    console.log('WebLLM AI Model loaded successfully!');
+    console.log('Phi-3-mini AI Model loaded successfully!');
+    updateAIStatusIndicator('ai-active', 'Phi-3-mini AI Active');
+    showAISuccessNotification();
     
   } catch (error) {
-    console.error('WebLLM AI loading failed:', error);
+    console.error('Phi-3-mini AI loading failed:', error);
     hideAILoading();
     isFallbackMode = true;
-    showAIErrorNotification('Unable to load the WebLLM AI model. The chat will operate in enhanced fallback mode.');
+    updateAIStatusIndicator('fallback-active', 'Smart Fallback Mode Active');
+    showAIErrorNotification('Unable to load the Phi-3-mini AI model. The chat will operate in smart fallback mode with comprehensive mental health support.');
     showFallbackModeNotification();
   }
 }
@@ -1113,3 +1184,6 @@ window.showAILoading = showAILoading;
 window.hideAILoading = hideAILoading;
 window.updateProgress = updateProgress;
 window.showAIErrorNotification = showAIErrorNotification;
+window.showAISuccessNotification = showAISuccessNotification;
+window.updateAIStatusIndicator = updateAIStatusIndicator;
+window.hideAIStatusIndicator = hideAIStatusIndicator;
