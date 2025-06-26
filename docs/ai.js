@@ -6,6 +6,7 @@
 // WebLLM AI Model Variables
 let webllmEngine = null;
 let isAILoaded = false;
+let isFallbackMode = false;
 
 // MEDICATION INFORMATION DATABASE
 const medicationDatabase = {
@@ -327,19 +328,22 @@ const mentalHealthConditions = {
   }
 };
 
-// Track conversation for wellness assessment
+// Track conversation for wellness assessment and escalation
 let conversationContext = {
   messages: [],
   detectedSymptoms: {},
   mentalHealthTopics: [],
   assessmentInProgress: false,
   assessmentStage: 0,
-  assessmentResponses: {}
+  assessmentResponses: {},
+  topicCounts: {}, // Track how many times each topic has been discussed
+  lastTopics: [], // Track recent topics for escalation
+  crisisKeywords: []
 };
 
 // Check if WebLLM is loaded and available
 // Returns a Promise that resolves when WebLLM is available or rejects after timeout
-function checkWebLLMLoaded(maxWaitTime = 20000) { // 20 seconds timeout
+function checkWebLLMLoaded(maxWaitTime = 60000) { // 60 seconds timeout for better network tolerance
   return new Promise((resolve, reject) => {
     // If already loaded, resolve immediately
     if (window.WebLLM) {
@@ -378,8 +382,8 @@ function checkWebLLMLoaded(maxWaitTime = 20000) { // 20 seconds timeout
           };
           setTimeout(retryCheck, checkInterval);
         } else {
-          console.error(`WebLLM not loaded - timeout after ${elapsed}ms with ${retryCount} retries`);
-          reject(new Error(`WebLLM loading timeout after ${elapsed}ms`));
+          console.error(`WebLLM not loaded - timeout after ${elapsed}ms with ${retryCount} retries. Loading can take up to 1 minute on slower connections.`);
+          reject(new Error(`WebLLM loading timeout after ${elapsed}ms. This may be due to slow network conditions - loading can take up to 1 minute.`));
         }
       } else {
         // Continue checking
@@ -424,10 +428,37 @@ function hideAILoading() {
   }
 }
 
-// Show error notification in chat area
+// Show fallback mode notification in chat
+function showFallbackModeNotification() {
+  const chatMessages = document.getElementById('chatMessages');
+  if (chatMessages) {
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'message bot fallback-info';
+    infoDiv.innerHTML = `
+      <div class="message-content">
+        <div class="message-avatar">🤖</div>
+        <div class="message-text">
+          <div style="background: #e3f2fd; border: 1px solid #bbdefb; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
+            <strong>ℹ️ Enhanced Fallback Mode Active</strong><br>
+            <small style="color: #1976d2;">
+              I'm operating in fallback mode (AI model not loaded), but I'm still here to help with comprehensive mental health support, crisis detection, self-assessments, and resourceful advice. My responses may be less dynamic but are carefully crafted for your wellbeing.
+            </small>
+          </div>
+          Hello! I'm here to support your mental health and wellbeing. I can help with anxiety, depression, stress, sleep issues, relationships, and more. I also offer mental health assessments and crisis support. How are you feeling today?
+        </div>
+      </div>
+    `;
+    chatMessages.appendChild(infoDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+}
 function showAIErrorNotification(message) {
   const chatMessages = document.getElementById('chatMessages');
   if (chatMessages) {
+    const timestamp = new Date().toLocaleString();
+    const webLLMStatus = window.WebLLM ? 'Available' : 'Not Available';
+    const cdnError = window.webllmLoadError ? 'Yes' : 'No';
+    
     const errorDiv = document.createElement('div');
     errorDiv.className = 'message bot error-notification';
     errorDiv.innerHTML = `
@@ -437,11 +468,27 @@ function showAIErrorNotification(message) {
           <strong>AI Chat Status</strong><br>
           ${message}<br>
           <small style="color: #666; margin-top: 8px; display: block;">
-            You can still use the chat - I'll do my best to help with basic responses.
-            <button onclick="location.reload()" style="margin-left: 10px; padding: 4px 8px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
-              Retry Loading
-            </button>
+            Loading may take up to 1 minute on slower connections. You can still use the chat - I'll provide enhanced responses in fallback mode.
           </small>
+          
+          <details style="margin-top: 10px; font-size: 12px; color: #555;">
+            <summary style="cursor: pointer; font-weight: bold;">📊 Diagnostics</summary>
+            <div style="margin-top: 8px; padding: 8px; background: #f5f5f5; border-radius: 4px;">
+              <strong>WebLLM Status:</strong> ${webLLMStatus}<br>
+              <strong>CDN Load Error:</strong> ${cdnError}<br>
+              <strong>Timestamp:</strong> ${timestamp}<br>
+              <strong>User Agent:</strong> ${navigator.userAgent.substring(0, 100)}...
+            </div>
+          </details>
+          
+          <div style="margin-top: 10px;">
+            <button onclick="location.reload()" style="margin-right: 10px; padding: 6px 12px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
+              🔄 Retry Loading
+            </button>
+            <button onclick="this.parentElement.parentElement.parentElement.parentElement.parentElement.remove()" style="padding: 6px 12px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
+              ✖ Dismiss
+            </button>
+          </div>
         </div>
       </div>
     `;
@@ -457,9 +504,35 @@ function showAIErrorNotification(message) {
 // WebLLM License: Apache 2.0 - Suitable for commercial use and redistribution
 // TinyLlama Model License: Apache 2.0 - Suitable for commercial use and redistribution
 async function initializeAI() {
+  // OPTIONAL: Advanced Local LLM Fallback for Power Users
+  // ====================================================
+  // Developers can optionally implement a local LLM model as an advanced fallback
+  // by uncommenting and implementing the code below. This requires:
+  // 1. Hosting a local LLM model file (e.g., local-llm.js)
+  // 2. Understanding of JavaScript ML frameworks
+  // 3. Significant additional file size (models are typically 100MB+)
+  // 
+  // WARNING: This is for advanced users only and requires careful implementation
+  // to avoid breaking the existing fallback system.
+  //
+  // if (window.localLLMEnabled && !checkWebLLMLoadedSync()) {
+  //   try {
+  //     console.log('Attempting to load local LLM model...');
+  //     // Load your local model here (e.g., TensorFlow.js, ONNX.js, etc.)
+  //     // const localModel = await loadLocalLLMModel();
+  //     // if (localModel) {
+  //     //   return initializeLocalLLM(localModel);
+  //     // }
+  //   } catch (error) {
+  //     console.warn('Local LLM failed to load, continuing with enhanced fallback:', error);
+  //   }
+  // }
+  
   if (!checkWebLLMLoadedSync()) {
     hideAILoading();
-    showAIErrorNotification('The WebLLM library failed to load. Please refresh the page or try again later.');
+    isFallbackMode = true;
+    showAIErrorNotification('The WebLLM library failed to load. The chat will operate in enhanced fallback mode.');
+    showFallbackModeNotification();
     return;
   }
 
@@ -496,12 +569,9 @@ async function initializeAI() {
   } catch (error) {
     console.error('WebLLM AI loading failed:', error);
     hideAILoading();
-    showAIErrorNotification('Unable to load the WebLLM AI model. The chat will use a basic response system instead.');
-    // Add a subtle notification that fallback mode is active
-    console.log('Using fallback response system');
-    if (typeof addMessage === 'function') {
-      addMessage("I'm operating in standard mode today. How can I support you?", 'bot');
-    }
+    isFallbackMode = true;
+    showAIErrorNotification('Unable to load the WebLLM AI model. The chat will operate in enhanced fallback mode.');
+    showFallbackModeNotification();
   }
 }
 
@@ -822,13 +892,18 @@ async function generateAIResponse(userMessage) {
   }
 }
 
-// Smart response generation (fallback)
+// Enhanced smart response generation (fallback) with comprehensive mental health support
 function generateSmartResponse(userMessage) {
   const lowerMessage = userMessage.toLowerCase();
   
-  // Crisis detection
-  if (lowerMessage.includes('suicide') || lowerMessage.includes('kill myself') || lowerMessage.includes('want to die')) {
-    return "I'm very concerned about what you're going through. If you're having thoughts of harming yourself, please call 988 (the Suicide & Crisis Lifeline) right now. They have trained counselors available 24/7. You're not alone, and help is available.";
+  // Track the current topic for escalation logic
+  let currentTopic = null;
+  
+  // Enhanced crisis detection with more keywords
+  const crisisKeywords = ['suicide', 'kill myself', 'want to die', 'end it all', 'no point', 'better off dead', 'can\'t go on', 'self harm', 'hurt myself', 'overdose'];
+  if (crisisKeywords.some(keyword => lowerMessage.includes(keyword))) {
+    conversationContext.crisisKeywords.push(...crisisKeywords.filter(k => lowerMessage.includes(k)));
+    return "🚨 I'm very concerned about what you're going through. If you're having thoughts of harming yourself, please reach out for immediate help:\n\n• Call 988 (Suicide & Crisis Lifeline) - available 24/7\n• Text 'HELLO' to 741741 (Crisis Text Line)\n• Go to your nearest emergency room\n• Call 911\n\nYou're not alone, and help is available. These feelings can change with the right support.";
   }
   
   // Medication questions - detect and redirect
@@ -837,65 +912,143 @@ function generateSmartResponse(userMessage) {
     return generateMedicationResponse(medicationInfo);
   }
   
-  // Emotional state detection
-  if (lowerMessage.includes('anxiety') || lowerMessage.includes('anxious') || lowerMessage.includes('worried')) {
-    return "I hear you're dealing with anxiety. That can be really overwhelming. Have you tried any breathing exercises? Sometimes taking slow, deep breaths can help calm your nervous system. Would you like to talk more about what's causing your anxiety?";
+  // PTSD detection and support
+  if (lowerMessage.includes('ptsd') || lowerMessage.includes('trauma') || lowerMessage.includes('flashback') || lowerMessage.includes('nightmare') || lowerMessage.includes('triggered')) {
+    currentTopic = 'ptsd';
+    const count = (conversationContext.topicCounts.ptsd || 0) + 1;
+    conversationContext.topicCounts.ptsd = count;
+    
+    if (count === 1) {
+      return "I understand you're dealing with trauma or PTSD. That takes incredible strength. Trauma can affect us in many ways - through flashbacks, nightmares, or feeling triggered by certain situations. You're not alone in this. Have you been able to connect with a trauma-informed therapist?";
+    } else if (count >= 2) {
+      return "I notice we've talked about trauma before. Since this is still weighing on you, I'd like to suggest some specific resources:\n\n• EMDR therapy is very effective for PTSD\n• The PTSD Coach app (free from the VA)\n• Grounding techniques like the 5-4-3-2-1 method\n• RAINN.org for trauma support\n\nWould you like me to walk you through a grounding exercise right now?";
+    }
   }
   
-  if (lowerMessage.includes('depression') || lowerMessage.includes('sad') || lowerMessage.includes('hopeless')) {
-    return "I'm sorry you're feeling this way. Depression can make everything feel heavy and overwhelming. Remember that these feelings are temporary, even if they don't feel that way right now. Have you considered talking to a mental health professional? They can provide support and treatment options.";
+  // Anxiety with escalation and coping strategies
+  if (lowerMessage.includes('anxiety') || lowerMessage.includes('anxious') || lowerMessage.includes('worried') || lowerMessage.includes('panic') || lowerMessage.includes('racing thoughts')) {
+    currentTopic = 'anxiety';
+    const count = (conversationContext.topicCounts.anxiety || 0) + 1;
+    conversationContext.topicCounts.anxiety = count;
+    
+    if (count === 1) {
+      return "I hear you're dealing with anxiety. That can feel overwhelming, like your mind is racing or your body is on high alert. Anxiety is very treatable. Have you tried any breathing exercises? The 4-7-8 breathing technique can help: breathe in for 4, hold for 7, exhale for 8.";
+    } else if (count >= 2) {
+      return "Since anxiety continues to be challenging for you, let me suggest some advanced strategies:\n\n• Progressive muscle relaxation\n• Cognitive restructuring (challenging anxious thoughts)\n• Mindfulness apps like Headspace or Calm\n• Consider therapy - CBT is very effective for anxiety\n• If severe, talk to a doctor about medication options\n\nWould you like me to guide you through a quick anxiety relief technique?";
+    }
   }
   
-  if (lowerMessage.includes('stress') || lowerMessage.includes('overwhelmed')) {
-    return "Stress can really take a toll on our mental health. It sounds like you're carrying a lot right now. What's one small thing you could do today to take care of yourself? Even something simple like taking a walk or calling a friend can help.";
+  // Depression with comprehensive support and escalation
+  if (lowerMessage.includes('depression') || lowerMessage.includes('depressed') || lowerMessage.includes('sad') || lowerMessage.includes('hopeless') || lowerMessage.includes('empty') || lowerMessage.includes('numb')) {
+    currentTopic = 'depression';
+    const count = (conversationContext.topicCounts.depression || 0) + 1;
+    conversationContext.topicCounts.depression = count;
+    
+    if (count === 1) {
+      return "I'm sorry you're feeling this way. Depression can make everything feel heavy and overwhelming, like you're carrying an invisible weight. Remember that these feelings, while real and valid, can change with the right support. Have you been able to maintain any daily routines or activities you usually enjoy?";
+    } else if (count >= 2) {
+      return "Since depression is an ongoing struggle for you, I want to emphasize some important points:\n\n• Depression is a medical condition, not a personal failing\n• Treatment options include therapy, medication, or both\n• Small daily activities can help: sunlight, movement, connection\n• The National Suicide Prevention Lifeline: 988\n• Crisis Text Line: Text HOME to 741741\n\nHave you considered reaching out to a mental health professional? I can help you think through next steps.";
+    }
+  }
+  
+  // Sleep issues with detailed guidance
+  if (lowerMessage.includes('sleep') || lowerMessage.includes('insomnia') || lowerMessage.includes('can\'t sleep') || lowerMessage.includes('tired') || lowerMessage.includes('exhausted')) {
+    currentTopic = 'sleep';
+    const count = (conversationContext.topicCounts.sleep || 0) + 1;
+    conversationContext.topicCounts.sleep = count;
+    
+    if (count === 1) {
+      return "Sleep problems can really impact our mental health and daily functioning. Good sleep hygiene includes: consistent bedtime/wake time, avoiding screens 1 hour before bed, keeping the room cool and dark, and avoiding caffeine after 2 PM. Are you having trouble falling asleep, staying asleep, or both?";
+    } else {
+      return "Since sleep continues to be an issue, consider these advanced strategies:\n\n• Keep a sleep diary to identify patterns\n• Try the 4-7-8 breathing technique before bed\n• Consider melatonin (consult a doctor first)\n• Address underlying anxiety or depression\n• If chronic, see a sleep specialist\n• CBT-I (Cognitive Behavioral Therapy for Insomnia) is very effective\n\nSleep disorders often require professional evaluation.";
+    }
+  }
+  
+  // Motivation and goal-setting support
+  if (lowerMessage.includes('motivation') || lowerMessage.includes('unmotivated') || lowerMessage.includes('no energy') || lowerMessage.includes('can\'t get started') || lowerMessage.includes('procrastinating')) {
+    currentTopic = 'motivation';
+    return "Lack of motivation is often tied to our mental health and can be frustrating. Here are some strategies that can help:\n\n• Start with tiny steps (2-minute rule)\n• Set very small, achievable goals\n• Use the 'just show up' principle\n• Reward yourself for small wins\n• Consider if depression might be affecting your motivation\n• Connect with others for accountability\n\nWhat's one small thing you'd like to accomplish today?";
+  }
+  
+  // Self-care with personalized suggestions
+  if (lowerMessage.includes('self care') || lowerMessage.includes('self-care') || lowerMessage.includes('take care of myself')) {
+    currentTopic = 'self-care';
+    return "Self-care is essential for mental health! It's not selfish - it's necessary. Here are different types of self-care:\n\n• Physical: exercise, good nutrition, adequate sleep\n• Emotional: journaling, therapy, expressing feelings\n• Social: connecting with friends, setting boundaries\n• Mental: learning, reading, puzzles\n• Spiritual: meditation, nature, personal values\n\nWhat area of self-care feels most needed for you right now?";
+  }
+  
+  // Relationship issues with different scenarios
+  if (lowerMessage.includes('relationship') || lowerMessage.includes('partner') || lowerMessage.includes('family') || lowerMessage.includes('friend') || lowerMessage.includes('breakup') || lowerMessage.includes('divorce')) {
+    currentTopic = 'relationships';
+    const count = (conversationContext.topicCounts.relationships || 0) + 1;
+    conversationContext.topicCounts.relationships = count;
+    
+    if (count === 1) {
+      return "Relationships can be one of our greatest sources of joy and also significant stress. Every relationship has challenges. Are you dealing with communication issues, conflict, a breakup, or something else? Sometimes talking through relationship patterns can provide clarity.";
+    } else {
+      return "Since relationships continue to be on your mind, here are some deeper insights:\n\n• Healthy relationships require good boundaries\n• Communication skills can be learned and improved\n• Codependency and attachment styles affect relationships\n• Individual therapy can improve relationship skills\n• Couples therapy can help with specific conflicts\n• Sometimes ending relationships is the healthiest choice\n\nWould you like to explore what healthy relationships look like?";
+    }
+  }
+  
+  // Work/career stress with comprehensive support
+  if (lowerMessage.includes('work') || lowerMessage.includes('job') || lowerMessage.includes('career') || lowerMessage.includes('boss') || lowerMessage.includes('burnout') || lowerMessage.includes('workplace')) {
+    currentTopic = 'work';
+    return "Work stress is incredibly common and can significantly impact mental health. Consider these strategies:\n\n• Set clear boundaries between work and personal time\n• Practice saying 'no' to unreasonable requests\n• Take regular breaks during the day\n• Build supportive relationships with colleagues\n• Address workplace bullying or harassment\n• Consider if the job aligns with your values\n\nIf work stress is severe, you might need to explore new opportunities or seek support from HR or a mental health professional.";
+  }
+  
+  // Substance use awareness and support
+  if (lowerMessage.includes('drinking') || lowerMessage.includes('alcohol') || lowerMessage.includes('drugs') || lowerMessage.includes('addiction') || lowerMessage.includes('substance') || lowerMessage.includes('recovery')) {
+    return "Substance use often intersects with mental health. If you're concerned about your relationship with alcohol or drugs:\n\n• SAMHSA National Helpline: 1-800-662-4357 (free, 24/7)\n• AA, NA, or SMART Recovery meetings\n• Consider dual diagnosis treatment for mental health + addiction\n• Talk to a doctor about withdrawal safely\n• Address underlying mental health issues\n\nRecovery is possible, and there are many paths to healing.";
+  }
+  
+  // Body image and eating concerns
+  if (lowerMessage.includes('eating') || lowerMessage.includes('body image') || lowerMessage.includes('weight') || lowerMessage.includes('food') || lowerMessage.includes('appearance')) {
+    return "Body image and our relationship with food can significantly impact mental health. If you're struggling:\n\n• Focus on health rather than appearance\n• Challenge negative self-talk about your body\n• Consider therapy specialized in eating disorders\n• NEDA Helpline: 1-800-931-2237\n• Practice intuitive eating principles\n• Limit social media if it triggers comparison\n\nYour worth is not determined by your appearance or weight.";
+  }
+  
+  // Grief and loss support
+  if (lowerMessage.includes('grief') || lowerMessage.includes('loss') || lowerMessage.includes('died') || lowerMessage.includes('death') || lowerMessage.includes('mourning')) {
+    return "Grief is one of the most difficult human experiences, and everyone grieves differently. There's no 'right' timeline for grief. Consider:\n\n• Allow yourself to feel whatever emotions come up\n• Grief counseling or support groups\n• Honor your loved one's memory in meaningful ways\n• Take care of your physical health during this time\n• Be patient with yourself\n• Complicated grief may need professional support\n\nWould you like to talk about what you're experiencing?";
+  }
+  
+  // Assessment requests
+  if (lowerMessage.includes('assessment') || lowerMessage.includes('test') || lowerMessage.includes('evaluate') || lowerMessage.includes('questionnaire')) {
+    return "I can guide you through a brief mental health screening questionnaire that covers mood, anxiety, and overall wellbeing. This isn't a diagnostic tool, but it can help you understand your current mental health status and identify areas where you might want to seek support.\n\nWould you like to start the assessment? It takes about 5 minutes.";
+  }
+  
+  // Therapy questions with detailed information
+  if (lowerMessage.includes('therapy') || lowerMessage.includes('counseling') || lowerMessage.includes('therapist') || lowerMessage.includes('counselor')) {
+    return "Therapy can be incredibly beneficial! Here are different types:\n\n• CBT (Cognitive Behavioral Therapy): for anxiety, depression\n• DBT (Dialectical Behavior Therapy): for emotional regulation\n• EMDR: for trauma and PTSD\n• Psychodynamic: explores unconscious patterns\n• Humanistic: focuses on personal growth\n\nTo find a therapist: Psychology Today, your insurance website, or ask your doctor for referrals. Many therapists offer sliding scale fees.";
   }
   
   // Greeting responses
   if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-    return "Hello! I'm here to listen and support you. How are you feeling today?";
+    return "Hello! I'm here to provide mental health support and resources. I can help with anxiety, depression, stress, relationships, crisis support, and much more. I can also guide you through self-assessments. How are you feeling today?";
   }
   
   if (lowerMessage.includes('how are you')) {
-    return "I'm doing well, thank you for asking! I'm here to focus on you though - how are you feeling?";
+    return "I'm doing well, thank you for asking! I'm here to focus on you and your wellbeing though. I'm equipped to help with a wide range of mental health concerns. How are you feeling today?";
   }
   
   // Help requests
   if (lowerMessage.includes('help') || lowerMessage.includes('need help')) {
-    return "I'm here to help! I can listen, offer support, and provide information about mental health resources. What specific help do you need right now?";
+    return "I'm here to help with comprehensive mental health support! I can assist with:\n\n• Crisis intervention and safety planning\n• Anxiety and depression support\n• Stress and coping strategies\n• Relationship guidance\n• Sleep and self-care advice\n• Mental health assessments\n• Resource recommendations\n\nWhat specific area would you like help with?";
   }
   
-  // Therapy and treatment questions
-  if (lowerMessage.includes('therapy') || lowerMessage.includes('counseling')) {
-    return "Therapy can be incredibly helpful for many people. It provides a safe space to talk through challenges with a trained professional. Would you like to know more about different types of therapy or how to find a therapist?";
-  }
-  
-  // Self-care suggestions
-  if (lowerMessage.includes('self care') || lowerMessage.includes('self-care')) {
-    return "Self-care is so important! Some ideas: take a warm bath, go for a walk, call a friend, practice deep breathing, or do something creative. What activities usually help you feel better?";
-  }
-  
-  // Sleep issues
-  if (lowerMessage.includes('sleep') || lowerMessage.includes('insomnia')) {
-    return "Sleep problems can really impact our mental health. Some tips: try to go to bed and wake up at the same time, avoid screens before bed, and create a relaxing bedtime routine. Are you having trouble falling asleep or staying asleep?";
-  }
-  
-  // Relationship issues
-  if (lowerMessage.includes('relationship') || lowerMessage.includes('partner') || lowerMessage.includes('family')) {
-    return "Relationships can be complex and challenging. It's normal to have difficulties sometimes. Would you like to talk more about what's happening in your relationship? Sometimes just talking it through can help clarify things.";
-  }
-  
-  // Work stress
-  if (lowerMessage.includes('work') || lowerMessage.includes('job') || lowerMessage.includes('career')) {
-    return "Work stress is really common and can affect our mental health significantly. What specifically about work is causing you stress? Sometimes setting boundaries or talking to a supervisor can help.";
+  // Track topic for future reference
+  if (currentTopic) {
+    conversationContext.lastTopics.push(currentTopic);
+    if (conversationContext.lastTopics.length > 10) {
+      conversationContext.lastTopics.shift(); // Keep only last 10 topics
+    }
   }
   
   // General support responses
   if (lowerMessage.includes('thank you') || lowerMessage.includes('thanks')) {
-    return "You're very welcome! I'm glad I could help. Remember, I'm here whenever you need to talk.";
+    return "You're very welcome! I'm glad I could help. Remember, taking care of your mental health is ongoing, and I'm here whenever you need support. You're taking an important step by reaching out.";
   }
   
-  // Default empathetic response
-  return "I hear you, and I want you to know that your feelings are valid. It sounds like you're going through a difficult time. Would you like to talk more about what's on your mind? I'm here to listen.";
+  // Default empathetic response with assessment offer
+  return "I hear you, and I want you to know that your feelings are valid. It sounds like you're going through something challenging. I'm here to provide support with whatever you're experiencing - whether it's anxiety, depression, stress, relationships, or anything else.\n\nWould you like to talk more about what's on your mind, or would you prefer I guide you through a brief mental health assessment?";
 }
 
 // Initialize AI when the page loads
@@ -915,14 +1068,17 @@ async function initializeAIChat() {
     let errorMessage = 'The WebLLM AI library failed to load. ';
     
     if (error.message.includes('timeout')) {
-      errorMessage += 'This might be due to a slow internet connection or CDN issues. Please check your connection and try refreshing the page.';
+      errorMessage += 'Loading can take up to 1 minute on slower connections. Please be patient or try refreshing the page.';
     } else if (error.message.includes('network')) {
       errorMessage += 'There appears to be a network connectivity issue. Please check your internet connection and try again.';
     } else {
-      errorMessage += 'Please refresh the page or try again later. If the problem persists, the chat will operate in fallback mode.';
+      errorMessage += 'Please refresh the page or try again later. The chat will operate in enhanced fallback mode with comprehensive mental health support.';
     }
     
+    // Set fallback mode and show notification
+    isFallbackMode = true;
     showAIErrorNotification(errorMessage);
+    showFallbackModeNotification();
     
     // Log detailed error information for debugging
     console.error('Detailed error information:', {
