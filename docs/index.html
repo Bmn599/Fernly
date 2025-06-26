@@ -12,69 +12,11 @@ Date: December 2024
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fernly Health - Mental Wellness Reimagined</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- WEBLLM FOR AI - MODERN IN-BROWSER LLM -->
-  <!-- CRITICAL: This script must load BEFORE ai.js to ensure WebLLM is available -->
-  <!-- Using WebLLM with Phi-3-mini model for enhanced conversational AI -->
-  <!-- Source: https://github.com/mlc-ai/web-llm -->
-  <!-- License: Apache 2.0 - Suitable for commercial use and redistribution -->
-  <!-- Benefits: Modern chat API, better conversation flow, more natural responses -->
-  <script>
-    // Multi-CDN fallback system for robust WebLLM loading
-    (function() {
-      const cdnSources = [
-        'https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@latest/dist/index.js',
-        'https://unpkg.com/@mlc-ai/web-llm@latest/dist/index.js',
-        'https://cdn.skypack.dev/@mlc-ai/web-llm@latest/dist/index.js'
-      ];
-      
-      let currentCdnIndex = 0;
-      let loadTimeout;
-      
-      function tryLoadWebLLM() {
-        if (currentCdnIndex >= cdnSources.length) {
-          console.error('All WebLLM CDN sources failed to load');
-          window.webllmLoadError = true;
-          if (typeof updateAIStatusIndicator === 'function') {
-            updateAIStatusIndicator('error', 'All CDN Sources Failed - Fallback Active');
-          }
-          return;
-        }
-        
-        const script = document.createElement('script');
-        const currentCdn = cdnSources[currentCdnIndex];
-        
-        // Set timeout for this attempt
-        loadTimeout = setTimeout(() => {
-          console.warn(`WebLLM CDN timeout for ${currentCdn}`);
-          script.onerror();
-        }, 15000); // 15 second timeout per CDN
-        
-        script.onload = function() {
-          clearTimeout(loadTimeout);
-          console.log(`WebLLM loaded successfully from ${currentCdn}`);
-          if (typeof updateAIStatusIndicator === 'function') {
-            updateAIStatusIndicator('loading', 'WebLLM Loaded - Initializing AI...');
-          }
-        };
-        
-        script.onerror = function() {
-          clearTimeout(loadTimeout);
-          console.warn(`Failed to load WebLLM from ${currentCdn}, trying next CDN...`);
-          currentCdnIndex++;
-          document.head.removeChild(script);
-          
-          // Try next CDN after a short delay
-          setTimeout(tryLoadWebLLM, 1000);
-        };
-        
-        script.src = currentCdn;
-        document.head.appendChild(script);
-      }
-      
-      // Start loading attempt
-      tryLoadWebLLM();
-    })();
-  </script>
+  <!-- SMART AI SYSTEM - BROWSER-COMPATIBLE INTELLIGENT RESPONSES -->
+  <!-- Reliable pattern-based AI with comprehensive mental health knowledge -->
+  <!-- No external dependencies - works perfectly with static hosting -->
+  <!-- License: Custom implementation - Suitable for commercial use -->
+  <!-- Benefits: Fast loading, reliable operation, contextual responses, offline capable -->
   <!-- Fallback data must load before AI chat functionality -->
   <script src="fallback-data.js"></script>
   <!-- AI Chat functionality - depends on WebLLM and fallback-data being loaded first -->
