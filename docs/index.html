@@ -1351,16 +1351,20 @@ async function sendMessage() {
     const response = await generateAIResponse(message);
     
     // Remove typing indicator and add AI response
-    chatMessages.removeChild(typingIndicator);
+    if (typingIndicator && typingIndicator.parentNode) {
+      chatMessages.removeChild(typingIndicator);
+    }
     
     // Check if we're in fallback mode and add appropriate styling
     const responseElement = addMessage(response, 'bot');
-    if (isFallbackMode || (!isAILoaded || !webllmEngine)) {
+    if (isFallbackMode || !isAILoaded) {
       responseElement.classList.add('fallback-response');
     }
   } catch (error) {
     console.error('Error generating response:', error);
-    chatMessages.removeChild(typingIndicator);
+    if (typingIndicator && typingIndicator.parentNode) {
+      chatMessages.removeChild(typingIndicator);
+    }
     addMessage("I'm sorry, I'm having trouble processing that right now. Let me try again with a different approach.", 'bot');
   } finally {
     // Re-enable send button and input

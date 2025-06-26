@@ -9,21 +9,24 @@ window.fallbackData = {
       criteria: "Symptoms must be present before age 12, occur in multiple settings, and cause significant impairment in social, academic, or occupational functioning.",
       treatment: "Treatment typically includes behavioral therapy, medication (stimulants or non-stimulants), educational support, and lifestyle modifications including structure and routine.",
       symptoms: ["Difficulty paying attention to details", "Trouble staying focused on tasks", "Difficulty organizing tasks and activities", "Frequently losing things", "Easily distracted by external stimuli", "Forgetfulness in daily activities", "Fidgeting or squirming", "Difficulty staying seated", "Excessive talking", "Acting without thinking", "Interrupting others", "Difficulty waiting turns"],
-      medications: ["Stimulants (methylphenidate, amphetamines)", "Non-stimulants (atomoxetine, guanfacine)", "Antidepressants (bupropion)", "Alpha agonists (clonidine)"]
+      medications: ["Stimulants (methylphenidate, amphetamines)", "Non-stimulants (atomoxetine, guanfacine)", "Antidepressants (bupropion)", "Alpha agonists (clonidine)"],
+      synonyms: ["ADD", "attention deficit", "hyperactive", "can't focus", "can't concentrate", "easily distracted", "hyperactivity", "impulsive", "restless", "fidgety"]
     },
     "Depression": {
       description: "Major depressive disorder is a mood disorder characterized by persistent feelings of sadness, hopelessness, and loss of interest in activities that were once enjoyable.",
       criteria: "Five or more symptoms present for at least 2 weeks, including depressed mood or loss of interest, plus symptoms like sleep disturbance, fatigue, concentration problems, or thoughts of death.",
       treatment: "Treatment options include psychotherapy (cognitive behavioral therapy, interpersonal therapy), antidepressant medications, lifestyle changes, and in severe cases, electroconvulsive therapy.",
       symptoms: ["Persistent sadness", "Loss of interest in activities", "Fatigue or low energy", "Sleep disturbances", "Appetite changes", "Concentration difficulties", "Feelings of worthlessness", "Thoughts of death or suicide"],
-      medications: ["SSRIs (fluoxetine, sertraline, escitalopram)", "SNRIs (venlafaxine, duloxetine)", "Atypical antidepressants (bupropion)", "Tricyclic antidepressants", "MAOIs"]
+      medications: ["SSRIs (fluoxetine, sertraline, escitalopram)", "SNRIs (venlafaxine, duloxetine)", "Atypical antidepressants (bupropion)", "Tricyclic antidepressants", "MAOIs"],
+      synonyms: ["depressed", "sad", "down", "low mood", "hopeless", "worthless", "empty", "despair", "melancholy", "blue", "grief", "sorrow", "major depression", "clinical depression"]
     },
     "Anxiety": {
       description: "Generalized anxiety disorder involves excessive, uncontrollable worry about various aspects of life, occurring more days than not for at least 6 months.",
       criteria: "Excessive anxiety and worry, difficulty controlling worry, and at least three physical symptoms like restlessness, fatigue, concentration difficulties, irritability, muscle tension, or sleep disturbance.",
       treatment: "Treatment includes cognitive behavioral therapy, exposure therapy, relaxation techniques, and medications such as SSRIs, SNRIs, or benzodiazepines for short-term use.",
       symptoms: ["Excessive worry", "Restlessness", "Fatigue", "Difficulty concentrating", "Irritability", "Muscle tension", "Sleep disturbances", "Physical symptoms (rapid heartbeat, sweating)"],
-      medications: ["SSRIs (escitalopram, paroxetine)", "SNRIs (venlafaxine)", "Benzodiazepines (short-term use)", "Buspirone", "Pregabalin"]
+      medications: ["SSRIs (escitalopram, paroxetine)", "SNRIs (venlafaxine)", "Benzodiazepines (short-term use)", "Buspirone", "Pregabalin"],
+      synonyms: ["anxious", "worried", "nervous", "stressed", "panic", "fear", "overwhelmed", "tense", "on edge", "restless", "GAD", "general anxiety", "constant worry"]
     },
     "PTSD": {
       description: "Post-traumatic stress disorder develops after exposure to or witnessing a traumatic event, involving intrusive memories, avoidance, negative mood changes, and altered reactivity.",
