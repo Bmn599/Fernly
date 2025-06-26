@@ -343,7 +343,7 @@ let conversationContext = {
 
 // Check if WebLLM is loaded and available
 // Returns a Promise that resolves when WebLLM is available or rejects after timeout
-function checkWebLLMLoaded(maxWaitTime = 60000) { // 60 seconds timeout for better network tolerance
+function checkWebLLMLoaded(maxWaitTime = 45000) { // 45 seconds timeout for better network tolerance
   return new Promise((resolve, reject) => {
     // If already loaded, resolve immediately
     if (window.WebLLM) {
@@ -352,10 +352,16 @@ function checkWebLLMLoaded(maxWaitTime = 60000) { // 60 seconds timeout for bett
       return;
     }
     
+    // Check if there was a CDN loading error
+    if (window.webllmLoadError) {
+      console.log('WebLLM CDN loading failed, using fallback mode');
+      reject(new Error('WebLLM CDN loading failed'));
+      return;
+    }
+    
     const startTime = Date.now();
-    const checkInterval = 100; // Check every 100ms
-    let retryCount = 0;
-    const maxRetries = 3;
+    const checkInterval = 200; // Check every 200ms
+    let lastProgressTime = startTime;
     
     const checkForWebLLM = () => {
       const elapsed = Date.now() - startTime;
@@ -363,30 +369,21 @@ function checkWebLLMLoaded(maxWaitTime = 60000) { // 60 seconds timeout for bett
       if (window.WebLLM) {
         console.log(`WebLLM loaded successfully after ${elapsed}ms`);
         resolve(true);
+      } else if (window.webllmLoadError) {
+        console.log('WebLLM CDN loading failed during wait');
+        reject(new Error('WebLLM CDN loading failed'));
       } else if (elapsed > maxWaitTime) {
-        retryCount++;
-        if (retryCount < maxRetries) {
-          console.warn(`WebLLM not loaded after ${elapsed}ms, retry ${retryCount}/${maxRetries}`);
-          // Reset start time for retry
-          const newStartTime = Date.now();
-          const retryCheck = () => {
-            const retryElapsed = Date.now() - newStartTime;
-            if (window.WebLLM) {
-              console.log(`WebLLM loaded successfully on retry ${retryCount} after ${retryElapsed}ms`);
-              resolve(true);
-            } else if (retryElapsed > 5000) { // 5 second retry timeout
-              checkForWebLLM(); // Try next retry or fail
-            } else {
-              setTimeout(retryCheck, checkInterval);
-            }
-          };
-          setTimeout(retryCheck, checkInterval);
-        } else {
-          console.error(`WebLLM not loaded - timeout after ${elapsed}ms with ${retryCount} retries. Loading can take up to 1 minute on slower connections.`);
-          reject(new Error(`WebLLM loading timeout after ${elapsed}ms. This may be due to slow network conditions - loading can take up to 1 minute.`));
-        }
+        console.error(`WebLLM not loaded - timeout after ${elapsed}ms. This may be due to slow network conditions.`);
+        reject(new Error(`WebLLM loading timeout after ${elapsed}ms. This may be due to slow network conditions.`));
       } else {
-        // Continue checking
+        // Show progress updates every 10 seconds
+        if (elapsed - lastProgressTime > 10000) {
+          console.log(`Still waiting for WebLLM... ${Math.round(elapsed/1000)}s elapsed`);
+          lastProgressTime = elapsed;
+          if (typeof updateAIStatusIndicator === 'function') {
+            updateAIStatusIndicator('loading', `Loading AI... ${Math.round(elapsed/1000)}s`);
+          }
+        }
         setTimeout(checkForWebLLM, checkInterval);
       }
     };
@@ -439,12 +436,12 @@ function showFallbackModeNotification() {
         <div class="message-avatar">🤖</div>
         <div class="message-text">
           <div style="background: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
-            <strong>✅ Smart Fallback Mode Active</strong><br>
+            <strong>✅ I'm ready to help!</strong><br>
             <small style="color: #2e7d32;">
-              The Phi-3-mini AI model isn't loaded, but I'm operating with an enhanced fallback system that provides comprehensive mental health information, personalized responses, and crisis support. I can answer detailed questions about symptoms, treatments, medications, and more.
+              I'm operating with comprehensive mental health support, providing detailed information about 20+ conditions including depression, anxiety, ADHD, PTSD, bipolar disorder, and more. I can discuss symptoms, treatments, medications, and offer supportive guidance.
             </small>
           </div>
-          Hello! I'm here to support your mental health and wellbeing. I can provide detailed information about mental health conditions like depression, anxiety, ADHD, PTSD, bipolar disorder, and many others. Feel free to ask about symptoms, treatments, medications, or any mental health topics. How can I help you today?
+          Hello! I'm here to support your mental health and wellbeing. I can provide detailed information about mental health conditions, discuss symptoms and treatments, answer questions about medications, and offer caring support. What would you like to talk about today?
         </div>
       </div>
     `;
@@ -1142,28 +1139,49 @@ function generateSmartResponse(userMessage) {
 // This function will be called from the main page after DOM is ready
 async function initializeAIChat() {
   try {
-    console.log('Starting WebLLM AI chat initialization...');
-    // Wait for WebLLM to be loaded with extended timeout and retry logic
-    await checkWebLLMLoaded();
-    console.log('WebLLM confirmed loaded, initializing AI...');
-    initializeAI();
-  } catch (error) {
-    // Enhanced error handling with more specific messages
-    console.error('WebLLM AI chat initialization failed:', error.message);
+    console.log('Starting AI initialization...');
+    updateAIStatusIndicator('loading', 'Checking AI availability...');
+    showAILoading();
+    updateProgress(5, 'Checking AI availability...');
     
-    // Try to provide helpful error messages based on the error type
-    let errorMessage = 'The WebLLM AI library failed to load. ';
+    // Give the multi-CDN loader some time and check if WebLLM loaded
+    const webllmLoaded = await checkWebLLMLoaded();
     
-    if (error.message.includes('timeout')) {
-      errorMessage += 'Loading can take up to 1 minute on slower connections. Please be patient or try refreshing the page.';
-    } else if (error.message.includes('network')) {
-      errorMessage += 'There appears to be a network connectivity issue. Please check your internet connection and try again.';
-    } else {
-      errorMessage += 'Please refresh the page or try again later. The chat will operate in enhanced fallback mode with comprehensive mental health support.';
+    if (!webllmLoaded) {
+      throw new Error('WebLLM failed to load from all CDN sources');
     }
     
-    // Set fallback mode and show notification
+    console.log('WebLLM confirmed loaded, initializing AI...');
+    // Proceed with AI initialization
+    await initializeAI();
+    
+  } catch (error) {
+    console.log('AI initialization failed, using enhanced fallback mode:', error.message);
+    
+    // Hide any loading indicators
+    hideAILoading();
+    
+    // Set fallback mode
     isFallbackMode = true;
+    
+    // Determine error type and show appropriate message
+    let errorMessage = '';
+    let statusMessage = 'Smart Fallback Active';
+    
+    if (error.message.includes('CDN') || window.webllmLoadError) {
+      errorMessage = 'Unable to load the AI model from online sources. ';
+      statusMessage = 'CDN Failed - Fallback Active';
+    } else if (error.message.includes('timeout')) {
+      errorMessage = 'The AI model is taking longer than expected to load. ';
+      statusMessage = 'Loading Timeout - Fallback Active';
+    } else {
+      errorMessage = 'Unable to load the AI model. ';
+    }
+    
+    errorMessage += 'No worries! I\'m operating in enhanced fallback mode with comprehensive mental health support covering 20+ conditions.';
+    
+    // Update status and show notifications
+    updateAIStatusIndicator('fallback-active', statusMessage);
     showAIErrorNotification(errorMessage);
     showFallbackModeNotification();
     
@@ -1172,6 +1190,7 @@ async function initializeAIChat() {
       message: error.message,
       stack: error.stack,
       webLLMAvailable: !!window.WebLLM,
+      webLLMLoadError: window.webllmLoadError,
       timestamp: new Date().toISOString()
     });
   }

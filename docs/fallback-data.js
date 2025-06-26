@@ -7,7 +7,9 @@ window.fallbackData = {
     "ADHD": {
       description: "Attention-deficit/hyperactivity disorder is a neurodevelopmental disorder characterized by persistent patterns of inattention, hyperactivity, and impulsivity that interfere with functioning or development.",
       criteria: "Symptoms must be present before age 12, occur in multiple settings, and cause significant impairment in social, academic, or occupational functioning.",
-      treatment: "Treatment typically includes behavioral therapy, medication (stimulants or non-stimulants), educational support, and lifestyle modifications including structure and routine."
+      treatment: "Treatment typically includes behavioral therapy, medication (stimulants or non-stimulants), educational support, and lifestyle modifications including structure and routine.",
+      symptoms: ["Difficulty paying attention to details", "Trouble staying focused on tasks", "Difficulty organizing tasks and activities", "Frequently losing things", "Easily distracted by external stimuli", "Forgetfulness in daily activities", "Fidgeting or squirming", "Difficulty staying seated", "Excessive talking", "Acting without thinking", "Interrupting others", "Difficulty waiting turns"],
+      medications: ["Stimulants (methylphenidate, amphetamines)", "Non-stimulants (atomoxetine, guanfacine)", "Antidepressants (bupropion)", "Alpha agonists (clonidine)"]
     },
     "Depression": {
       description: "Major depressive disorder is a mood disorder characterized by persistent feelings of sadness, hopelessness, and loss of interest in activities that were once enjoyable.",
@@ -184,6 +186,45 @@ window.fallbackData = {
 window.fallbackAI = {
   respond: function(input) {
     const lowerInput = input.toLowerCase();
+    
+    // Handle natural conversation starters and acknowledgments
+    const conversationalResponses = {
+      'hello': "Hello! I'm here to support you with any mental health questions or concerns. How are you feeling today?",
+      'hi': "Hi there! I'm ready to help with information about mental health conditions, treatments, or just to listen. What's on your mind?",
+      'okay': "I'm glad to hear that. Is there anything specific about mental health or wellbeing you'd like to discuss?",
+      'ok': "Good to hear. Feel free to ask me about any mental health topics, symptoms, or treatments you're curious about.",
+      'thanks': "You're very welcome! I'm here whenever you need support or have questions about mental health.",
+      'thank you': "My pleasure! Remember, I'm always here to help with mental health information and support.",
+      'good': "That's wonderful to hear! If you ever want to learn more about mental health or have questions, I'm here to help.",
+      'fine': "I'm glad you're doing well. If you'd like to discuss anything about mental health or just want to chat, I'm here.",
+      'how are you': "I'm doing well and ready to help! I'm here to provide information about mental health conditions, treatments, and support. How can I assist you today?",
+      'what can you do': "I can help you with detailed information about 20+ mental health conditions like depression, anxiety, ADHD, PTSD, and more. I can discuss symptoms, treatments, medications, and provide supportive guidance. What would you like to know about?",
+      'help': "I'm here to help! I can provide information about mental health conditions, discuss symptoms and treatments, answer questions about medications, and offer supportive guidance. What specific area would you like to explore?"
+    };
+    
+    // Check for exact conversational matches first
+    for (let phrase in conversationalResponses) {
+      if (lowerInput.trim() === phrase || lowerInput.includes(phrase)) {
+        return conversationalResponses[phrase];
+      }
+    }
+    
+    // Handle "what is" questions more naturally
+    if (lowerInput.startsWith('what is') || lowerInput.startsWith('what are')) {
+      const questionPart = lowerInput.replace(/^what (is|are)\s+/, '').trim();
+      
+      // Check dictionary first for mental health terms
+      for (let term in window.fallbackData.dictionary) {
+        if (questionPart.includes(term)) {
+          return `${term.charAt(0).toUpperCase() + term.slice(1)} refers to: ${window.fallbackData.dictionary[term]}. Would you like to know more about this or explore related mental health topics?`;
+        }
+      }
+    }
+    
+    // Handle "do I have" questions
+    if (lowerInput.includes('do i have') || lowerInput.includes('am i') || lowerInput.includes('could i have')) {
+      return "I can't diagnose conditions, but I can help you understand symptoms and when it might be helpful to speak with a healthcare professional. What symptoms or concerns would you like to discuss? Remember, only a qualified healthcare provider can provide a proper diagnosis.";
+    }
     
     // Helper function to determine what the user is asking about
     const getUserIntent = (input) => {

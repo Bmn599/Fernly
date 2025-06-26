@@ -18,8 +18,63 @@ Date: December 2024
   <!-- Source: https://github.com/mlc-ai/web-llm -->
   <!-- License: Apache 2.0 - Suitable for commercial use and redistribution -->
   <!-- Benefits: Modern chat API, better conversation flow, more natural responses -->
-  <script src="https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@latest/dist/index.js" 
-          onerror="window.webllmLoadError = true; console.error('WebLLM CDN failed to load'); if(typeof updateAIStatusIndicator === 'function') updateAIStatusIndicator('error', 'CDN Load Failed - Fallback Active'); if(typeof showAIErrorNotification === 'function') showAIErrorNotification('WebLLM library failed to load from CDN. The chat will operate in smart fallback mode.');"></script>
+  <script>
+    // Multi-CDN fallback system for robust WebLLM loading
+    (function() {
+      const cdnSources = [
+        'https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@latest/dist/index.js',
+        'https://unpkg.com/@mlc-ai/web-llm@latest/dist/index.js',
+        'https://cdn.skypack.dev/@mlc-ai/web-llm@latest/dist/index.js'
+      ];
+      
+      let currentCdnIndex = 0;
+      let loadTimeout;
+      
+      function tryLoadWebLLM() {
+        if (currentCdnIndex >= cdnSources.length) {
+          console.error('All WebLLM CDN sources failed to load');
+          window.webllmLoadError = true;
+          if (typeof updateAIStatusIndicator === 'function') {
+            updateAIStatusIndicator('error', 'All CDN Sources Failed - Fallback Active');
+          }
+          return;
+        }
+        
+        const script = document.createElement('script');
+        const currentCdn = cdnSources[currentCdnIndex];
+        
+        // Set timeout for this attempt
+        loadTimeout = setTimeout(() => {
+          console.warn(`WebLLM CDN timeout for ${currentCdn}`);
+          script.onerror();
+        }, 15000); // 15 second timeout per CDN
+        
+        script.onload = function() {
+          clearTimeout(loadTimeout);
+          console.log(`WebLLM loaded successfully from ${currentCdn}`);
+          if (typeof updateAIStatusIndicator === 'function') {
+            updateAIStatusIndicator('loading', 'WebLLM Loaded - Initializing AI...');
+          }
+        };
+        
+        script.onerror = function() {
+          clearTimeout(loadTimeout);
+          console.warn(`Failed to load WebLLM from ${currentCdn}, trying next CDN...`);
+          currentCdnIndex++;
+          document.head.removeChild(script);
+          
+          // Try next CDN after a short delay
+          setTimeout(tryLoadWebLLM, 1000);
+        };
+        
+        script.src = currentCdn;
+        document.head.appendChild(script);
+      }
+      
+      // Start loading attempt
+      tryLoadWebLLM();
+    })();
+  </script>
   <!-- Fallback data must load before AI chat functionality -->
   <script src="fallback-data.js"></script>
   <!-- AI Chat functionality - depends on WebLLM and fallback-data being loaded first -->
