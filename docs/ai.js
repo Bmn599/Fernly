@@ -841,7 +841,8 @@ async function generateAIResponse(userMessage) {
   
   // Regular AI response generation using WebLLM
   if (!isAILoaded || !webllmEngine) {
-    return generateSmartResponse(userMessage); // Fallback
+    const fallbackResponse = generateSmartResponse(userMessage);
+    return "[Fallback Mode] " + fallbackResponse;
   }
   
   try {
@@ -875,7 +876,8 @@ async function generateAIResponse(userMessage) {
     // Validate response quality
     if (!aiResponse || aiResponse.length < 10) {
       console.log('WebLLM response too short or empty, using fallback');
-      return generateSmartResponse(userMessage);
+      const fallbackResponse = generateSmartResponse(userMessage);
+      return "[Fallback Mode] " + fallbackResponse;
     }
     
     // Add to conversation context
@@ -888,12 +890,26 @@ async function generateAIResponse(userMessage) {
     
   } catch (error) {
     console.error('WebLLM generation error:', error);
-    return generateSmartResponse(userMessage); // Fallback
+    const fallbackResponse = generateSmartResponse(userMessage);
+    return "[Fallback Mode] " + fallbackResponse;
   }
 }
 
 // Enhanced smart response generation (fallback) with comprehensive mental health support
 function generateSmartResponse(userMessage) {
+  // First try to use the fallbackAI from fallback-data.js if available
+  if (window.fallbackAI && typeof window.fallbackAI.respond === 'function') {
+    try {
+      const fallbackResponse = window.fallbackAI.respond(userMessage);
+      if (fallbackResponse && fallbackResponse.trim() !== "I'm in fallback mode and can't answer in detail.") {
+        return fallbackResponse;
+      }
+    } catch (error) {
+      console.warn('Error using fallbackAI, falling back to built-in responses:', error);
+    }
+  }
+  
+  // Continue with existing comprehensive fallback logic
   const lowerMessage = userMessage.toLowerCase();
   
   // Track the current topic for escalation logic

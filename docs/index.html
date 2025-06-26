@@ -20,7 +20,9 @@ Date: December 2024
   <!-- Benefits: Modern chat API, better conversation flow, more natural responses -->
   <script src="https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@latest/dist/index.js" 
           onerror="window.webllmLoadError = true; console.error('WebLLM CDN failed to load'); if(typeof showAIErrorNotification === 'function') showAIErrorNotification('WebLLM library failed to load from CDN. The chat will operate in enhanced fallback mode.')"></script>
-  <!-- AI Chat functionality - depends on WebLLM being loaded first -->
+  <!-- Fallback data must load before AI chat functionality -->
+  <script src="fallback-data.js"></script>
+  <!-- AI Chat functionality - depends on WebLLM and fallback-data being loaded first -->
   <script src="ai.js"></script>
   <!-- CSS STYLES WILL GO HERE -->
   <style>
@@ -1000,6 +1002,8 @@ Date: December 2024
 
       <div class="chat-interface">
         <div class="chat-messages" id="chatMessages">
+          <!-- Chat output area for compatibility -->
+          <div id="chatOutput" style="display: none;"></div>
           <div class="message bot">
             <div class="message-content">
               <div class="message-avatar">🤖</div>
@@ -1021,19 +1025,21 @@ Date: December 2024
         </div>
 
         <div class="chat-input-area">
-          <div class="input-container">
-            <textarea 
-              class="chat-input" 
-              id="chatInput" 
-              placeholder="Tell me what's on your mind..."
-              rows="1"
-            ></textarea>
-            <button type="button" class="chat-send" id="chatSend" aria-label="Send message">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </div>
+          <form id="chatForm">
+            <div class="input-container">
+              <textarea 
+                class="chat-input" 
+                id="chatInput" 
+                placeholder="Tell me what's on your mind..."
+                rows="1"
+              ></textarea>
+              <button type="submit" class="chat-send" id="chatSend" aria-label="Send message">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </form>
           <div class="disclaimer">
             This AI assistant provides general information only. It's not a substitute for professional medical advice. If you're in crisis, please call 988 or seek immediate help.
           </div>
@@ -1257,6 +1263,12 @@ chatInput.addEventListener('keydown', (e) => {
 
 // Send message on button click
 chatSend.addEventListener('click', sendMessage);
+
+// Handle form submission
+document.getElementById('chatForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  sendMessage();
+});
 
 // Enhanced message sending function with AI
 async function sendMessage() {
