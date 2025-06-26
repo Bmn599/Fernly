@@ -100,12 +100,61 @@ window.fallbackData = {
       symptoms: ["Difficulty falling asleep", "Frequent awakenings", "Early morning awakening", "Unrefreshing sleep", "Daytime fatigue", "Irritability"],
       medications: ["Zolpidem (short-term)", "Eszopiclone (short-term)", "Melatonin", "Trazodone (off-label)", "Ramelteon"]
     },
-    "ADHD": {
-      description: "Attention-deficit/hyperactivity disorder is a neurodevelopmental disorder characterized by persistent patterns of inattention, hyperactivity, and impulsivity that interfere with functioning or development.",
-      criteria: "Symptoms must be present before age 12, occur in multiple settings, and cause significant impairment in social, academic, or occupational functioning.",
-      treatment: "Treatment typically includes behavioral therapy, medication (stimulants or non-stimulants), educational support, and lifestyle modifications including structure and routine.",
-      symptoms: ["Inattention (difficulty focusing, forgetfulness)", "Hyperactivity (fidgeting, restlessness)", "Impulsivity (interrupting, difficulty waiting)", "Disorganization", "Difficulty with time management"],
-      medications: ["Stimulants (methylphenidate, amphetamines)", "Non-stimulants (atomoxetine, guanfacine)", "Antidepressants (bupropion)"]
+    "Specific Phobias": {
+      description: "Specific phobias involve marked fear or anxiety about a specific object or situation, such as flying, heights, animals, or medical procedures.",
+      criteria: "Fear or anxiety triggered by a specific object or situation, with the phobic situation almost always provoking immediate fear and being actively avoided or endured with intense fear.",
+      treatment: "Treatment primarily involves exposure therapy, cognitive behavioral therapy, and in some cases, short-term use of anti-anxiety medications for specific situations.",
+      symptoms: ["Intense fear of specific objects/situations", "Immediate anxiety response", "Avoidance behaviors", "Physical symptoms (sweating, rapid heartbeat)", "Recognition that fear is excessive", "Significant distress or impairment"],
+      medications: ["Benzodiazepines (short-term, situational use)", "Beta-blockers for performance anxiety", "SSRIs for severe cases", "Propranolol for specific situations"]
+    },
+    "Agoraphobia": {
+      description: "Agoraphobia involves fear of being in situations where escape might be difficult or help unavailable, leading to avoidance of multiple situations like public transportation, open spaces, or enclosed places.",
+      criteria: "Fear or anxiety about two or more situations including public transportation, open spaces, enclosed places, standing in line, or being outside the home alone.",
+      treatment: "Treatment includes cognitive behavioral therapy with gradual exposure, systematic desensitization, and medications such as SSRIs or benzodiazepines.",
+      symptoms: ["Fear of open or enclosed spaces", "Fear of crowds or public transportation", "Anxiety about being alone outside home", "Panic attacks in feared situations", "Avoidance of multiple situations", "Dependency on companions"],
+      medications: ["SSRIs (sertraline, escitalopram)", "SNRIs (venlafaxine)", "Benzodiazepines (short-term)", "Tricyclic antidepressants"]
+    },
+    "Seasonal Affective Disorder": {
+      description: "Seasonal Affective Disorder (SAD) is a type of depression that occurs at specific times of the year, most commonly during fall and winter months when daylight hours are reduced.",
+      criteria: "Recurrent episodes of major depression with seasonal pattern, with onset and remission at characteristic times of the year, for at least 2 consecutive years.",
+      treatment: "Treatment includes light therapy, cognitive behavioral therapy, antidepressant medications, and lifestyle modifications including regular exercise and maintaining social connections.",
+      symptoms: ["Seasonal depression (usually fall/winter)", "Increased sleep and fatigue", "Carbohydrate cravings and weight gain", "Social withdrawal", "Difficulty concentrating", "Feelings of hopelessness"],
+      medications: ["SSRIs (fluoxetine, sertraline)", "SNRIs (duloxetine)", "Bupropion (may prevent seasonal episodes)", "Light therapy as primary treatment"]
+    },
+    "Body Dysmorphic Disorder": {
+      description: "Body Dysmorphic Disorder involves preoccupation with one or more perceived defects or flaws in physical appearance that are not observable or appear minor to others.",
+      criteria: "Preoccupation with perceived defects in appearance, repetitive behaviors or mental acts in response to appearance concerns, causing significant distress or impairment.",
+      treatment: "Treatment includes cognitive behavioral therapy, exposure and response prevention therapy, and medications such as SSRIs with higher doses often needed.",
+      symptoms: ["Preoccupation with imagined appearance flaws", "Repetitive mirror checking or avoidance", "Excessive grooming behaviors", "Comparing appearance with others", "Seeking reassurance about appearance", "Social avoidance due to appearance concerns"],
+      medications: ["SSRIs (higher doses: fluoxetine, sertraline)", "Clomipramine", "SNRIs (venlafaxine)", "Antipsychotics as augmentation for severe cases"]
+    },
+    "Hoarding Disorder": {
+      description: "Hoarding Disorder involves persistent difficulty discarding possessions regardless of their actual value, leading to accumulation that congests living areas and substantially compromises their intended use.",
+      criteria: "Persistent difficulty discarding possessions, distress associated with discarding, accumulation of possessions that congest active living areas, and significant distress or impairment in functioning.",
+      treatment: "Treatment includes specialized cognitive behavioral therapy for hoarding, motivational interviewing, skills training, and medications such as SSRIs.",
+      symptoms: ["Difficulty discarding possessions", "Excessive acquisition of items", "Cluttered living spaces", "Distress when discarding items", "Impaired functioning due to clutter", "Social isolation"],
+      medications: ["SSRIs (paroxetine, fluoxetine, sertraline)", "SNRIs (venlafaxine)", "Cognitive enhancers in some cases", "Treatment focuses primarily on therapy"]
+    },
+    "Trichotillomania": {
+      description: "Trichotillomania (Hair-Pulling Disorder) involves recurrent pulling out of one's hair, resulting in hair loss, despite repeated attempts to decrease or stop the behavior.",
+      criteria: "Recurrent pulling out of hair resulting in hair loss, repeated attempts to decrease or stop hair pulling, and significant distress or impairment in functioning.",
+      treatment: "Treatment includes habit reversal training, cognitive behavioral therapy, acceptance and commitment therapy, and medications such as SSRIs or N-acetylcysteine.",
+      symptoms: ["Recurrent hair pulling", "Visible hair loss", "Tension before pulling", "Relief or gratification when pulling", "Failed attempts to stop", "Distress or impairment"],
+      medications: ["N-acetylcysteine (NAC)", "SSRIs (fluoxetine, sertraline)", "Clomipramine", "Antipsychotics for severe cases (olanzapine)"]
+    },
+    "Dissociative Identity Disorder": {
+      description: "Dissociative Identity Disorder involves the presence of two or more distinct personality states or identities, with marked discontinuity in sense of self and agency.",
+      criteria: "Two or more distinct personality states, recurrent gaps in recall of everyday events or personal information, significant distress or impairment, not attributable to substance use or cultural practices.",
+      treatment: "Treatment focuses on psychotherapy including trauma-focused therapy, cognitive behavioral therapy, dialectical behavior therapy, and EMDR. Medications target co-occurring symptoms.",
+      symptoms: ["Multiple distinct identities", "Memory gaps for daily events", "Depersonalization", "Derealization", "Identity confusion", "Trauma history typically present"],
+      medications: ["Antidepressants for depression", "Mood stabilizers for mood symptoms", "Antipsychotics for psychotic symptoms", "Anti-anxiety medications for anxiety"]
+    },
+    "Adjustment Disorders": {
+      description: "Adjustment Disorders involve emotional or behavioral symptoms in response to identifiable stressors, occurring within 3 months of the stressor and causing significant distress or impairment.",
+      criteria: "Development of emotional or behavioral symptoms within 3 months of identifiable stressors, symptoms are clinically significant and exceed what would be expected, and resolve within 6 months after stressor ends.",
+      treatment: "Treatment includes supportive psychotherapy, cognitive behavioral therapy, stress management techniques, and short-term medications for specific symptoms if needed.",
+      symptoms: ["Marked distress out of proportion to stressor", "Significant impairment in functioning", "Depressed mood", "Anxiety", "Behavioral disturbances", "Mixed emotional and behavioral symptoms"],
+      medications: ["Short-term anxiolytics if needed", "Antidepressants for prolonged symptoms", "Sleep aids for insomnia", "Treatment focuses primarily on therapy and coping strategies"]
     }
   },
   dictionary: {
@@ -120,7 +169,14 @@ window.fallbackData = {
     "medication": "Pharmaceutical treatment for mental health conditions, including antidepressants, mood stabilizers, antipsychotics, and anti-anxiety medications that work by affecting brain chemistry.",
     "coping": "Strategies and techniques used to manage stress, difficult emotions, or challenging situations. Healthy coping mechanisms promote psychological well-being and resilience.",
     "self-care": "The practice of taking action to preserve or improve one's own health and well-being, including physical, emotional, and mental health maintenance activities.",
-    "wellness": "A holistic approach to health that encompasses physical, mental, emotional, and social well-being, rather than merely the absence of disease or illness."
+    "wellness": "A holistic approach to health that encompasses physical, mental, emotional, and social well-being, rather than merely the absence of disease or illness.",
+    "anxiety": "A feeling of worry, nervousness, or unease about something with an uncertain outcome. In clinical contexts, anxiety can become a disorder when it significantly interferes with daily functioning.",
+    "depression": "A mental health condition characterized by persistent sadness and loss of interest in activities, affecting how you feel, think, and behave and leading to emotional and physical problems.",
+    "triggers": "Specific situations, events, or stimuli that can cause symptoms of mental health conditions to occur or worsen. Identifying triggers is an important part of managing mental health.",
+    "boundaries": "Limits and rules we set for ourselves within relationships and situations. Healthy boundaries are essential for mental health and maintaining positive relationships.",
+    "grounding": "Techniques used to help someone focus on the present moment and reconnect with their immediate environment, often used to manage anxiety, panic attacks, or dissociation.",
+    "flashback": "A vivid, intrusive re-experiencing of a traumatic event, often accompanied by intense emotions and physical sensations as if the event were happening again.",
+    "compulsion": "An irresistible urge to behave in a certain way, often to reduce anxiety or distress. In OCD, compulsions are repetitive behaviors performed in response to obsessive thoughts."
   }
 };
 
@@ -159,22 +215,30 @@ window.fallbackAI = {
       const condition = window.fallbackData.dsm5[key];
       let isMatch = false;
       
-      // Check for condition name and common aliases
-      if (lowerInput.includes(key.toLowerCase()) || 
+      // Check for condition name and common aliases (more specific matches first)
+      if ((key === "Trichotillomania" && (lowerInput.includes("hair pulling") || lowerInput.includes("trichotillomania") || lowerInput.includes("pull my hair"))) ||
+          (key === "Bipolar" && (lowerInput.includes("manic") || lowerInput.includes("bipolar") || (lowerInput.includes("mania") && !lowerInput.includes("trichotillomania")))) ||
           (key === "ADHD" && (lowerInput.includes("attention deficit") || lowerInput.includes("hyperactivity") || lowerInput.includes("add"))) ||
           (key === "PTSD" && (lowerInput.includes("post traumatic") || lowerInput.includes("trauma") || lowerInput.includes("ptsd"))) ||
           (key === "OCD" && (lowerInput.includes("obsessive") || lowerInput.includes("compulsive") || lowerInput.includes("ocd"))) ||
           (key === "Panic Disorder" && (lowerInput.includes("panic attack") || lowerInput.includes("panic disorder"))) ||
           (key === "Social Anxiety" && (lowerInput.includes("social anxiety") || lowerInput.includes("social phobia"))) ||
-          (key === "Anxiety" && (lowerInput.includes("anxiety") || lowerInput.includes("anxious") || lowerInput.includes("worry"))) ||
-          (key === "Depression" && (lowerInput.includes("depression") || lowerInput.includes("depressed") || lowerInput.includes("depressive"))) ||
-          (key === "Bipolar" && (lowerInput.includes("manic") || lowerInput.includes("bipolar") || lowerInput.includes("mania"))) ||
+          (key === "Specific Phobias" && (lowerInput.includes("phobia") || lowerInput.includes("afraid of") || lowerInput.includes("fear of"))) ||
+          (key === "Agoraphobia" && (lowerInput.includes("agoraphobia") || lowerInput.includes("crowded places") || lowerInput.includes("public spaces"))) ||
+          (key === "Seasonal Affective Disorder" && (lowerInput.includes("seasonal depression") || lowerInput.includes("winter depression") || lowerInput.includes("sad"))) ||
+          (key === "Body Dysmorphic Disorder" && (lowerInput.includes("body dysmorphic") || lowerInput.includes("appearance") || lowerInput.includes("body image"))) ||
+          (key === "Hoarding Disorder" && (lowerInput.includes("hoarding") || lowerInput.includes("collecting") || lowerInput.includes("cluttered"))) ||
+          (key === "Dissociative Identity Disorder" && (lowerInput.includes("multiple personality") || lowerInput.includes("dissociative identity") || lowerInput.includes("did"))) ||
+          (key === "Adjustment Disorders" && (lowerInput.includes("adjustment") || lowerInput.includes("life changes") || lowerInput.includes("stressful events"))) ||
           (key === "Eating Disorders" && (lowerInput.includes("anorexia") || lowerInput.includes("bulimia") || lowerInput.includes("binge eating") || lowerInput.includes("eating disorder"))) ||
           (key === "Substance Use Disorders" && (lowerInput.includes("addiction") || lowerInput.includes("substance") || lowerInput.includes("alcohol") || lowerInput.includes("drug abuse"))) ||
           (key === "Autism Spectrum Disorder" && (lowerInput.includes("autism") || lowerInput.includes("autistic") || lowerInput.includes("asperger"))) ||
           (key === "Borderline Personality Disorder" && (lowerInput.includes("borderline") || lowerInput.includes("bpd"))) ||
           (key === "Schizophrenia" && (lowerInput.includes("schizophrenia") || lowerInput.includes("psychosis") || lowerInput.includes("hallucination"))) ||
-          (key === "Insomnia" && (lowerInput.includes("insomnia") || lowerInput.includes("sleep") || lowerInput.includes("sleeping")))) {
+          (key === "Insomnia" && (lowerInput.includes("insomnia") || lowerInput.includes("sleep") || lowerInput.includes("sleeping"))) ||
+          (key === "Anxiety" && (lowerInput.includes("anxiety") || lowerInput.includes("anxious") || lowerInput.includes("worry"))) ||
+          (key === "Depression" && (lowerInput.includes("depression") || lowerInput.includes("depressed") || lowerInput.includes("depressive"))) ||
+          lowerInput.includes(key.toLowerCase())) {
         isMatch = true;
       }
       
@@ -227,7 +291,7 @@ window.fallbackAI = {
     }
     
     // General conversational fallback
-    const commonConditions = ["depression", "anxiety", "ADHD", "PTSD", "bipolar disorder", "OCD", "panic disorder"];
-    return `I'm operating in fallback mode and can provide detailed information about mental health conditions and treatments. I can help you learn about ${commonConditions.slice(0, -1).join(', ')}, and ${commonConditions.slice(-1)[0]}, as well as various mental health concepts.\n\nYou can ask me about symptoms, treatments, medications, or diagnostic criteria for any condition. What would you like to know about?`;
+    const commonConditions = ["depression", "anxiety", "ADHD", "PTSD", "bipolar disorder", "OCD", "panic disorder", "phobias", "eating disorders", "autism", "schizophrenia", "borderline personality disorder", "seasonal affective disorder", "body dysmorphic disorder", "hoarding disorder", "trichotillomania", "dissociative identity disorder", "adjustment disorders", "substance use disorders", "insomnia", "social anxiety"];
+    return `I'm operating in fallback mode and can provide detailed information about mental health conditions and treatments. I can help you learn about over 20 different conditions including ${commonConditions.slice(0, 5).join(', ')}, and many others, as well as various mental health concepts.\n\nYou can ask me about symptoms, treatments, medications, or diagnostic criteria for any condition. What would you like to know about?`;
   }
 };

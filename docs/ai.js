@@ -913,7 +913,7 @@ async function generateAIResponse(userMessage) {
   // Regular AI response generation using WebLLM
   if (!isAILoaded || !webllmEngine) {
     const fallbackResponse = generateSmartResponse(userMessage);
-    return "[Fallback Mode] " + fallbackResponse;
+    return fallbackResponse;
   }
   
   try {
@@ -948,7 +948,7 @@ async function generateAIResponse(userMessage) {
     if (!aiResponse || aiResponse.length < 10) {
       console.log('WebLLM response too short or empty, using fallback');
       const fallbackResponse = generateSmartResponse(userMessage);
-      return "[Fallback Mode] " + fallbackResponse;
+      return fallbackResponse;
     }
     
     // Add to conversation context
@@ -962,7 +962,7 @@ async function generateAIResponse(userMessage) {
   } catch (error) {
     console.error('WebLLM generation error:', error);
     const fallbackResponse = generateSmartResponse(userMessage);
-    return "[Fallback Mode] " + fallbackResponse;
+    return fallbackResponse;
   }
 }
 
