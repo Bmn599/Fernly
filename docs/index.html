@@ -15,9 +15,11 @@ Date: December 2024
   <!-- TRANSFORMERS.JS FOR AI -->
   <!-- CRITICAL: This script must load BEFORE ai.js to ensure window.transformers is available -->
   <!-- Using UMD build to ensure global transformers object is available -->
-  <script id="transformers-script" src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0/dist/transformers.umd.js"></script>
-  <!-- Fallback CDN for Transformers.js -->
-  <script id="transformers-fallback" src="https://unpkg.com/@xenova/transformers@2.6.0/dist/transformers.umd.js" style="display: none;"></script>
+  <!-- CDN links updated to working versions - previous @2.6.0 version was not available -->
+  <!-- Primary CDN: Latest stable UMD build from jsdelivr.net (recommended for production) -->
+  <script id="transformers-script" src="https://cdn.jsdelivr.net/npm/@xenova/transformers/dist/transformers.umd.js"></script>
+  <!-- Fallback CDN for Transformers.js: Alternative CDN provider for redundancy -->
+  <script id="transformers-fallback" src="https://unpkg.com/@xenova/transformers/dist/transformers.umd.js" style="display: none;"></script>
   <!-- AI Chat functionality - depends on Transformers.js being loaded first -->
   <script src="ai.js"></script>
   <!-- CSS STYLES WILL GO HERE -->
