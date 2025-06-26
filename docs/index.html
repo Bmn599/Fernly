@@ -7,7 +7,7 @@
   <title>Fernly Health - Mental Wellness Reimagined</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <!-- TRANSFORMERS.JS FOR AI -->
-  <script src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0/dist/transformers.min.js"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0/dist/transformers.min.js"></script>
   <!-- CSS STYLES WILL GO HERE -->
   <style>
     * {
@@ -417,6 +417,17 @@
     .message.user .message-text {
       background: #619251;
       color: white;
+    }
+
+    /* Error notification styling */
+    .message.error-notification .message-text {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      color: #856404;
+    }
+
+    .message.error-notification .message-avatar {
+      background: #f39c12;
     }
 
     .chat-input-area {
@@ -1379,11 +1390,32 @@ function hideAILoading() {
   document.getElementById('aiLoading').classList.add('hidden');
 }
 
+// Show error notification in chat area
+function showAIErrorNotification(message) {
+  const chatMessages = document.getElementById('chatMessages');
+  if (chatMessages) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'message bot error-notification';
+    errorDiv.innerHTML = `
+      <div class="message-content">
+        <div class="message-avatar">⚠️</div>
+        <div class="message-text">
+          <strong>AI Chat Temporarily Unavailable</strong><br>
+          ${message}
+        </div>
+      </div>
+    `;
+    chatMessages.appendChild(errorDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+}
+
 // Initialize AI Model
 async function initializeAI() {
   if (!window.transformers) {
     console.error('Transformers.js not loaded');
     hideAILoading();
+    showAIErrorNotification('The AI library failed to load. Please refresh the page or try again later.');
     return;
   }
 
@@ -1414,6 +1446,7 @@ async function initializeAI() {
   } catch (error) {
     console.error('AI loading failed:', error);
     hideAILoading();
+    showAIErrorNotification('Unable to load the AI model. The chat will use a basic response system instead.');
     // Add a subtle notification that fallback mode is active
     console.log('Using fallback response system');
     addMessage("I'm operating in standard mode today. How can I support you?", 'bot');
