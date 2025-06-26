@@ -8,8 +8,8 @@ Date: December 2024
 -->
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fernly Health - Mental Wellness Reimagined</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <!-- TRANSFORMERS.JS FOR AI -->
@@ -992,7 +992,7 @@ Date: December 2024
     <div class="container">
       <h2 class="section-title">Chat with Our AI Assistant</h2>
       <p class="chat-intro">Get instant support and guidance. Our AI assistant is here to listen and help you navigate your mental health journey.</p>
-      
+
       <div class="chat-interface">
         <div class="chat-messages" id="chatMessages">
           <div class="message bot">
@@ -1014,7 +1014,7 @@ Date: December 2024
             </div>
           </div>
         </div>
-        
+
         <div class="chat-input-area">
           <div class="input-container">
             <textarea 
@@ -1023,7 +1023,7 @@ Date: December 2024
               placeholder="Tell me what's on your mind..."
               rows="1"
             ></textarea>
-            <button class="chat-send" id="chatSend">
+            <button type="button" class="chat-send" id="chatSend" aria-label="Send message">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -1129,15 +1129,9 @@ Date: December 2024
   </footer>
 
   <!-- Back to Top Button -->
-  <button id="backToTop" class="back-to-top">↑</button>
+  <button type="button" id="backToTop" class="back-to-top" aria-label="Back to top">↑</button>
 
   <!-- JAVASCRIPT WILL GO HERE -->
-  <script>
-// AI INITIALIZATION
-
-
-
-
   <script>
 // Loading screen
 window.addEventListener('load', () => {
