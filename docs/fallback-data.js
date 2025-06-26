@@ -166,6 +166,8 @@ window.fallbackAI = {
           (key === "OCD" && (lowerInput.includes("obsessive") || lowerInput.includes("compulsive") || lowerInput.includes("ocd"))) ||
           (key === "Panic Disorder" && (lowerInput.includes("panic attack") || lowerInput.includes("panic disorder"))) ||
           (key === "Social Anxiety" && (lowerInput.includes("social anxiety") || lowerInput.includes("social phobia"))) ||
+          (key === "Anxiety" && (lowerInput.includes("anxiety") || lowerInput.includes("anxious") || lowerInput.includes("worry"))) ||
+          (key === "Depression" && (lowerInput.includes("depression") || lowerInput.includes("depressed") || lowerInput.includes("depressive"))) ||
           (key === "Bipolar" && (lowerInput.includes("manic") || lowerInput.includes("bipolar") || lowerInput.includes("mania"))) ||
           (key === "Eating Disorders" && (lowerInput.includes("anorexia") || lowerInput.includes("bulimia") || lowerInput.includes("binge eating") || lowerInput.includes("eating disorder"))) ||
           (key === "Substance Use Disorders" && (lowerInput.includes("addiction") || lowerInput.includes("substance") || lowerInput.includes("alcohol") || lowerInput.includes("drug abuse"))) ||
