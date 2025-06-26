@@ -337,7 +337,38 @@ let conversationContext = {
 };
 
 // Check if Transformers.js is loaded and available
-function checkTransformersLoaded() {
+// Returns a Promise that resolves when transformers is available or rejects after timeout
+function checkTransformersLoaded(maxWaitTime = 10000) {
+  return new Promise((resolve, reject) => {
+    // If already loaded, resolve immediately
+    if (window.transformers) {
+      console.log('Transformers.js already loaded');
+      resolve(true);
+      return;
+    }
+    
+    const startTime = Date.now();
+    const checkInterval = 100; // Check every 100ms
+    
+    const checkForTransformers = () => {
+      if (window.transformers) {
+        console.log('Transformers.js loaded successfully');
+        resolve(true);
+      } else if (Date.now() - startTime > maxWaitTime) {
+        console.error('Transformers.js not loaded - timeout after', maxWaitTime, 'ms');
+        reject(new Error('Transformers.js loading timeout'));
+      } else {
+        // Continue checking
+        setTimeout(checkForTransformers, checkInterval);
+      }
+    };
+    
+    checkForTransformers();
+  });
+}
+
+// Legacy synchronous version for backward compatibility
+function checkTransformersLoadedSync() {
   if (!window.transformers) {
     console.error('Transformers.js not loaded');
     return false;
@@ -391,7 +422,7 @@ function showAIErrorNotification(message) {
 
 // Initialize AI Model
 async function initializeAI() {
-  if (!checkTransformersLoaded()) {
+  if (!checkTransformersLoadedSync()) {
     hideAILoading();
     showAIErrorNotification('The AI library failed to load. Please refresh the page or try again later.');
     return;
@@ -835,14 +866,16 @@ function generateSmartResponse(userMessage) {
 
 // Initialize AI when the page loads
 // This function will be called from the main page after DOM is ready
-function initializeAIChat() {
-  // Check if transformers is loaded before initializing
-  if (checkTransformersLoaded()) {
+async function initializeAIChat() {
+  try {
+    // Wait for transformers to be loaded with timeout
+    await checkTransformersLoaded();
+    console.log('Transformers.js confirmed loaded, initializing AI...');
     initializeAI();
-  } else {
-    // Show error message if transformers is not loaded
+  } catch (error) {
+    // Show error message if transformers failed to load
+    console.error('Transformers.js not loaded - AI chat initialization failed:', error.message);
     showAIErrorNotification('The AI library failed to load. Please refresh the page or try again later.');
-    console.error('Transformers.js not loaded - AI chat initialization failed');
   }
 }
 
