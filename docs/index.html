@@ -12,14 +12,12 @@ Date: December 2024
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fernly Health - Mental Wellness Reimagined</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- TRANSFORMERS.JS FOR AI -->
+  <!-- TRANSFORMERS.JS FOR AI - LOCAL VERSION -->
   <!-- CRITICAL: This script must load BEFORE ai.js to ensure window.transformers is available -->
-  <!-- Using UMD build to ensure global transformers object is available -->
-  <!-- CDN links updated to working versions - previous @2.6.0 version was not available -->
-  <!-- Primary CDN: Latest stable UMD build from jsdelivr.net (recommended for production) -->
-  <script id="transformers-script" src="https://cdn.jsdelivr.net/npm/@xenova/transformers/dist/transformers.umd.js"></script>
-  <!-- Fallback CDN for Transformers.js: Alternative CDN provider for redundancy -->
-  <script id="transformers-fallback" src="https://unpkg.com/@xenova/transformers/dist/transformers.umd.js" style="display: none;"></script>
+  <!-- Using local copy of transformers.min.js v2.5.1 for reliable loading without CDN dependencies -->
+  <!-- Source: https://github.com/xenova/transformers.js/releases/download/v2.5.1/transformers.min.js -->
+  <!-- Benefits: No CDN failures, works offline, faster loading, version pinned for stability -->
+  <script src="transformers.min.js"></script>
   <!-- AI Chat functionality - depends on Transformers.js being loaded first -->
   <script src="ai.js"></script>
   <!-- CSS STYLES WILL GO HERE -->
@@ -1138,50 +1136,17 @@ Date: December 2024
 
   <!-- JAVASCRIPT WILL GO HERE -->
   <script>
-// Enhanced loading screen with Transformers.js verification
-let transformersLoadAttempted = false;
-let transformersLoadSuccess = false;
-
-// Track Transformers.js loading
-function setupTransformersLoading() {
-  const primaryScript = document.getElementById('transformers-script');
-  const fallbackScript = document.getElementById('transformers-fallback');
-  
-  if (primaryScript) {
-    primaryScript.onload = () => {
-      console.log('Transformers.js loaded successfully from primary CDN');
-      transformersLoadSuccess = true;
-    };
-    
-    primaryScript.onerror = () => {
-      console.warn('Primary Transformers.js CDN failed, trying fallback...');
-      if (fallbackScript && !transformersLoadAttempted) {
-        transformersLoadAttempted = true;
-        fallbackScript.style.display = '';
-        fallbackScript.onload = () => {
-          console.log('Transformers.js loaded successfully from fallback CDN');
-          transformersLoadSuccess = true;
-        };
-        fallbackScript.onerror = () => {
-          console.error('Both Transformers.js CDNs failed to load');
-          transformersLoadSuccess = false;
-        };
-        document.head.appendChild(fallbackScript);
-      }
-    };
-  }
-}
-
 // Initialize loading screen and AI
 window.addEventListener('load', () => {
-  setupTransformersLoading();
+  // No need for complex CDN loading setup - using local transformers.min.js file
+  console.log('Transformers.js loaded from local file');
   
   setTimeout(() => {
     document.getElementById('loadingScreen').classList.add('fade-out');
     setTimeout(() => {
       document.getElementById('loadingScreen').style.display = 'none';
       // Initialize AI chat after loading screen fades
-      // Enhanced timing to allow more time for Transformers.js CDN to load
+      // Local transformers.min.js ensures reliable loading without CDN dependencies
       if (typeof initializeAIChat === 'function') {
         initializeAIChat();
       }
