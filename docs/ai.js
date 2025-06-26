@@ -969,7 +969,7 @@ function generateSmartResponse(userMessage) {
   if (window.fallbackAI && typeof window.fallbackAI.respond === 'function') {
     try {
       const fallbackResponse = window.fallbackAI.respond(userMessage);
-      if (fallbackResponse && fallbackResponse.trim() !== "I'm in fallback mode and can't answer in detail.") {
+      if (fallbackResponse && fallbackResponse.trim().length > 20) {
         return fallbackResponse;
       }
     } catch (error) {
