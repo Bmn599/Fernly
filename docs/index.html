@@ -486,6 +486,20 @@ Date: December 2024
       background: #f39c12;
     }
 
+    /* Fallback mode styling - subtle indicator */
+    .message.fallback-response .message-text {
+      background: #f8f9ff;
+      border-left: 3px solid #42a5f5;
+    }
+
+    .message.fallback-response .message-text::after {
+      content: "🛡️";
+      float: right;
+      opacity: 0.3;
+      font-size: 0.8em;
+      margin-left: 10px;
+    }
+
     .chat-input-area {
       padding: 1.5rem;
       background: white;
@@ -1341,7 +1355,12 @@ async function sendMessage() {
     
     // Remove typing indicator and add AI response
     chatMessages.removeChild(typingIndicator);
-    addMessage(response, 'bot');
+    
+    // Check if we're in fallback mode and add appropriate styling
+    const responseElement = addMessage(response, 'bot');
+    if (isFallbackMode || (!isAILoaded || !webllmEngine)) {
+      responseElement.classList.add('fallback-response');
+    }
   } catch (error) {
     console.error('Error generating response:', error);
     chatMessages.removeChild(typingIndicator);
