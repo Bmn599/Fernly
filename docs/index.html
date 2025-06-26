@@ -13,9 +13,10 @@ Date: December 2024
   <title>Fernly Health - Mental Wellness Reimagined</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <!-- TRANSFORMERS.JS FOR AI -->
+  <!-- CRITICAL: This script must load BEFORE ai.js to ensure window.transformers is available -->
   <!-- Using UMD build to ensure global transformers object is available -->
   <script src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0/dist/transformers.umd.js"></script>
-  <!-- AI Chat functionality -->
+  <!-- AI Chat functionality - depends on Transformers.js being loaded first -->
   <script src="ai.js"></script>
   <!-- CSS STYLES WILL GO HERE -->
   <style>
@@ -1140,6 +1141,7 @@ window.addEventListener('load', () => {
     setTimeout(() => {
       document.getElementById('loadingScreen').style.display = 'none';
       // Initialize AI chat after loading screen fades
+      // This ensures DOM is ready and gives time for Transformers.js CDN to load
       if (typeof initializeAIChat === 'function') {
         initializeAIChat();
       }
