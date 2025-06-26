@@ -14,12 +14,12 @@ Date: December 2024
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <!-- WEBLLM FOR AI - MODERN IN-BROWSER LLM -->
   <!-- CRITICAL: This script must load BEFORE ai.js to ensure WebLLM is available -->
-  <!-- Using WebLLM with TinyLlama model for enhanced conversational AI -->
+  <!-- Using WebLLM with Phi-3-mini model for enhanced conversational AI -->
   <!-- Source: https://github.com/mlc-ai/web-llm -->
   <!-- License: Apache 2.0 - Suitable for commercial use and redistribution -->
   <!-- Benefits: Modern chat API, better conversation flow, more natural responses -->
   <script src="https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@latest/dist/index.js" 
-          onerror="window.webllmLoadError = true; console.error('WebLLM CDN failed to load'); if(typeof showAIErrorNotification === 'function') showAIErrorNotification('WebLLM library failed to load from CDN. The chat will operate in enhanced fallback mode.')"></script>
+          onerror="window.webllmLoadError = true; console.error('WebLLM CDN failed to load'); if(typeof updateAIStatusIndicator === 'function') updateAIStatusIndicator('error', 'CDN Load Failed - Fallback Active'); if(typeof showAIErrorNotification === 'function') showAIErrorNotification('WebLLM library failed to load from CDN. The chat will operate in smart fallback mode.');"></script>
   <!-- Fallback data must load before AI chat functionality -->
   <script src="fallback-data.js"></script>
   <!-- AI Chat functionality - depends on WebLLM and fallback-data being loaded first -->
@@ -371,6 +371,46 @@ Date: December 2024
       border-radius: 20px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
       overflow: hidden;
+    }
+
+    /* AI Status Indicator */
+    .ai-status-indicator {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 8px 16px;
+      font-size: 0.9em;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .ai-status-indicator.loading {
+      background: linear-gradient(135deg, #ffa726 0%, #ff7043 100%);
+    }
+
+    .ai-status-indicator.ai-active {
+      background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+    }
+
+    .ai-status-indicator.fallback-active {
+      background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
+    }
+
+    .ai-status-indicator.error {
+      background: linear-gradient(135deg, #ef5350 0%, #d32f2f 100%);
+    }
+
+    .status-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .status-icon {
+      font-size: 1.1em;
+    }
+
+    .status-text {
+      font-weight: 500;
     }
 
     .chat-messages {
@@ -1001,6 +1041,14 @@ Date: December 2024
       <p class="chat-intro">Get instant support and guidance. Our AI assistant is here to listen and help you navigate your mental health journey.</p>
 
       <div class="chat-interface">
+        <!-- AI/Fallback Status Indicator -->
+        <div id="aiStatusIndicator" class="ai-status-indicator" style="display: none;">
+          <div class="status-content">
+            <span class="status-icon">⏳</span>
+            <span class="status-text">Loading AI model...</span>
+          </div>
+        </div>
+        
         <div class="chat-messages" id="chatMessages">
           <!-- Chat output area for compatibility -->
           <div id="chatOutput" style="display: none;"></div>
