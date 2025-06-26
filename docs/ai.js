@@ -164,6 +164,160 @@ const medicationDatabase = {
     commonSideEffects: ["Nausea", "Dry mouth", "Drowsiness", "Fatigue"],
     importantNotes: "Also helps with chronic pain conditions. Take with food.",
     warning: "May cause liver problems in rare cases. Regular monitoring recommended."
+  },
+  
+  // ANXIETY MEDICATIONS
+  "xanax": {
+    name: "Xanax (Alprazolam)",
+    type: "Benzodiazepine",
+    commonUses: ["Anxiety", "Panic Disorder"],
+    commonSideEffects: ["Drowsiness", "Dizziness", "Memory problems", "Coordination issues"],
+    importantNotes: "Fast-acting for anxiety relief. Should be used short-term.",
+    warning: "Can be habit-forming. Do not stop suddenly. Avoid alcohol."
+  },
+  "ativan": {
+    name: "Ativan (Lorazepam)",
+    type: "Benzodiazepine",
+    commonUses: ["Anxiety", "Panic attacks", "Insomnia"],
+    commonSideEffects: ["Sedation", "Dizziness", "Weakness", "Confusion"],
+    importantNotes: "Intermediate-acting benzodiazepine. Can be used as needed.",
+    warning: "Risk of dependence. Taper slowly to discontinue."
+  },
+  "klonopin": {
+    name: "Klonopin (Clonazepam)",
+    type: "Benzodiazepine",
+    commonUses: ["Anxiety", "Panic Disorder", "Seizures"],
+    commonSideEffects: ["Drowsiness", "Dizziness", "Fatigue", "Memory problems"],
+    importantNotes: "Longer-acting than other benzodiazepines. Good for consistent anxiety.",
+    warning: "High potential for dependence. Requires careful monitoring."
+  },
+  "buspar": {
+    name: "BuSpar (Buspirone)",
+    type: "Anti-anxiety medication",
+    commonUses: ["Generalized Anxiety Disorder"],
+    commonSideEffects: ["Dizziness", "Nausea", "Headache", "Nervousness"],
+    importantNotes: "Non-benzodiazepine anti-anxiety medication. Takes 2-4 weeks to work.",
+    warning: "Not effective for panic attacks. May interact with MAOIs."
+  },
+  
+  // MOOD STABILIZERS
+  "lithium": {
+    name: "Lithium (Lithobid, Eskalith)",
+    type: "Mood Stabilizer",
+    commonUses: ["Bipolar Disorder", "Depression (augmentation)"],
+    commonSideEffects: ["Tremor", "Increased urination", "Weight gain", "Nausea"],
+    importantNotes: "Requires regular blood monitoring. Stay well-hydrated.",
+    warning: "Narrow therapeutic window. Regular lab monitoring essential."
+  },
+  "lamictal": {
+    name: "Lamictal (Lamotrigine)",
+    type: "Mood Stabilizer/Anticonvulsant",
+    commonUses: ["Bipolar Disorder", "Epilepsy"],
+    commonSideEffects: ["Dizziness", "Nausea", "Fatigue", "Headache"],
+    importantNotes: "Particularly effective for bipolar depression. Start with low dose.",
+    warning: "Rare but serious skin reactions. Seek medical attention for rash."
+  },
+  "depakote": {
+    name: "Depakote (Divalproex/Valproic Acid)",
+    type: "Mood Stabilizer/Anticonvulsant",
+    commonUses: ["Bipolar Disorder", "Epilepsy", "Migraine prevention"],
+    commonSideEffects: ["Weight gain", "Hair loss", "Nausea", "Tremor"],
+    importantNotes: "Effective for mania and mixed episodes. Requires blood monitoring.",
+    warning: "Can cause liver toxicity. Regular lab monitoring required."
+  },
+  
+  // ANTIPSYCHOTICS
+  "abilify": {
+    name: "Abilify (Aripiprazole)",
+    type: "Atypical Antipsychotic",
+    commonUses: ["Schizophrenia", "Bipolar Disorder", "Depression (augmentation)", "Autism irritability"],
+    commonSideEffects: ["Nausea", "Vomiting", "Constipation", "Headache", "Dizziness"],
+    importantNotes: "Partial dopamine agonist. Lower risk of weight gain than some antipsychotics.",
+    warning: "May cause movement disorders. Monitor for tardive dyskinesia."
+  },
+  "seroquel": {
+    name: "Seroquel (Quetiapine)",
+    type: "Atypical Antipsychotic",
+    commonUses: ["Schizophrenia", "Bipolar Disorder", "Depression (augmentation)", "Insomnia"],
+    commonSideEffects: ["Drowsiness", "Weight gain", "Dizziness", "Dry mouth"],
+    importantNotes: "Sedating effects often used for sleep. Extended-release available.",
+    warning: "May cause metabolic changes. Monitor blood sugar and weight."
+  },
+  "risperdal": {
+    name: "Risperdal (Risperidone)",
+    type: "Atypical Antipsychotic",
+    commonUses: ["Schizophrenia", "Bipolar Disorder", "Autism irritability"],
+    commonSideEffects: ["Weight gain", "Sedation", "Movement disorders", "Increased prolactin"],
+    importantNotes: "Available in long-acting injection form. Effective for positive symptoms.",
+    warning: "May cause movement disorders and metabolic changes."
+  },
+  "zyprexa": {
+    name: "Zyprexa (Olanzapine)",
+    type: "Atypical Antipsychotic",
+    commonUses: ["Schizophrenia", "Bipolar Disorder"],
+    commonSideEffects: ["Significant weight gain", "Sedation", "Increased appetite", "Dry mouth"],
+    importantNotes: "Very effective but high risk of weight gain and metabolic effects.",
+    warning: "High risk of diabetes and weight gain. Regular monitoring required."
+  },
+  
+  // ADHD MEDICATIONS
+  "adderall": {
+    name: "Adderall (Mixed Amphetamine Salts)",
+    type: "Stimulant",
+    commonUses: ["ADHD", "Narcolepsy"],
+    commonSideEffects: ["Decreased appetite", "Insomnia", "Nervousness", "Increased heart rate"],
+    importantNotes: "Available in immediate and extended-release formulations.",
+    warning: "Can be habit-forming. Monitor blood pressure and heart rate."
+  },
+  "ritalin": {
+    name: "Ritalin (Methylphenidate)",
+    type: "Stimulant",
+    commonUses: ["ADHD", "Narcolepsy"],
+    commonSideEffects: ["Decreased appetite", "Sleep problems", "Nervousness", "Headache"],
+    importantNotes: "Short-acting formulation. Take 30-45 minutes before meals.",
+    warning: "Can affect growth in children. Monitor height and weight."
+  },
+  "concerta": {
+    name: "Concerta (Methylphenidate Extended-Release)",
+    type: "Stimulant",
+    commonUses: ["ADHD"],
+    commonSideEffects: ["Decreased appetite", "Sleep problems", "Mood changes", "Tics"],
+    importantNotes: "Long-acting formulation lasting 12 hours. Take in morning.",
+    warning: "May worsen existing psychiatric conditions. Monitor mood carefully."
+  },
+  "strattera": {
+    name: "Strattera (Atomoxetine)",
+    type: "Non-stimulant ADHD medication",
+    commonUses: ["ADHD"],
+    commonSideEffects: ["Nausea", "Fatigue", "Decreased appetite", "Mood swings"],
+    importantNotes: "Non-stimulant option. Takes 2-4 weeks to reach full effect.",
+    warning: "May increase suicidal thoughts in children and adolescents."
+  },
+  
+  // SLEEP MEDICATIONS
+  "ambien": {
+    name: "Ambien (Zolpidem)",
+    type: "Sleep aid",
+    commonUses: ["Insomnia"],
+    commonSideEffects: ["Drowsiness", "Dizziness", "Diarrhea", "Drugged feeling"],
+    importantNotes: "Short-term use only. Take immediately before bedtime.",
+    warning: "May cause complex sleep behaviors. Risk of dependence with long-term use."
+  },
+  "lunesta": {
+    name: "Lunesta (Eszopiclone)",
+    type: "Sleep aid",
+    commonUses: ["Insomnia"],
+    commonSideEffects: ["Metallic taste", "Dizziness", "Headache", "Nausea"],
+    importantNotes: "Can be used longer-term than other sleep medications.",
+    warning: "May cause next-day impairment. Avoid alcohol."
+  },
+  "trazodone": {
+    name: "Trazodone",
+    type: "Atypical Antidepressant (used off-label for sleep)",
+    commonUses: ["Depression", "Insomnia"],
+    commonSideEffects: ["Drowsiness", "Dizziness", "Dry mouth", "Constipation"],
+    importantNotes: "Commonly used off-label for sleep due to sedating effects.",
+    warning: "May cause priapism (prolonged erection) in men. Seek immediate medical help."
   }
 };
 
@@ -388,16 +542,242 @@ const responseTemplates = {
   ]
 };
 
-// Sophisticated pattern matching for intent recognition with variations and misspellings
+// Enhanced pattern matching with fuzzy matching and synonyms
 const intentPatterns = {
   greeting: [
     /^(hi|hello|hey|good morning|good afternoon|good evening)/i,
     /^(how are you|what's up|sup|whats up|wassup)/i,
-    /^(hiya|heya|hallo|helo)/i // Common misspellings
+    /^(hiya|heya|hallo|helo|hai)/i, // Common misspellings
+    /^(howdy|greetings|salutations)/i
   ],
   
   anxiety: [
-    /(anxious|anxiety|worried|worry|panic|fear|nervous|stress|overwhelm)/i,
+    /(anxious|anxiety|worried|worry|panic|fear|nervous|stress|overwhelm|tense)/i,
+    /(on edge|restless|can't relax|uptight|freaking out|scared|frightened)/i,
+    /(heart racing|can't breathe|shaking|trembling|sweating)/i,
+    /(GAD|general anxiety|social anxiety|performance anxiety)/i,
+    /(catastrophic thinking|worst case scenario|what if)/i
+  ],
+  
+  depression: [
+    /(depress|sad|down|low|hopeless|empty|worthless|despair)/i,
+    /(can't get out of bed|no motivation|don't care|numb|disconnected)/i,
+    /(crying|tears|weeping|melancholy|blue|gloomy)/i,
+    /(suicidal|end it all|better off dead|no point|give up)/i,
+    /(major depression|clinical depression|seasonal depression)/i
+  ],
+  
+  adhd: [
+    /(adhd|add|attention deficit|hyperactive|can't focus|can't concentrate)/i,
+    /(easily distracted|scattered|forgetful|procrastinate|disorganized)/i,
+    /(restless|fidgety|impulsive|interrupt|can't sit still)/i,
+    /(hyperfocus|zoning out|daydreaming|mind wandering)/i
+  ],
+  
+  ptsd: [
+    /(ptsd|trauma|flashback|nightmare|triggered|hypervigilant)/i,
+    /(can't forget|haunted|reliving|vivid memories|startled)/i,
+    /(avoidance|numb|detached|on guard|jumpy)/i,
+    /(combat|assault|accident|abuse|violence|disaster)/i
+  ],
+  
+  bipolar: [
+    /(bipolar|manic|mania|mood swings|high and low|up and down)/i,
+    /(grandiose|racing thoughts|no sleep|euphoric|irritable)/i,
+    /(spending spree|risky behavior|hypomanic|mixed episode)/i,
+    /(mood disorder|cyclothymia)/i
+  ],
+  
+  ocd: [
+    /(ocd|obsessive|compulsive|ritual|checking|counting)/i,
+    /(intrusive thoughts|contamination|germs|symmetry|order)/i,
+    /(can't stop|have to do|over and over|perfect|exactly)/i,
+    /(hand washing|door checking|hoarding|trichotillomania)/i
+  ],
+  
+  sleep: [
+    /(insomnia|can't sleep|trouble sleeping|sleepless|restless)/i,
+    /(nightmares|night terrors|sleep paralysis|sleepwalking)/i,
+    /(tired|exhausted|fatigue|drowsy|sleep deprived)/i,
+    /(sleep schedule|circadian|melatonin|sleep hygiene)/i
+  ],
+  
+  medication: [
+    /(medication|pills|drugs|prescription|side effects)/i,
+    /(ssri|snri|antidepressant|mood stabilizer|antipsychotic)/i,
+    /(prozac|zoloft|lexapro|xanax|adderall|lithium)/i,
+    /(dosage|withdrawal|tapering|stopping|starting)/i
+  ],
+  
+  crisis: [
+    /(suicide|kill myself|end my life|better off dead|no point living)/i,
+    /(self harm|cutting|hurt myself|overdose|jump|gun)/i,
+    /(can't go on|give up|hopeless|no way out|emergency)/i,
+    /(crisis|help me|save me|dying|planning to)/i
+  ]
+};
+
+// Fuzzy matching function for more flexible pattern recognition
+function fuzzyMatch(text, pattern) {
+  const words = text.toLowerCase().split(/\s+/);
+  const patternWords = pattern.toLowerCase().split(/\s+/);
+  
+  let matchScore = 0;
+  for (const word of words) {
+    for (const pWord of patternWords) {
+      // Exact match
+      if (word === pWord) {
+        matchScore += 1;
+      }
+      // Partial match (contains)
+      else if (word.includes(pWord) || pWord.includes(word)) {
+        matchScore += 0.7;
+      }
+      // Levenshtein distance for typos
+      else if (levenshteinDistance(word, pWord) <= 2 && Math.min(word.length, pWord.length) > 3) {
+        matchScore += 0.5;
+      }
+    }
+  }
+  
+  return matchScore / Math.max(words.length, patternWords.length);
+}
+
+// Simple Levenshtein distance function for typo detection
+function levenshteinDistance(str1, str2) {
+  const matrix = [];
+  for (let i = 0; i <= str2.length; i++) {
+    matrix[i] = [i];
+  }
+  for (let j = 0; j <= str1.length; j++) {
+    matrix[0][j] = j;
+  }
+  for (let i = 1; i <= str2.length; i++) {
+    for (let j = 1; j <= str1.length; j++) {
+      if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j] + 1
+        );
+      }
+    }
+  }
+  return matrix[str2.length][str1.length];
+}
+
+// Enhanced synonym matching using fallback data
+function checkSynonyms(message, intent) {
+  if (!window.fallbackData || !window.fallbackData.dsm5) return false;
+  
+  const lowerMessage = message.toLowerCase();
+  for (const condition in window.fallbackData.dsm5) {
+    const conditionData = window.fallbackData.dsm5[condition];
+    if (conditionData.synonyms) {
+      for (const synonym of conditionData.synonyms) {
+        if (lowerMessage.includes(synonym.toLowerCase())) {
+          // Map condition to intent
+          const conditionToIntent = {
+            'ADHD': 'adhd',
+            'Depression': 'depression', 
+            'Anxiety': 'anxiety',
+            'PTSD': 'ptsd',
+            'Bipolar': 'bipolar',
+            'OCD': 'ocd',
+            'Insomnia': 'sleep'
+          };
+          if (conditionToIntent[condition] === intent) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+  return false;
+}
+
+// Fuzzy matching function for more flexible pattern recognition
+function fuzzyMatch(text, pattern) {
+  const words = text.toLowerCase().split(/\s+/);
+  const patternWords = pattern.toLowerCase().split(/\s+/);
+  
+  let matchScore = 0;
+  for (const word of words) {
+    for (const pWord of patternWords) {
+      // Exact match
+      if (word === pWord) {
+        matchScore += 1;
+      }
+      // Partial match (contains)
+      else if (word.includes(pWord) || pWord.includes(word)) {
+        matchScore += 0.7;
+      }
+      // Levenshtein distance for typos
+      else if (levenshteinDistance(word, pWord) <= 2 && Math.min(word.length, pWord.length) > 3) {
+        matchScore += 0.5;
+      }
+    }
+  }
+  
+  return matchScore / Math.max(words.length, patternWords.length);
+}
+
+// Simple Levenshtein distance function for typo detection
+function levenshteinDistance(str1, str2) {
+  const matrix = [];
+  for (let i = 0; i <= str2.length; i++) {
+    matrix[i] = [i];
+  }
+  for (let j = 0; j <= str1.length; j++) {
+    matrix[0][j] = j;
+  }
+  for (let i = 1; i <= str2.length; i++) {
+    for (let j = 1; j <= str1.length; j++) {
+      if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j] + 1
+        );
+      }
+    }
+  }
+  return matrix[str2.length][str1.length];
+}
+
+// Enhanced synonym matching using fallback data
+function checkSynonyms(message, intent) {
+  if (!window.fallbackData || !window.fallbackData.dsm5) return false;
+  
+  const lowerMessage = message.toLowerCase();
+  for (const condition in window.fallbackData.dsm5) {
+    const conditionData = window.fallbackData.dsm5[condition];
+    if (conditionData.synonyms) {
+      for (const synonym of conditionData.synonyms) {
+        if (lowerMessage.includes(synonym.toLowerCase())) {
+          // Map condition to intent
+          const conditionToIntent = {
+            'ADHD': 'adhd',
+            'Depression': 'depression', 
+            'Anxiety': 'anxiety',
+            'PTSD': 'ptsd',
+            'Bipolar': 'bipolar',
+            'OCD': 'ocd',
+            'Insomnia': 'sleep'
+          };
+          if (conditionToIntent[condition] === intent) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+  return false;
+}
     /(can't stop thinking|racing thoughts|catastrophizing|overthinking)/i,
     /(heart racing|shortness of breath|sweating|trembling)/i,
     // Variations and misspellings
@@ -584,7 +964,7 @@ function recognizeIntent(message) {
     }
   }
   
-  // Check built-in patterns for all intents
+  // Check built-in patterns for all intents with enhanced matching
   for (const [intent, patterns] of Object.entries(intentPatterns)) {
     if (intent === 'crisis') continue; // Already checked
     
@@ -592,6 +972,13 @@ function recognizeIntent(message) {
       if (pattern.test(lowerMessage)) {
         detectedIntents.push(intent);
         break; // One match per intent type is enough
+      }
+    }
+    
+    // Additional fuzzy matching and synonym checking
+    if (!detectedIntents.includes(intent)) {
+      if (checkSynonyms(message, intent)) {
+        detectedIntents.push(intent);
       }
     }
   }
@@ -675,6 +1062,106 @@ function storeUnrecognizedMessage(message) {
   }
   
   saveLearningData();
+}
+
+/**
+ * Enhanced clarification logic for uncertain matches
+ */
+function handleUncertainMatch(message, potentialIntents) {
+  if (potentialIntents.length === 0) {
+    return generateClarificationResponse(message);
+  }
+  
+  if (potentialIntents.length === 1) {
+    const confidence = calculateMatchConfidence(message, potentialIntents[0]);
+    if (confidence < 0.6) {
+      return generateClarificationResponse(message, potentialIntents[0]);
+    }
+  }
+  
+  // Multiple potential matches - ask for clarification
+  if (potentialIntents.length > 1) {
+    return generateMultiOptionResponse(potentialIntents);
+  }
+  
+  return null; // No clarification needed
+}
+
+/**
+ * Calculate confidence score for a match
+ */
+function calculateMatchConfidence(message, intent) {
+  const patterns = intentPatterns[intent] || [];
+  let maxScore = 0;
+  
+  for (const pattern of patterns) {
+    if (pattern.test(message.toLowerCase())) {
+      maxScore = Math.max(maxScore, 0.8); // Regex match
+    }
+  }
+  
+  // Check synonym matches
+  if (checkSynonyms(message, intent)) {
+    maxScore = Math.max(maxScore, 0.7);
+  }
+  
+  return maxScore;
+}
+
+/**
+ * Generate clarification response for uncertain matches
+ */
+function generateClarificationResponse(message, suggestedIntent = null) {
+  const clarificationPrompts = [
+    "I want to make sure I understand what you're going through. Could you tell me a bit more about what you're experiencing?",
+    "I'm here to help, and I want to give you the most relevant support. Can you share more details about what's on your mind?",
+    "To better assist you, could you help me understand what specific area you'd like to focus on?",
+    "I'm listening and want to provide the best support. Could you elaborate on what you're feeling or experiencing?"
+  ];
+  
+  let response = clarificationPrompts[Math.floor(Math.random() * clarificationPrompts.length)];
+  
+  if (suggestedIntent) {
+    const intentLabels = {
+      'anxiety': 'anxiety or worry',
+      'depression': 'depression or low mood',
+      'adhd': 'attention or focus issues',
+      'ptsd': 'trauma or difficult memories',
+      'bipolar': 'mood changes',
+      'ocd': 'repetitive thoughts or behaviors',
+      'sleep': 'sleep problems',
+      'medication': 'medication questions'
+    };
+    
+    const label = intentLabels[suggestedIntent] || suggestedIntent;
+    response += ` Are you perhaps dealing with ${label}?`;
+  }
+  
+  return response;
+}
+
+/**
+ * Generate response when multiple intents are possible
+ */
+function generateMultiOptionResponse(intents) {
+  const intentLabels = {
+    'anxiety': 'anxiety or worry',
+    'depression': 'depression or sadness',
+    'adhd': 'attention or focus challenges',
+    'ptsd': 'trauma or difficult memories',
+    'bipolar': 'mood swings',
+    'ocd': 'repetitive thoughts or behaviors',
+    'sleep': 'sleep issues',
+    'medication': 'medication questions'
+  };
+  
+  const labels = intents.map(intent => intentLabels[intent] || intent).slice(0, 3);
+  
+  if (labels.length === 2) {
+    return `I can help with both ${labels[0]} and ${labels[1]}. Which would you like to focus on first, or would you like to discuss both?`;
+  } else {
+    return `I noticed you might be dealing with multiple things - possibly ${labels.slice(0, -1).join(', ')} or ${labels[labels.length - 1]}. What feels most important to talk about right now?`;
+  }
 }
 
 // Contextual Response Selection with Learning Integration
@@ -1080,24 +1567,62 @@ function escapeRegExp(string) {
 }
 
 // Personalize responses based on conversation history
+// Enhanced personalization based on conversation history and context
 function personalizeResponse(response, intent) {
-  const messageCount = conversationContext.messages.length;
-  const userMessages = conversationContext.messages.filter(m => m.role === 'user');
+  const recentMessages = conversationContext.messages.slice(-10);
+  const userMessages = recentMessages.filter(m => m.role === 'user');
+  const previousTopics = conversationContext.userPreferences.previousTopics || [];
   
-  // Add continuity phrases for ongoing conversations
-  if (messageCount > 4) {
-    const continuityPhrases = [
-      "I've been listening to what you've shared, and ",
-      "Based on our conversation, ",
-      "I can see that ",
-      "Thank you for continuing to share with me. "
-    ];
-    
-    const phrase = continuityPhrases[Math.floor(Math.random() * continuityPhrases.length)];
-    response = phrase + response.toLowerCase();
+  // Track this topic for future reference
+  if (intent && !previousTopics.includes(intent)) {
+    conversationContext.userPreferences.previousTopics.push(intent);
+    if (conversationContext.userPreferences.previousTopics.length > 10) {
+      conversationContext.userPreferences.previousTopics.shift();
+    }
   }
   
-  return response;
+  // Check for recurring topics to provide continuity
+  const topicHistory = {};
+  recentMessages.forEach(m => {
+    if (m.intent && m.intent !== 'general' && m.intent !== 'greeting') {
+      topicHistory[m.intent] = (topicHistory[m.intent] || 0) + 1;
+    }
+  });
+  
+  // Add personalization based on conversation patterns
+  let personalizedResponse = response;
+  
+  // Reference previous conversations about similar topics
+  if (previousTopics.includes(intent) && userMessages.length > 3) {
+    const continuityPhrases = [
+      "I remember we've talked about this before. ",
+      "Building on our previous conversation about this, ",
+      "As we discussed earlier, ",
+      "Following up on what you shared before, "
+    ];
+    
+    // Add continuity phrase 30% of the time to avoid being repetitive
+    if (Math.random() < 0.3) {
+      const phrase = continuityPhrases[Math.floor(Math.random() * continuityPhrases.length)];
+      personalizedResponse = phrase + personalizedResponse.charAt(0).toLowerCase() + personalizedResponse.slice(1);
+    }
+  }
+  
+  // Add empathetic acknowledgment based on conversation length
+  if (userMessages.length > 4) {
+    const empathyPhrases = [
+      "I've been listening to what you've shared, and ",
+      "Thank you for continuing to trust me with this. ",
+      "I can see this is important to you. "
+    ];
+    
+    if (Math.random() < 0.2) {
+      const phrase = empathyPhrases[Math.floor(Math.random() * empathyPhrases.length)];
+      personalizedResponse = phrase + personalizedResponse.charAt(0).toLowerCase() + personalizedResponse.slice(1);
+    }
+  }
+  
+  return personalizedResponse;
 }
 
 // Generate general supportive response
