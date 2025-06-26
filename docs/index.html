@@ -1381,42 +1381,30 @@ function hideAILoading() {
 
 // Initialize AI Model
 async function initializeAI() {
-  if (!window.transformers) {
+  // Wait a moment to ensure library has time to initialize
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  if (typeof window.transformers === 'undefined') {
     console.error('Transformers.js not loaded');
     hideAILoading();
+    addMessage("I'm having trouble loading my AI capabilities. I'll still try to help you the best I can.", 'bot');
     return;
   }
-
+  
   try {
-    showAILoading();
-    updateProgress(10, 'Loading transformers.js...');
+    // Extract pipeline from window.transformers
+    const { pipeline } = window.transformers;
     
-    updateProgress(30, 'Loading DistilGPT-2 model...');
-    
-    // Load the text generation pipeline
-    pipeline = await window.transformers.pipeline('text-generation', 'Xenova/distilgpt2', {
-      progress_callback: (progress) => {
-        const percent = Math.round(progress * 50) + 30; // 30-80%
-        updateProgress(percent, `Downloading model... ${Math.round(progress * 100)}%`);
-      }
-    });
-    
-    updateProgress(90, 'Initializing model...');
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    updateProgress(100, 'AI Ready!');
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    hideAILoading();
+    // Initialize the AI pipeline
+    window.pipeline = await pipeline('text-generation', 'Xenova/distilgpt2');
+    console.log('AI pipeline initialized successfully');
     isAILoaded = true;
-    console.log('AI Model loaded successfully!');
-    
-  } catch (error) {
-    console.error('AI loading failed:', error);
     hideAILoading();
-    // Add a subtle notification that fallback mode is active
-    console.log('Using fallback response system');
-    addMessage("I'm operating in standard mode today. How can I support you?", 'bot');
+    addMessage("I'm here to support you with questions about mental health and wellness. How can I help you today?", 'bot');
+  } catch (error) {
+    console.error('Error initializing AI:', error);
+    hideAILoading();
+    addMessage("I'm having trouble initializing my AI capabilities, but I'll still try to help you the best I can.", 'bot');
   }
 }
 
