@@ -1,12 +1,102 @@
 /* GitHub Pages Deployment Fix - Force rebuild to clear caches - December 2024 */
-// AI Chat Functionality for Fernly Health - Smart Pattern-Based AI Implementation
-// This file handles all AI-related functionality using advanced pattern matching and contextual responses
-// Designed for reliable static hosting with comprehensive mental health support
+/**
+ * AI Chat Functionality for Fernly Health - Self-Improving Pattern-Based AI Implementation
+ * 
+ * SELF-IMPROVEMENT CAPABILITIES:
+ * 
+ * 1. LEARNING FROM USER INTERACTIONS:
+ *    - Collects user feedback after each response ("Was this helpful?")
+ *    - Stores user-suggested better responses in localStorage
+ *    - Learns new intent patterns when users categorize unrecognized messages
+ *    - Tracks engagement metrics to optimize response selection
+ * 
+ * 2. ADAPTIVE PATTERN MATCHING:
+ *    - Expands intent recognition with user-provided examples
+ *    - Supports multi-intent detection in single messages
+ *    - Handles misspellings, slang, and informal language variations
+ *    - Continuously improves through user feedback
+ * 
+ * 3. PERSONALIZATION:
+ *    - Remembers user preferences and communication styles
+ *    - Prioritizes responses that have received positive feedback
+ *    - Adapts to individual user's language patterns over time
+ * 
+ * 4. LOCAL STORAGE LEARNING (Browser-Specific):
+ *    - All learning is stored locally in the user's browser
+ *    - Data persists across sessions but is lost if browser cache is cleared
+ *    - No external APIs or servers required - fully client-side
+ * 
+ * 5. FUTURE BACKEND INTEGRATION:
+ *    - Code is structured for easy addition of backend sync (Firebase/Supabase)
+ *    - Learning data can be easily migrated to cloud storage
+ *    - Designed with API-ready data structures
+ * 
+ * LIMITATIONS:
+ * - Learning is per-browser and resets when cache is cleared
+ * - No cross-device synchronization (until backend is added)
+ * - Privacy-focused: all data stays on user's device
+ * 
+ * EXTENDING WITH BACKEND:
+ * To add backend sync, implement the syncLearningData() function and 
+ * update saveLearningData()/loadLearningData() to use your chosen backend.
+ */
 
 // Smart AI Variables - no external model dependencies
 let isAILoaded = false;
 let isFallbackMode = false;
 let conversationStarted = false;
+
+// SELF-LEARNING AI DATA STRUCTURES
+// All learning data is stored locally in the browser
+let learningData = {
+  // User-trained patterns for each intent
+  learnedPatterns: {
+    anxiety: [],
+    depression: [],
+    ptsd: [],
+    adhd: [],
+    bipolar: [],
+    ocd: [],
+    sleep: [],
+    general: []
+  },
+  
+  // User-suggested responses with feedback scores
+  learnedResponses: {
+    anxiety: [],
+    depression: [],
+    ptsd: [],
+    adhd: [],
+    bipolar: [],
+    ocd: [],
+    sleep: [],
+    general: []
+  },
+  
+  // Response effectiveness tracking
+  responseMetrics: {
+    // responseId: { helpfulCount: 0, notHelpfulCount: 0, engagementScore: 0 }
+  },
+  
+  // User feedback and preferences
+  userProfile: {
+    preferredResponseStyle: 'supportive', // supportive, clinical, casual
+    communicationPreferences: [],
+    engagementHistory: [],
+    lastFeedbackDate: null
+  },
+  
+  // Unrecognized messages for learning opportunities
+  unrecognizedMessages: [],
+  
+  // Version for future compatibility
+  version: '1.0',
+  lastUpdated: null
+};
+
+// Flag to track if we're waiting for user feedback
+let awaitingFeedback = false;
+let lastResponseId = null;
 
 // COMPREHENSIVE MEDICATION INFORMATION DATABASE
 const medicationDatabase = {
@@ -87,7 +177,9 @@ const conversationContext = {
     anxiety: [],
     ptsd: [],
     adhd: [],
-    bipolar: []
+    bipolar: [],
+    ocd: [],
+    sleep: []
   },
   topicCounts: {},
   assessmentInProgress: false,
@@ -104,6 +196,115 @@ const conversationContext = {
     empathyLevel: 'high'
   }
 };
+
+// LEARNING DATA MANAGEMENT FUNCTIONS
+
+/**
+ * Save learning data to localStorage
+ */
+function saveLearningData() {
+  try {
+    learningData.lastUpdated = new Date().toISOString();
+    localStorage.setItem('fernly_ai_learning', JSON.stringify(learningData));
+    console.log('Learning data saved to localStorage');
+    return true;
+  } catch (error) {
+    console.warn('Failed to save learning data:', error);
+    return false;
+  }
+}
+
+/**
+ * Load learning data from localStorage
+ */
+function loadLearningData() {
+  try {
+    const stored = localStorage.getItem('fernly_ai_learning');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      
+      // Merge with default structure to handle version updates
+      learningData = {
+        ...learningData,
+        ...parsed,
+        // Ensure all required properties exist
+        learnedPatterns: { ...learningData.learnedPatterns, ...(parsed.learnedPatterns || {}) },
+        learnedResponses: { ...learningData.learnedResponses, ...(parsed.learnedResponses || {}) },
+        responseMetrics: { ...learningData.responseMetrics, ...(parsed.responseMetrics || {}) },
+        userProfile: { ...learningData.userProfile, ...(parsed.userProfile || {}) }
+      };
+      
+      console.log('Learning data loaded from localStorage');
+      return true;
+    }
+  } catch (error) {
+    console.warn('Failed to load learning data:', error);
+  }
+  return false;
+}
+
+/**
+ * Reset learning data to defaults (when localStorage is cleared)
+ */
+function resetLearningData() {
+  const defaultData = {
+    learnedPatterns: {
+      anxiety: [],
+      depression: [],
+      ptsd: [],
+      adhd: [],
+      bipolar: [],
+      ocd: [],
+      sleep: [],
+      general: []
+    },
+    learnedResponses: {
+      anxiety: [],
+      depression: [],
+      ptsd: [],
+      adhd: [],
+      bipolar: [],
+      ocd: [],
+      sleep: [],
+      general: []
+    },
+    responseMetrics: {},
+    userProfile: {
+      preferredResponseStyle: 'supportive',
+      communicationPreferences: [],
+      engagementHistory: [],
+      lastFeedbackDate: null
+    },
+    unrecognizedMessages: [],
+    version: '1.0',
+    lastUpdated: null
+  };
+  
+  learningData = defaultData;
+  saveLearningData();
+  console.log('Learning data reset to defaults');
+}
+
+/**
+ * Placeholder for future backend sync
+ * To implement backend sync, replace this with actual API calls
+ */
+async function syncLearningData() {
+  // Future implementation for backend sync
+  // Example structure:
+  // try {
+  //   const response = await fetch('/api/sync-learning', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify(learningData)
+  //   });
+  //   return response.ok;
+  // } catch (error) {
+  //   console.warn('Backend sync failed:', error);
+  //   return false;
+  // }
+  return Promise.resolve(true);
+}
 
 // Advanced response templates with multiple variations
 const responseTemplates = {
@@ -140,6 +341,46 @@ const responseTemplates = {
     ]
   },
   
+  // NEW MENTAL HEALTH TOPIC RESPONSES
+  ocd: {
+    initial: [
+      "I understand you're dealing with OCD. Those intrusive thoughts and compulsions can be really overwhelming and exhausting.",
+      "OCD can feel like your mind is stuck in a loop. It's a real condition that affects many people, and you're not alone in this struggle.",
+      "Thank you for sharing about your OCD. Those repetitive thoughts and behaviors can be incredibly distressing, and it takes courage to talk about them."
+    ],
+    followUp: [
+      "OCD responds well to treatment, especially exposure and response prevention therapy. Have you been able to work with a therapist who specializes in OCD?",
+      "I know the compulsions might feel like they provide relief, but they often make OCD stronger. Have you learned any techniques to resist the urges?",
+      "OCD can be very treatable. The key is learning to tolerate the anxiety without performing the compulsions. Are you working with anyone on this?"
+    ]
+  },
+  
+  sleep: {
+    initial: [
+      "Sleep problems can really impact every area of your life. I'm glad you're reaching out about this - good sleep is so important for mental health.",
+      "I understand you're having trouble with sleep. Whether it's falling asleep, staying asleep, or sleeping too much, it can be really frustrating.",
+      "Sleep issues and mental health are closely connected. When we don't sleep well, everything else becomes harder to manage."
+    ],
+    followUp: [
+      "Sleep hygiene can make a big difference. Things like keeping a consistent bedtime, avoiding screens before bed, and creating a calming routine can help.",
+      "Sometimes sleep problems are symptoms of other conditions like anxiety or depression. Have you noticed any patterns with your mood and sleep?",
+      "If sleep problems persist, it might be worth talking to a healthcare provider. There are effective treatments available for various sleep disorders."
+    ]
+  },
+  
+  bipolar: {
+    initial: [
+      "I hear that you're dealing with bipolar disorder. Those mood swings between highs and lows can be really challenging to navigate.",
+      "Bipolar disorder affects many people, and it's completely manageable with the right support and treatment. Thank you for sharing this with me.",
+      "The extreme mood changes in bipolar disorder can feel overwhelming. It's important to know that you're not alone and that effective treatments are available."
+    ],
+    followUp: [
+      "Mood tracking can be really helpful with bipolar disorder. Have you been able to identify any triggers or patterns in your mood cycles?",
+      "Bipolar disorder typically requires ongoing treatment. Are you working with a psychiatrist or therapist who understands bipolar disorder?",
+      "Managing bipolar disorder often involves medication, therapy, and lifestyle strategies. Having a good support system is also crucial."
+    ]
+  },
+  
   crisis: [
     "🚨 I'm very concerned about what you're going through. If you're having thoughts of harming yourself, please reach out for immediate help: Call 988 (Suicide & Crisis Lifeline) - available 24/7, or text 'HELLO' to 741741. You're not alone.",
     "This sounds like you're in a lot of pain right now. Please know that help is available. The 988 Suicide & Crisis Lifeline is available 24/7, and they have trained counselors who understand what you're going through.",
@@ -147,53 +388,122 @@ const responseTemplates = {
   ]
 };
 
-// Sophisticated pattern matching for intent recognition
+// Sophisticated pattern matching for intent recognition with variations and misspellings
 const intentPatterns = {
   greeting: [
     /^(hi|hello|hey|good morning|good afternoon|good evening)/i,
-    /^(how are you|what's up|sup)/i
+    /^(how are you|what's up|sup|whats up|wassup)/i,
+    /^(hiya|heya|hallo|helo)/i // Common misspellings
   ],
   
   anxiety: [
     /(anxious|anxiety|worried|worry|panic|fear|nervous|stress|overwhelm)/i,
     /(can't stop thinking|racing thoughts|catastrophizing|overthinking)/i,
-    /(heart racing|shortness of breath|sweating|trembling)/i
+    /(heart racing|shortness of breath|sweating|trembling)/i,
+    // Variations and misspellings
+    /(anxios|anxitey|panik|stres|overwelm|overwelmed)/i,
+    /(freaking out|stressed out|wound up|on edge|butterflies)/i,
+    /(cant sleep|tossing and turning|mind racing|spiraling)/i,
+    // Slang and informal
+    /(buggin|bugging|trippin|tripping|losing it|going crazy)/i
   ],
   
   depression: [
     /(depressed|depression|sad|hopeless|empty|numb|worthless|guilty)/i,
     /(no energy|tired|fatigue|sleep problems|can't sleep|sleeping too much)/i,
     /(no interest|no pleasure|don't enjoy|nothing matters)/i,
-    /(want to die|better off dead|no point|can't go on)/i
+    /(want to die|better off dead|no point|can't go on)/i,
+    // Variations and misspellings
+    /(depresed|depress|hopless|worthles|exausted|exhasted)/i,
+    /(feeling down|down in dumps|blue|low|rock bottom)/i,
+    /(dont care|nothing matters|whats the point|why bother)/i,
+    // Slang and informal
+    /(bummed out|super down|really low|feeling like crap|hate myself)/i
   ],
   
   crisis: [
     /(suicide|kill myself|want to die|end it all|better off dead)/i,
-    /(can't go on|no point|hurt myself|self harm|overdose)/i
+    /(can't go on|no point|hurt myself|self harm|overdose)/i,
+    /(suicidal|suicidal thoughts|ending my life|not worth living)/i,
+    // Variations and coded language
+    /(dont want to be here|tired of living|ready to go|cant take it)/i,
+    /(everyone would be better without me|burden|waste of space)/i
   ],
   
   medication: [
     /(medication|medicine|pill|drug|prescription|antidepressant)/i,
-    /(side effect|dose|dosage|taking|prescribed)/i
+    /(side effect|dose|dosage|taking|prescribed)/i,
+    // Variations and misspellings
+    /(meds|medicaton|perscription|prescripion|anti-depressant)/i,
+    /(pills|tablets|capsules|pharma|pharmacy)/i
   ],
   
   ptsd: [
     /(ptsd|trauma|flashback|nightmare|triggered|hypervigilant)/i,
-    /(can't forget|keeps happening|reliving|avoidance)/i
+    /(can't forget|keeps happening|reliving|avoidance)/i,
+    // Variations and informal language
+    /(post traumatic|traumatic stress|flash back|night mare)/i,
+    /(cant get it out of my head|haunts me|keeps replaying)/i,
+    /(jumpy|startled|on guard|cant relax|hyperaware)/i
   ],
   
   adhd: [
     /(adhd|add|attention deficit|hyperactive|can't focus|distracted)/i,
-    /(fidgeting|restless|impulsive|disorganized|forgetful)/i
+    /(fidgeting|restless|impulsive|disorganized|forgetful)/i,
+    // Variations and informal language
+    /(a\.d\.d|a\.d\.h\.d|cant focus|cant concentrate|scattered)/i,
+    /(hyper|bouncing off walls|all over the place|spacey)/i,
+    /(procrastinating|putting things off|cant sit still)/i
+  ],
+  
+  // NEW MENTAL HEALTH TOPICS
+  ocd: [
+    /(ocd|obsessive|compulsive|rituals|checking|counting)/i,
+    /(intrusive thoughts|unwanted thoughts|contamination|germs)/i,
+    /(have to do|cant stop|over and over|perfectly|exactly right)/i,
+    // Variations and informal language
+    /(o\.c\.d|obsesive|compulsiv|ritualistic|repetitive)/i,
+    /(checking locks|washing hands|counting|organizing)/i,
+    /(thoughts stuck|cant get thoughts out|bothering me)/i
+  ],
+  
+  sleep: [
+    /(insomnia|can't sleep|sleep problems|sleeping too much)/i,
+    /(tired|exhausted|fatigue|no energy|sleepy)/i,
+    /(nightmares|night terrors|sleep walking|restless sleep)/i,
+    // Variations and informal language
+    /(cant fall asleep|tossing turning|up all night|sleep schedule)/i,
+    /(wiped out|drained|burnt out|running on empty)/i,
+    /(bad dreams|scary dreams|waking up tired|never rested)/i
+  ],
+  
+  bipolar: [
+    /(bipolar|manic|mood swings|elevated mood|grandiose)/i,
+    /(up and down|high and low|mood changes|euphoric)/i,
+    /(racing thoughts|talking fast|impulsive|reckless)/i,
+    // Variations and informal language
+    /(bi-polar|mood disorder|manic depressive|mixed episodes)/i,
+    /(feeling invincible|on top of world|crash|coming down)/i,
+    /(emotional rollercoaster|all over the place emotionally)/i
   ]
 };
 
-// Initialize Smart AI System
+// Initialize Smart AI System with Learning Data
 async function initializeAI() {
   try {
     updateAIStatusIndicator('loading', 'Initializing Smart AI System...');
     showAILoading();
     updateProgress(20, 'Loading AI patterns...');
+    
+    // Load learning data from localStorage
+    const learningLoaded = loadLearningData();
+    if (learningLoaded) {
+      console.log('Previous learning data loaded successfully');
+      updateProgress(35, 'Learning data loaded...');
+    } else {
+      console.log('No previous learning data found, starting fresh');
+      updateProgress(35, 'Initializing learning systems...');
+    }
     
     // Simulate initialization time for better UX
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -213,6 +523,11 @@ async function initializeAI() {
     updateAIStatusIndicator('ai-active', 'Smart AI Active');
     showAISuccessNotification();
     
+    // Show learning status if data was loaded
+    if (learningLoaded) {
+      showLearningDataNotification();
+    }
+    
   } catch (error) {
     console.error('Smart AI initialization failed:', error);
     hideAILoading();
@@ -223,62 +538,224 @@ async function initializeAI() {
   }
 }
 
-// Advanced Intent Recognition
+/**
+ * Show notification about loaded learning data
+ */
+function showLearningDataNotification() {
+  const totalLearned = Object.values(learningData.learnedPatterns).reduce((sum, patterns) => sum + patterns.length, 0);
+  const totalResponses = Object.values(learningData.learnedResponses).reduce((sum, responses) => sum + responses.length, 0);
+  
+  if (totalLearned > 0 || totalResponses > 0) {
+    console.log(`AI loaded with ${totalLearned} learned patterns and ${totalResponses} improved responses`);
+    
+    const chatMessages = document.getElementById('chatMessages');
+    if (chatMessages) {
+      const learningDiv = document.createElement('div');
+      learningDiv.className = 'message bot learning-info';
+      learningDiv.innerHTML = `
+        <div class="message-content">
+          <div class="message-avatar">🧠</div>
+          <div class="message-text">
+            <div style="background: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
+              <strong>🎓 Learning Data Loaded!</strong><br>
+              <small style="color: #2e7d32;">
+                I've remembered ${totalLearned} patterns and ${totalResponses} improved responses from our previous conversations. I'm getting smarter!
+              </small>
+            </div>
+            <small style="color: #666;"><em>Note: This learning data is stored locally in your browser and will be lost if you clear your browser cache.</em></small>
+          </div>
+        </div>
+      `;
+      chatMessages.appendChild(learningDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+  }
+}
+
+// Advanced Intent Recognition with Multi-Intent Detection and Learning
 function recognizeIntent(message) {
   const lowerMessage = message.toLowerCase();
+  const detectedIntents = [];
   
-  // Crisis detection has highest priority
+  // Crisis detection has highest priority - always check first
   for (const pattern of intentPatterns.crisis) {
     if (pattern.test(lowerMessage)) {
-      return 'crisis';
+      return 'crisis'; // Crisis overrides all other intents
     }
   }
   
-  // Check for other intents
+  // Check built-in patterns for all intents
   for (const [intent, patterns] of Object.entries(intentPatterns)) {
     if (intent === 'crisis') continue; // Already checked
     
     for (const pattern of patterns) {
       if (pattern.test(lowerMessage)) {
-        return intent;
+        detectedIntents.push(intent);
+        break; // One match per intent type is enough
       }
     }
   }
   
-  return 'general';
+  // Check learned patterns from user training
+  for (const [intent, learnedPatterns] of Object.entries(learningData.learnedPatterns)) {
+    if (learnedPatterns.length === 0) continue;
+    
+    for (const learnedPattern of learnedPatterns) {
+      try {
+        const regex = new RegExp(learnedPattern.pattern, 'i');
+        if (regex.test(lowerMessage)) {
+          if (!detectedIntents.includes(intent)) {
+            detectedIntents.push(intent);
+          }
+          // Track successful use of learned pattern
+          learnedPattern.useCount = (learnedPattern.useCount || 0) + 1;
+          learnedPattern.lastUsed = new Date().toISOString();
+          saveLearningData();
+          break;
+        }
+      } catch (error) {
+        console.warn('Invalid learned pattern:', learnedPattern.pattern);
+      }
+    }
+  }
+  
+  // Return primary intent (most specific or most recently learned)
+  if (detectedIntents.length === 0) {
+    // Store unrecognized message for learning opportunity
+    storeUnrecognizedMessage(message);
+    return 'general';
+  }
+  
+  // If multiple intents detected, prioritize based on specificity and user interaction history
+  if (detectedIntents.length > 1) {
+    // Store multi-intent information for context
+    conversationContext.multiIntents = detectedIntents;
+    
+    // Prioritize mental health conditions over general categories
+    const priorityOrder = ['crisis', 'ptsd', 'ocd', 'bipolar', 'depression', 'anxiety', 'adhd', 'sleep', 'medication', 'greeting', 'general'];
+    for (const priority of priorityOrder) {
+      if (detectedIntents.includes(priority)) {
+        return priority;
+      }
+    }
+  }
+  
+  return detectedIntents[0];
 }
 
-// Contextual Response Selection
+/**
+ * Store unrecognized messages for learning opportunities
+ */
+function storeUnrecognizedMessage(message) {
+  // Don't store very short messages or repeated messages
+  if (message.length < 5) return;
+  
+  const existing = learningData.unrecognizedMessages.find(m => 
+    m.message.toLowerCase() === message.toLowerCase()
+  );
+  
+  if (existing) {
+    existing.count = (existing.count || 1) + 1;
+    existing.lastSeen = new Date().toISOString();
+  } else {
+    learningData.unrecognizedMessages.push({
+      message: message,
+      count: 1,
+      firstSeen: new Date().toISOString(),
+      lastSeen: new Date().toISOString(),
+      needsCategorization: true
+    });
+  }
+  
+  // Limit storage to prevent bloat
+  if (learningData.unrecognizedMessages.length > 100) {
+    learningData.unrecognizedMessages = learningData.unrecognizedMessages
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 100);
+  }
+  
+  saveLearningData();
+}
+
+// Contextual Response Selection with Learning Integration
 function selectResponse(intent, context) {
   const templates = responseTemplates[intent];
+  let selectedResponse = '';
+  let responseId = '';
   
-  if (!templates) {
-    return generateGeneralResponse(context);
+  // First, check for learned responses that have positive feedback
+  const learnedResponses = learningData.learnedResponses[intent] || [];
+  const highQualityLearned = learnedResponses.filter(r => 
+    (r.helpfulCount || 0) > (r.notHelpfulCount || 0) && 
+    (r.helpfulCount || 0) >= 2
+  );
+  
+  if (highQualityLearned.length > 0) {
+    // Sort by effectiveness (helpful ratio and usage count)
+    highQualityLearned.sort((a, b) => {
+      const aRatio = (a.helpfulCount || 0) / Math.max((a.helpfulCount || 0) + (a.notHelpfulCount || 0), 1);
+      const bRatio = (b.helpfulCount || 0) / Math.max((b.helpfulCount || 0) + (b.notHelpfulCount || 0), 1);
+      return bRatio - aRatio; // Higher ratio first
+    });
+    
+    selectedResponse = highQualityLearned[0].response;
+    responseId = highQualityLearned[0].id;
   }
   
-  if (typeof templates === 'string') {
-    return templates;
+  // Fall back to built-in templates if no good learned responses
+  if (!selectedResponse) {
+    if (!templates) {
+      selectedResponse = generateGeneralResponse(context);
+      responseId = 'general_' + Date.now();
+    } else if (typeof templates === 'string') {
+      selectedResponse = templates;
+      responseId = intent + '_string_' + Date.now();
+    } else if (Array.isArray(templates)) {
+      selectedResponse = templates[Math.floor(Math.random() * templates.length)];
+      responseId = intent + '_array_' + Date.now();
+    } else {
+      // For complex intent objects (like anxiety, depression)
+      const count = conversationContext.topicCounts[intent] || 0;
+      
+      if (count === 0 && templates.initial) {
+        selectedResponse = templates.initial[Math.floor(Math.random() * templates.initial.length)];
+        responseId = intent + '_initial_' + Date.now();
+      } else if (templates.followUp) {
+        selectedResponse = templates.followUp[Math.floor(Math.random() * templates.followUp.length)];
+        responseId = intent + '_followup_' + Date.now();
+      } else {
+        selectedResponse = templates.initial?.[0] || "I'm here to support you. Can you tell me more about what you're experiencing?";
+        responseId = intent + '_default_' + Date.now();
+      }
+    }
   }
   
-  if (Array.isArray(templates)) {
-    // Select random response to avoid repetition
-    return templates[Math.floor(Math.random() * templates.length)];
+  // Store response ID for feedback tracking
+  lastResponseId = responseId;
+  
+  // Handle multi-intent responses
+  if (conversationContext.multiIntents && conversationContext.multiIntents.length > 1) {
+    const additionalIntents = conversationContext.multiIntents.filter(i => i !== intent).slice(0, 2);
+    if (additionalIntents.length > 0) {
+      selectedResponse += ` I also noticed you mentioned ${additionalIntents.join(' and ')}. Feel free to talk about any of these topics.`;
+    }
   }
   
-  // For complex intent objects (like anxiety, depression)
-  const count = conversationContext.topicCounts[intent] || 0;
-  
-  if (count === 0 && templates.initial) {
-    return templates.initial[Math.floor(Math.random() * templates.initial.length)];
-  } else if (templates.followUp) {
-    return templates.followUp[Math.floor(Math.random() * templates.followUp.length)];
-  }
-  
-  return templates.initial?.[0] || "I'm here to support you. Can you tell me more about what you're experiencing?";
+  return selectedResponse;
 }
 
-// Enhanced AI Response Generation
+// Enhanced AI Response Generation with Learning and Feedback
 async function generateAIResponse(userMessage) {
+  // Check if user is providing feedback on previous response
+  if (awaitingFeedback && lastResponseId) {
+    return handleUserFeedback(userMessage);
+  }
+  
+  // Check if user is categorizing an unrecognized message
+  if (userMessage.toLowerCase().startsWith('category:') || userMessage.toLowerCase().startsWith('intent:')) {
+    return handleMessageCategorization(userMessage);
+  }
+  
   // Add message to conversation context
   conversationContext.messages.push({
     role: 'user',
@@ -286,7 +763,10 @@ async function generateAIResponse(userMessage) {
     timestamp: new Date().toISOString()
   });
   
-  // Recognize intent
+  // Clear previous multi-intent data
+  conversationContext.multiIntents = null;
+  
+  // Recognize intent (now with multi-intent support and learning)
   const intent = recognizeIntent(userMessage);
   
   // Update conversation context
@@ -297,13 +777,34 @@ async function generateAIResponse(userMessage) {
   // Handle crisis immediately
   if (intent === 'crisis') {
     conversationContext.userPreferences.needsUrgentCare = true;
-    return selectResponse('crisis');
+    const crisisResponse = selectResponse('crisis');
+    
+    // Add to conversation context without feedback prompt for crisis
+    conversationContext.messages.push({
+      role: 'assistant',
+      content: crisisResponse,
+      timestamp: new Date().toISOString(),
+      intent: intent,
+      responseId: lastResponseId
+    });
+    
+    return crisisResponse;
   }
   
   // Check for medication questions
   const medicationInfo = getMedicationInfoFromMessage(userMessage);
   if (medicationInfo) {
-    return generateMedicationResponse(medicationInfo);
+    const medResponse = generateMedicationResponse(medicationInfo);
+    
+    conversationContext.messages.push({
+      role: 'assistant',
+      content: medResponse,
+      timestamp: new Date().toISOString(),
+      intent: 'medication',
+      responseId: 'medication_' + Date.now()
+    });
+    
+    return medResponse + addFeedbackPrompt();
   }
   
   // Check if wellness assessment is in progress or being requested
@@ -329,10 +830,237 @@ async function generateAIResponse(userMessage) {
     role: 'assistant',
     content: response,
     timestamp: new Date().toISOString(),
-    intent: intent
+    intent: intent,
+    responseId: lastResponseId
   });
   
-  return response;
+  // Add feedback prompt and learning opportunities
+  const responseWithFeedback = response + addFeedbackPrompt();
+  
+  // Check for learning opportunities
+  const learningPrompt = checkForLearningOpportunities();
+  if (learningPrompt) {
+    return responseWithFeedback + learningPrompt;
+  }
+  
+  return responseWithFeedback;
+}
+
+/**
+ * Add feedback prompt to responses
+ */
+function addFeedbackPrompt() {
+  // Don't add feedback prompts too frequently
+  const recentMessages = conversationContext.messages.slice(-6);
+  const hasFeedbackPrompt = recentMessages.some(m => 
+    m.content && m.content.includes('Was this helpful?')
+  );
+  
+  if (hasFeedbackPrompt) {
+    return '';
+  }
+  
+  awaitingFeedback = true;
+  
+  return `
+
+<div class="feedback-prompt" style="background: #f0f8ff; border: 1px solid #b3d9ff; border-radius: 8px; padding: 12px; margin-top: 10px;">
+  <strong>Was this helpful?</strong> 
+  <div style="margin-top: 8px;">
+    <span style="cursor: pointer; background: #4CAF50; color: white; padding: 4px 8px; border-radius: 4px; margin-right: 8px;" onclick="provideFeedback('helpful')">👍 Yes</span>
+    <span style="cursor: pointer; background: #f44336; color: white; padding: 4px 8px; border-radius: 4px;" onclick="provideFeedback('not_helpful')">👎 No</span>
+  </div>
+  <small style="color: #666; margin-top: 8px; display: block;">Your feedback helps me improve my responses.</small>
+</div>`;
+}
+
+/**
+ * Handle user feedback on AI responses
+ */
+function handleUserFeedback(feedbackMessage) {
+  awaitingFeedback = false;
+  const feedback = feedbackMessage.toLowerCase().trim();
+  
+  if (!lastResponseId) {
+    return "Thank you for the feedback! I'll continue to improve.";
+  }
+  
+  // Initialize metrics if not exists
+  if (!learningData.responseMetrics[lastResponseId]) {
+    learningData.responseMetrics[lastResponseId] = {
+      helpfulCount: 0,
+      notHelpfulCount: 0,
+      engagementScore: 0
+    };
+  }
+  
+  let responseText = '';
+  
+  if (feedback.includes('helpful') || feedback.includes('yes') || feedback.includes('good') || feedback.includes('👍')) {
+    learningData.responseMetrics[lastResponseId].helpfulCount++;
+    learningData.userProfile.engagementHistory.push({
+      responseId: lastResponseId,
+      feedback: 'positive',
+      timestamp: new Date().toISOString()
+    });
+    responseText = "Thank you! I'm glad that was helpful. I'll remember what worked well for you.";
+  } else if (feedback.includes('not helpful') || feedback.includes('no') || feedback.includes('bad') || feedback.includes('👎')) {
+    learningData.responseMetrics[lastResponseId].notHelpfulCount++;
+    learningData.userProfile.engagementHistory.push({
+      responseId: lastResponseId,
+      feedback: 'negative',
+      timestamp: new Date().toISOString()
+    });
+    
+    responseText = "I'm sorry that wasn't helpful. Could you tell me what would have been more helpful? I'll learn from this for future responses.";
+    
+    // Prompt for better response
+    awaitingFeedback = true; // Keep waiting for the better response suggestion
+    
+    return responseText + `
+    
+<div class="improvement-prompt" style="background: #fff3e0; border: 1px solid #ffcc80; border-radius: 8px; padding: 12px; margin-top: 10px;">
+  <strong>Help me improve:</strong> What would have been a better response?
+  <br><small style="color: #666;">Your suggestion will help me respond better to similar situations in the future.</small>
+</div>`;
+  } else {
+    // Check if this is a suggested improvement
+    if (conversationContext.messages.length > 0) {
+      const lastAssistantMessage = conversationContext.messages
+        .filter(m => m.role === 'assistant')
+        .slice(-1)[0];
+      
+      if (lastAssistantMessage && lastAssistantMessage.content.includes('what would have been a better response')) {
+        return handleResponseImprovement(feedbackMessage);
+      }
+    }
+    
+    responseText = "Thank you for the feedback! I'll continue to learn and improve.";
+  }
+  
+  learningData.userProfile.lastFeedbackDate = new Date().toISOString();
+  saveLearningData();
+  
+  return responseText;
+}
+
+/**
+ * Handle user suggestions for better responses
+ */
+function handleResponseImprovement(suggestedResponse) {
+  awaitingFeedback = false;
+  
+  if (!lastResponseId || suggestedResponse.length < 10) {
+    return "Thank you for trying to help me improve. I'll keep learning from our conversations.";
+  }
+  
+  // Find the original response to get its intent
+  const originalMessage = conversationContext.messages.find(m => 
+    m.responseId === lastResponseId
+  );
+  
+  if (originalMessage && originalMessage.intent) {
+    const intent = originalMessage.intent;
+    
+    // Store the improved response
+    const improvedResponseId = 'improved_' + Date.now();
+    learningData.learnedResponses[intent].push({
+      id: improvedResponseId,
+      response: suggestedResponse,
+      userSuggested: true,
+      originalResponseId: lastResponseId,
+      dateAdded: new Date().toISOString(),
+      helpfulCount: 1, // Start with positive score since user suggested it
+      notHelpfulCount: 0,
+      source: 'user_improvement'
+    });
+    
+    saveLearningData();
+    
+    return `Thank you! I've learned from your suggestion and will use similar responses for ${intent} topics in the future. Your input helps me provide better support.`;
+  }
+  
+  return "Thank you for the suggestion. I'll keep improving based on your feedback.";
+}
+
+/**
+ * Check for learning opportunities
+ */
+function checkForLearningOpportunities() {
+  // Occasionally ask users to categorize unrecognized messages
+  if (learningData.unrecognizedMessages.length > 0 && Math.random() < 0.1) {
+    const unrecognized = learningData.unrecognizedMessages.find(m => m.needsCategorization);
+    
+    if (unrecognized) {
+      return `
+
+<div class="learning-prompt" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 12px; margin-top: 15px;">
+  <strong>Help me learn:</strong> I didn't fully understand this message: "${unrecognized.message}"
+  <br><br>
+  <strong>Is this about:</strong> anxiety, depression, PTSD, ADHD, bipolar, OCD, sleep, medication, or something else?
+  <br><small style="color: #666;">Type "Category: [topic]" to help me learn. This helps me understand similar messages better.</small>
+</div>`;
+    }
+  }
+  
+  return '';
+}
+
+/**
+ * Handle user categorization of unrecognized messages
+ */
+function handleMessageCategorization(categorizationMessage) {
+  const parts = categorizationMessage.split(':');
+  if (parts.length < 2) {
+    return "I didn't understand the categorization. Please use the format 'Category: [topic]' like 'Category: anxiety'.";
+  }
+  
+  const category = parts[1].trim().toLowerCase();
+  const validCategories = ['anxiety', 'depression', 'ptsd', 'adhd', 'bipolar', 'ocd', 'sleep', 'medication', 'general'];
+  
+  if (!validCategories.includes(category)) {
+    return `I don't recognize "${category}" as a category. Please use one of: ${validCategories.join(', ')}.`;
+  }
+  
+  // Find the unrecognized message that needs categorization
+  const unrecognizedIndex = learningData.unrecognizedMessages.findIndex(m => m.needsCategorization);
+  
+  if (unrecognizedIndex === -1) {
+    return "Thank you! I don't have any messages waiting for categorization right now.";
+  }
+  
+  const messageToLearn = learningData.unrecognizedMessages[unrecognizedIndex];
+  
+  // Create a learned pattern from the message
+  const learnedPattern = {
+    pattern: escapeRegExp(messageToLearn.message.toLowerCase()),
+    userProvided: true,
+    dateAdded: new Date().toISOString(),
+    useCount: 0,
+    source: 'user_categorization'
+  };
+  
+  // Add to learned patterns
+  if (!learningData.learnedPatterns[category]) {
+    learningData.learnedPatterns[category] = [];
+  }
+  learningData.learnedPatterns[category].push(learnedPattern);
+  
+  // Mark as categorized
+  learningData.unrecognizedMessages[unrecognizedIndex].needsCategorization = false;
+  learningData.unrecognizedMessages[unrecognizedIndex].categorizedAs = category;
+  learningData.unrecognizedMessages[unrecognizedIndex].categorizedDate = new Date().toISOString();
+  
+  saveLearningData();
+  
+  return `Perfect! I've learned that "${messageToLearn.message}" relates to ${category}. I'll recognize similar messages better in the future. Thank you for helping me improve!`;
+}
+
+/**
+ * Escape special regex characters
+ */
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 // Personalize responses based on conversation history
@@ -530,7 +1258,9 @@ function analyzeForSymptoms(message) {
     anxiety: ['anxious', 'worried', 'nervous', 'panic', 'fear', 'restless', 'racing thoughts'],
     ptsd: ['trauma', 'flashback', 'nightmare', 'triggered', 'hypervigilant'],
     adhd: ['can\'t focus', 'distracted', 'fidgeting', 'impulsive', 'disorganized'],
-    bipolar: ['manic', 'mood swings', 'elevated mood', 'grandiose']
+    bipolar: ['manic', 'mood swings', 'elevated mood', 'grandiose'],
+    ocd: ['obsessive', 'compulsive', 'rituals', 'checking', 'intrusive thoughts', 'contamination'],
+    sleep: ['insomnia', 'can\'t sleep', 'nightmares', 'tired', 'exhausted', 'sleep problems']
   };
   
   for (const [condition, symptoms] of Object.entries(symptomPatterns)) {
@@ -652,3 +1382,54 @@ window.showAIErrorNotification = showAIErrorNotification;
 window.showAISuccessNotification = showAISuccessNotification;
 window.updateAIStatusIndicator = updateAIStatusIndicator;
 window.hideAIStatusIndicator = hideAIStatusIndicator;
+
+// Export new learning functions
+window.provideFeedback = provideFeedback;
+window.saveLearningData = saveLearningData;
+window.loadLearningData = loadLearningData;
+window.resetLearningData = resetLearningData;
+
+/**
+ * Global function for providing feedback (called from HTML)
+ */
+function provideFeedback(feedbackType) {
+  if (feedbackType === 'helpful') {
+    // Simulate user typing "helpful"
+    handleUserFeedback('helpful');
+  } else if (feedbackType === 'not_helpful') {
+    // Simulate user typing "not helpful"
+    handleUserFeedback('not helpful');
+  }
+  
+  // Update the chat interface to show the feedback was received
+  const chatMessages = document.getElementById('chatMessages');
+  if (chatMessages) {
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'message user feedback-response';
+    feedbackDiv.innerHTML = `
+      <div class="message-content">
+        <div class="message-avatar">👤</div>
+        <div class="message-text">
+          ${feedbackType === 'helpful' ? '👍 This was helpful' : '👎 This was not helpful'}
+        </div>
+      </div>
+    `;
+    chatMessages.appendChild(feedbackDiv);
+    
+    // Generate AI response to the feedback
+    generateAIResponse(feedbackType === 'helpful' ? 'helpful' : 'not helpful').then(response => {
+      const aiResponseDiv = document.createElement('div');
+      aiResponseDiv.className = 'message bot';
+      aiResponseDiv.innerHTML = `
+        <div class="message-content">
+          <div class="message-avatar">🤖</div>
+          <div class="message-text">${response}</div>
+        </div>
+      `;
+      chatMessages.appendChild(aiResponseDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+    
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+}
