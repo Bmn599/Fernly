@@ -1,9 +1,10 @@
 /* GitHub Pages Deployment Fix - Force rebuild to clear caches - December 2024 */
 // AI Chat Functionality for Fernly Health
 // This file handles all AI-related functionality including model loading, response generation, and chat features
+// Updated to use WebLLM with TinyLlama model for enhanced conversational AI
 
-// AI Model Variables
-let pipeline = null;
+// WebLLM AI Model Variables
+let webllmEngine = null;
 let isAILoaded = false;
 
 // MEDICATION INFORMATION DATABASE
@@ -336,13 +337,13 @@ let conversationContext = {
   assessmentResponses: {}
 };
 
-// Check if Transformers.js is loaded and available
-// Returns a Promise that resolves when transformers is available or rejects after timeout
-function checkTransformersLoaded(maxWaitTime = 20000) { // Increased timeout to 20 seconds
+// Check if WebLLM is loaded and available
+// Returns a Promise that resolves when WebLLM is available or rejects after timeout
+function checkWebLLMLoaded(maxWaitTime = 20000) { // 20 seconds timeout
   return new Promise((resolve, reject) => {
     // If already loaded, resolve immediately
-    if (window.transformers) {
-      console.log('Transformers.js already loaded');
+    if (window.WebLLM) {
+      console.log('WebLLM already loaded');
       resolve(true);
       return;
     }
@@ -352,48 +353,48 @@ function checkTransformersLoaded(maxWaitTime = 20000) { // Increased timeout to 
     let retryCount = 0;
     const maxRetries = 3;
     
-    const checkForTransformers = () => {
+    const checkForWebLLM = () => {
       const elapsed = Date.now() - startTime;
       
-      if (window.transformers) {
-        console.log(`Transformers.js loaded successfully after ${elapsed}ms`);
+      if (window.WebLLM) {
+        console.log(`WebLLM loaded successfully after ${elapsed}ms`);
         resolve(true);
       } else if (elapsed > maxWaitTime) {
         retryCount++;
         if (retryCount < maxRetries) {
-          console.warn(`Transformers.js not loaded after ${elapsed}ms, retry ${retryCount}/${maxRetries}`);
+          console.warn(`WebLLM not loaded after ${elapsed}ms, retry ${retryCount}/${maxRetries}`);
           // Reset start time for retry
           const newStartTime = Date.now();
           const retryCheck = () => {
             const retryElapsed = Date.now() - newStartTime;
-            if (window.transformers) {
-              console.log(`Transformers.js loaded successfully on retry ${retryCount} after ${retryElapsed}ms`);
+            if (window.WebLLM) {
+              console.log(`WebLLM loaded successfully on retry ${retryCount} after ${retryElapsed}ms`);
               resolve(true);
             } else if (retryElapsed > 5000) { // 5 second retry timeout
-              checkForTransformers(); // Try next retry or fail
+              checkForWebLLM(); // Try next retry or fail
             } else {
               setTimeout(retryCheck, checkInterval);
             }
           };
           setTimeout(retryCheck, checkInterval);
         } else {
-          console.error(`Transformers.js not loaded - timeout after ${elapsed}ms with ${retryCount} retries`);
-          reject(new Error(`Transformers.js loading timeout after ${elapsed}ms`));
+          console.error(`WebLLM not loaded - timeout after ${elapsed}ms with ${retryCount} retries`);
+          reject(new Error(`WebLLM loading timeout after ${elapsed}ms`));
         }
       } else {
         // Continue checking
-        setTimeout(checkForTransformers, checkInterval);
+        setTimeout(checkForWebLLM, checkInterval);
       }
     };
     
-    checkForTransformers();
+    checkForWebLLM();
   });
 }
 
 // Legacy synchronous version for backward compatibility
-function checkTransformersLoadedSync() {
-  if (!window.transformers) {
-    console.error('Transformers.js not loaded');
+function checkWebLLMLoadedSync() {
+  if (!window.WebLLM) {
+    console.error('WebLLM not loaded');
     return false;
   }
   return true;
@@ -452,25 +453,33 @@ function showAIErrorNotification(message) {
   console.warn('AI Error Notification:', message);
 }
 
-// Initialize AI Model
+// Initialize WebLLM AI Model with TinyLlama
+// WebLLM License: Apache 2.0 - Suitable for commercial use and redistribution
+// TinyLlama Model License: Apache 2.0 - Suitable for commercial use and redistribution
 async function initializeAI() {
-  if (!checkTransformersLoadedSync()) {
+  if (!checkWebLLMLoadedSync()) {
     hideAILoading();
-    showAIErrorNotification('The AI library failed to load. Please refresh the page or try again later.');
+    showAIErrorNotification('The WebLLM library failed to load. Please refresh the page or try again later.');
     return;
   }
 
   try {
     showAILoading();
-    updateProgress(10, 'Loading transformers.js...');
+    updateProgress(10, 'Loading WebLLM...');
     
-    updateProgress(30, 'Loading DistilGPT-2 model...');
+    // Initialize WebLLM engine
+    webllmEngine = new window.WebLLM.Engine();
     
-    // Load the text generation pipeline
-    pipeline = await window.transformers.pipeline('text-generation', 'Xenova/distilgpt2', {
+    updateProgress(30, 'Loading TinyLlama model...');
+    
+    // Load TinyLlama model - a small but capable model for in-browser use
+    // Model: TinyLlama-1.1B-Chat-v1.0-q4f16_1 (quantized for efficiency)
+    // License: Apache 2.0, suitable for commercial use
+    await webllmEngine.reload("TinyLlama-1.1B-Chat-v1.0-q4f16_1", {
       progress_callback: (progress) => {
-        const percent = Math.round(progress * 50) + 30; // 30-80%
-        updateProgress(percent, `Downloading model... ${Math.round(progress * 100)}%`);
+        const percent = Math.round(progress.progress * 50) + 30; // 30-80%
+        const progressText = progress.text || `Loading model... ${Math.round(progress.progress * 100)}%`;
+        updateProgress(percent, progressText);
       }
     });
     
@@ -482,12 +491,12 @@ async function initializeAI() {
     
     hideAILoading();
     isAILoaded = true;
-    console.log('AI Model loaded successfully!');
+    console.log('WebLLM AI Model loaded successfully!');
     
   } catch (error) {
-    console.error('AI loading failed:', error);
+    console.error('WebLLM AI loading failed:', error);
     hideAILoading();
-    showAIErrorNotification('Unable to load the AI model. The chat will use a basic response system instead.');
+    showAIErrorNotification('Unable to load the WebLLM AI model. The chat will use a basic response system instead.');
     // Add a subtle notification that fallback mode is active
     console.log('Using fallback response system');
     if (typeof addMessage === 'function') {
@@ -727,7 +736,7 @@ function suggestWellnessAssessment() {
   return "I notice you've mentioned several symptoms that might be worth exploring further. Would you like me to walk you through a brief wellness assessment? It's not a diagnostic tool, but it might help us understand what kind of support could be most helpful for you.";
 }
 
-// ENHANCED AI Response Generation with conversation context
+// ENHANCED AI Response Generation with WebLLM conversation context
 async function generateAIResponse(userMessage) {
   // Add message to conversation context
   conversationContext.messages.push({
@@ -762,48 +771,43 @@ async function generateAIResponse(userMessage) {
     return suggestWellnessAssessment();
   }
   
-  // Regular AI response generation
-  if (!isAILoaded || !pipeline) {
+  // Regular AI response generation using WebLLM
+  if (!isAILoaded || !webllmEngine) {
     return generateSmartResponse(userMessage); // Fallback
   }
   
   try {
-    // Build conversation history string (last 3-4 exchanges)
-    let conversationHistory = "";
-    // Get last few messages (limiting to avoid token issues)
-    const recentMessages = conversationContext.messages.slice(-6); // Last 3 exchanges (6 messages)
-    
-    for (const msg of recentMessages) {
-      if (msg.role === 'user') {
-        conversationHistory += `User: ${msg.content}\n`;
-      } else if (msg.role === 'assistant') {
-        conversationHistory += `Assistant: ${msg.content}\n`;
+    // Build conversation history for WebLLM chat API
+    const chatMessages = [
+      {
+        role: "system",
+        content: "You are a compassionate mental health support assistant. Provide empathetic, supportive, and helpful responses. Keep responses conversational and under 2-3 sentences. Focus on emotional support, active listening, and gentle guidance."
       }
+    ];
+    
+    // Add recent conversation history (last 6 messages = 3 exchanges)
+    const recentMessages = conversationContext.messages.slice(-6);
+    for (const msg of recentMessages) {
+      chatMessages.push({
+        role: msg.role === 'user' ? 'user' : 'assistant',
+        content: msg.content
+      });
     }
     
-    // Create context-aware prompt with conversation history
-    const prompt = `Mental health support conversation.\n${conversationHistory}Assistant:`;
-    
-    // Generate AI response
-    const result = await pipeline(prompt, {
-      max_new_tokens: 100,
+    // Generate AI response using WebLLM chat completion
+    const response = await webllmEngine.chat.completions.create({
+      messages: chatMessages,
       temperature: 0.7,
-      do_sample: true,
-      pad_token_id: 50256
+      max_tokens: 150,
+      stream: false
     });
     
-    let aiResponse = result[0].generated_text;
+    const aiResponse = response.choices[0]?.message?.content?.trim();
     
-    // Extract only the AI response part (after the last "Assistant:")
-    aiResponse = aiResponse.split('Assistant:').pop() || aiResponse;
-    aiResponse = aiResponse.trim();
-    
-    // Clean up the response
-    aiResponse = aiResponse.replace(/User:.*$/s, '').trim();
-    
-    // Ensure response is appropriate and helpful
-    if (aiResponse.length < 10 || aiResponse.includes('User:')) {
-      return generateSmartResponse(userMessage); // Fallback
+    // Validate response quality
+    if (!aiResponse || aiResponse.length < 10) {
+      console.log('WebLLM response too short or empty, using fallback');
+      return generateSmartResponse(userMessage);
     }
     
     // Add to conversation context
@@ -815,7 +819,7 @@ async function generateAIResponse(userMessage) {
     return aiResponse;
     
   } catch (error) {
-    console.error('AI generation error:', error);
+    console.error('WebLLM generation error:', error);
     return generateSmartResponse(userMessage); // Fallback
   }
 }
@@ -900,17 +904,17 @@ function generateSmartResponse(userMessage) {
 // This function will be called from the main page after DOM is ready
 async function initializeAIChat() {
   try {
-    console.log('Starting AI chat initialization...');
-    // Wait for transformers to be loaded with extended timeout and retry logic
-    await checkTransformersLoaded();
-    console.log('Transformers.js confirmed loaded, initializing AI...');
+    console.log('Starting WebLLM AI chat initialization...');
+    // Wait for WebLLM to be loaded with extended timeout and retry logic
+    await checkWebLLMLoaded();
+    console.log('WebLLM confirmed loaded, initializing AI...');
     initializeAI();
   } catch (error) {
     // Enhanced error handling with more specific messages
-    console.error('AI chat initialization failed:', error.message);
+    console.error('WebLLM AI chat initialization failed:', error.message);
     
     // Try to provide helpful error messages based on the error type
-    let errorMessage = 'The AI library failed to load. ';
+    let errorMessage = 'The WebLLM AI library failed to load. ';
     
     if (error.message.includes('timeout')) {
       errorMessage += 'This might be due to a slow internet connection or CDN issues. Please check your connection and try refreshing the page.';
@@ -926,7 +930,7 @@ async function initializeAIChat() {
     console.error('Detailed error information:', {
       message: error.message,
       stack: error.stack,
-      transformersAvailable: !!window.transformers,
+      webLLMAvailable: !!window.WebLLM,
       timestamp: new Date().toISOString()
     });
   }
