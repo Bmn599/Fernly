@@ -1,3 +1,4 @@
+/* GitHub Pages Deployment Fix - Force rebuild to clear caches - December 2024 */
 // AI Chat Functionality for Fernly Health
 // This file handles all AI-related functionality including model loading, response generation, and chat features
 
