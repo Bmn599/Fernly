@@ -2,7 +2,12 @@ const assert = require('assert');
 const fs = require('fs');
 
 // Test that the text changes were made correctly
-const indexHtml = fs.readFileSync('/home/runner/work/Fernly/Fernly/docs/index.html', 'utf8');
+// Use path relative to the repository root so tests work in any environment
+const path = require('path');
+const indexHtml = fs.readFileSync(
+  path.join(__dirname, '..', 'docs', 'index.html'),
+  'utf8'
+);
 
 // Test 1: Check that the main heading was updated correctly
 assert.ok(indexHtml.includes('Ask Away We\'re Listening'), 'Main heading should be updated without em dash');
