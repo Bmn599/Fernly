@@ -1155,18 +1155,18 @@ window.addEventListener('load', () => {
 
   setTimeout(() => {
     document.getElementById('loadingScreen').classList.add('fade-out');
+    
+    // Start hero words animation immediately as fade-out begins for seamless transition
+    const logo = document.querySelector('.logo');
+    if (logo) logo.classList.add('start-animation');
+    startHeroWordsAnimation();
+    
+    // Initialize AI and hide loading screen after fade completes
     setTimeout(async () => {
       document.getElementById('loadingScreen').style.display = 'none';
       if (typeof initializeAIChat === 'function') {
         await initializeAIChat();
       }
-
-      // Immediately trigger logo animation after loading screen fades
-      const logo = document.querySelector('.logo');
-      if (logo) logo.classList.add('start-animation');
-      
-      // Start hero words animation sequence immediately
-      startHeroWordsAnimation();
     }, 1000);
   }, 3000);
 });
