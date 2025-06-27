@@ -441,22 +441,6 @@ Date: December 2024
       flex-direction: row-reverse;
     }
 
-    .message-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      background: #619251;
-      color: white;
-      flex-shrink: 0;
-    }
-
-    .message.user .message-avatar {
-      background: #4F7942;
-    }
 
     .message-text {
       background: white;
@@ -479,9 +463,6 @@ Date: December 2024
       color: #856404;
     }
 
-    .message.error-notification .message-avatar {
-      background: #f39c12;
-    }
 
     /* Fallback mode styling - subtle indicator */
     .message.fallback-response .message-text {
@@ -1065,7 +1046,6 @@ Date: December 2024
           <div id="chatOutput" style="display: none;"></div>
           <div class="message bot">
             <div class="message-content">
-              <div class="message-avatar">🤖</div>
               <div class="message-text">
                 Hi there! I'm here to listen and help. How are you feeling today? 💚
               </div>
@@ -1073,7 +1053,6 @@ Date: December 2024
           </div>
           <div class="message bot">
             <div class="message-content">
-              <div class="message-avatar">🤖</div>
               <div class="message-text">
                 <div class="medical-disclaimer">
                   <strong>Wellness Support:</strong> I can provide general information about mental health and medications, along with resources to verify that information. I can also help you explore your wellness concerns. Please consult with a healthcare provider for medical advice.
@@ -1379,20 +1358,16 @@ function addMessage(text, type) {
   const messageDiv = document.createElement('div');
   messageDiv.className = `message ${type}`;
   
-  const avatar = type === 'user' ? '👤' : '🤖';
-  
   // Check if the message contains HTML (for resource cards)
   if (text.includes('<div class="medication-info">') || text.includes('<div class="wellness-assessment">') || text.includes('<div class="resource-card">')) {
     messageDiv.innerHTML = `
       <div class="message-content">
-        <div class="message-avatar">${avatar}</div>
         <div class="message-text">${text}</div>
       </div>
     `;
   } else {
     messageDiv.innerHTML = `
       <div class="message-content">
-        <div class="message-avatar">${avatar}</div>
         <div class="message-text">${text}</div>
       </div>
     `;
@@ -1410,7 +1385,6 @@ function addTypingIndicator() {
   
   messageDiv.innerHTML = `
     <div class="message-content">
-      <div class="message-avatar">🤖</div>
       <div class="typing-indicator">
         <span></span>
         <span></span>
