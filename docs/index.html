@@ -94,10 +94,6 @@ Date: December 2024
     .loading-content {
       text-align: center;
       color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
     }
 
     .loading-text {
@@ -106,16 +102,6 @@ Date: December 2024
       margin-bottom: 1rem;
       opacity: 0;
       animation: fadeInUp 1s ease forwards;
-    }
-
-    .loading-plant {
-      font-size: 3rem;
-      animation: growPlant 2.5s ease-in-out infinite;
-    }
-
-    @keyframes growPlant {
-      0%, 100% { transform: scale(0.8); }
-      50% { transform: scale(1.2); }
     }
 
     @keyframes fadeInUp {
@@ -378,7 +364,7 @@ Date: December 2024
     .chat-interface {
       max-width: 800px;
       margin: 0 auto;
-      background: linear-gradient(180deg, #ffffff 0%, #f2f5f2 100%);
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 20px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
       overflow: hidden;
@@ -447,7 +433,7 @@ Date: December 2024
     .message-content {
       display: flex;
       align-items: flex-start;
-      gap: 0;
+      gap: 0.75rem;
       max-width: 80%;
     }
 
@@ -456,7 +442,20 @@ Date: December 2024
     }
 
     .message-avatar {
-      display: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      background: #619251;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .message.user .message-avatar {
+      background: #4F7942;
     }
 
     .message-text {
@@ -680,35 +679,6 @@ Date: December 2024
         transform: scale(1);
         opacity: 1;
       }
-    }
-
-    /* Feedback prompt styling */
-    .feedback-prompt {
-      background: #f0f8ff;
-      border: 1px solid #b3d9ff;
-      border-radius: 10px;
-      padding: 12px;
-      margin-top: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .feedback-buttons span {
-      cursor: pointer;
-      padding: 6px 10px;
-      border-radius: 6px;
-      color: white;
-      margin: 0 4px;
-    }
-
-    .feedback-buttons .yes {
-      background: #4CAF50;
-    }
-
-    .feedback-buttons .no {
-      background: #f44336;
     }
 
     /* Resource Card - NEW */
@@ -1028,7 +998,6 @@ Date: December 2024
   <!-- Loading Screen -->
   <div class="loading-screen" id="loadingScreen">
     <div class="loading-content">
-      <div class="loading-plant">🌱</div>
       <div class="loading-text">Welcome to Fernly Health</div>
     </div>
   </div>
@@ -1096,6 +1065,7 @@ Date: December 2024
           <div id="chatOutput" style="display: none;"></div>
           <div class="message bot">
             <div class="message-content">
+              <div class="message-avatar">🤖</div>
               <div class="message-text">
                 Hi there! I'm here to listen and help. How are you feeling today? 💚
               </div>
@@ -1103,6 +1073,7 @@ Date: December 2024
           </div>
           <div class="message bot">
             <div class="message-content">
+              <div class="message-avatar">🤖</div>
               <div class="message-text">
                 <div class="medical-disclaimer">
                   <strong>Wellness Support:</strong> I can provide general information about mental health and medications, along with resources to verify that information. I can also help you explore your wellness concerns. Please consult with a healthcare provider for medical advice.
@@ -1233,22 +1204,21 @@ Date: December 2024
   <!-- JAVASCRIPT WILL GO HERE -->
   <script>
 // Initialize loading screen and AI
-window.addEventListener('load', async () => {
+window.addEventListener('load', () => {
   // No need for complex CDN loading setup - using local transformers.min.js file
   console.log('Transformers.js loaded from local file');
-
-  if (typeof initializeAIChat === 'function') {
-    try {
-      await initializeAIChat();
-    } catch (e) {
-      console.error('AI initialization error', e);
-    }
-  }
-
-  document.getElementById('loadingScreen').classList.add('fade-out');
+  
   setTimeout(() => {
-    document.getElementById('loadingScreen').style.display = 'none';
-  }, 1000);
+    document.getElementById('loadingScreen').classList.add('fade-out');
+    setTimeout(() => {
+      document.getElementById('loadingScreen').style.display = 'none';
+      // Initialize AI chat after loading screen fades
+      // WebLLM provides modern in-browser LLM capabilities with TinyLlama
+      if (typeof initializeAIChat === 'function') {
+        initializeAIChat();
+      }
+    }, 1000);
+  }, 2000);
 });
 
 // Smooth scrolling
@@ -1409,16 +1379,20 @@ function addMessage(text, type) {
   const messageDiv = document.createElement('div');
   messageDiv.className = `message ${type}`;
   
+  const avatar = type === 'user' ? '👤' : '🤖';
+  
   // Check if the message contains HTML (for resource cards)
   if (text.includes('<div class="medication-info">') || text.includes('<div class="wellness-assessment">') || text.includes('<div class="resource-card">')) {
     messageDiv.innerHTML = `
       <div class="message-content">
+        <div class="message-avatar">${avatar}</div>
         <div class="message-text">${text}</div>
       </div>
     `;
   } else {
     messageDiv.innerHTML = `
       <div class="message-content">
+        <div class="message-avatar">${avatar}</div>
         <div class="message-text">${text}</div>
       </div>
     `;
@@ -1433,9 +1407,10 @@ function addMessage(text, type) {
 function addTypingIndicator() {
   const messageDiv = document.createElement('div');
   messageDiv.className = 'message bot';
-
+  
   messageDiv.innerHTML = `
     <div class="message-content">
+      <div class="message-avatar">🤖</div>
       <div class="typing-indicator">
         <span></span>
         <span></span>

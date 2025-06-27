@@ -1366,13 +1366,14 @@ function addFeedbackPrompt() {
   }, 100);
   
   return `
-<div class="feedback-prompt">
-  <strong>Was this helpful?</strong>
-  <div class="feedback-buttons">
-    <button id="${feedbackId}_helpful" class="yes">👍 Yes</button>
-    <button id="${feedbackId}_not_helpful" class="no">👎 No</button>
+
+<div class="feedback-prompt" style="background: #f0f8ff; border: 1px solid #b3d9ff; border-radius: 8px; padding: 12px; margin-top: 10px;">
+  <strong>Was this helpful?</strong> 
+  <div style="margin-top: 8px;">
+    <span id="${feedbackId}_helpful" style="cursor: pointer; background: #4CAF50; color: white; padding: 4px 8px; border-radius: 4px; margin-right: 8px;">👍 Yes</span>
+    <span id="${feedbackId}_not_helpful" style="cursor: pointer; background: #f44336; color: white; padding: 4px 8px; border-radius: 4px;">👎 No</span>
   </div>
-  <small style="color: #666;">Your feedback helps me improve my responses.</small>
+  <small style="color: #666; margin-top: 8px; display: block;">Your feedback helps me improve my responses.</small>
 </div>`;
 }
 

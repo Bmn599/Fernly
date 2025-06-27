@@ -336,35 +336,6 @@ window.fallbackAI = {
     
     // General conversational fallback
     const commonConditions = ["depression", "anxiety", "ADHD", "PTSD", "bipolar disorder", "OCD", "panic disorder", "phobias", "eating disorders", "autism", "schizophrenia", "borderline personality disorder", "seasonal affective disorder", "body dysmorphic disorder", "hoarding disorder", "trichotillomania", "dissociative identity disorder", "adjustment disorders", "substance use disorders", "insomnia", "social anxiety"];
-  return `I'm operating in fallback mode and can provide detailed information about mental health conditions and treatments. I can help you learn about over 20 different conditions including ${commonConditions.slice(0, 5).join(', ')}, and many others, as well as various mental health concepts.\n\nYou can ask me about symptoms, treatments, medications, or diagnostic criteria for any condition. What would you like to know about?`;
+    return `I'm operating in fallback mode and can provide detailed information about mental health conditions and treatments. I can help you learn about over 20 different conditions including ${commonConditions.slice(0, 5).join(', ')}, and many others, as well as various mental health concepts.\n\nYou can ask me about symptoms, treatments, medications, or diagnostic criteria for any condition. What would you like to know about?`;
   }
 };
-
-// Load extended DSM-5 dataset if available
-fetch('data/dsm5-detailed.json')
-  .then(res => res.json())
-  .then(data => {
-    if (data && Array.isArray(data.Disorders)) {
-      data.Disorders.forEach(entry => {
-        window.fallbackData.dsm5[entry.name] = entry;
-      });
-    }
-  })
-  .catch(() => {
-    console.warn('Detailed DSM-5 data not found, using base set');
-  });
-
-// Load extended dictionary if available
-fetch('data/dictionary.json')
-  .then(res => res.json())
-  .then(data => {
-    if (data && data.words) {
-      window.fallbackData.dictionary = {
-        ...window.fallbackData.dictionary,
-        ...data.words
-      };
-    }
-  })
-  .catch(() => {
-    console.warn('Expanded dictionary not found, using default');
-  });
