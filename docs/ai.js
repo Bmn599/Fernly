@@ -860,8 +860,9 @@ function recognizeIntent(message) {
     // Store multi-intent information for context
     conversationContext.multiIntents = detectedIntents;
     
-    // Prioritize mental health conditions over general categories
-    const priorityOrder = ['crisis', 'ptsd', 'ocd', 'bipolar', 'depression', 'anxiety', 'adhd', 'sleep', 'medication', 'greeting', 'acknowledgment', 'clarification', 'general'];
+    // Prioritize mental health conditions and medication questions
+    // Medication is checked right after crisis to ensure users get drug information when requested
+    const priorityOrder = ['crisis', 'medication', 'ptsd', 'ocd', 'bipolar', 'depression', 'anxiety', 'adhd', 'sleep', 'greeting', 'acknowledgment', 'clarification', 'general'];
     for (const priority of priorityOrder) {
       if (detectedIntents.includes(priority)) {
         return priority;
@@ -1515,34 +1516,47 @@ function generateGeneralResponse(context) {
 // All existing helper functions remain the same...
 function getMedicationInfoFromMessage(message) {
   const lowerMessage = message.toLowerCase();
-  
-  // First, look for specific medication names
+
+  // First, look for specific medication names or their generic equivalents
   for (const [key, med] of Object.entries(window.medicationDatabase || {})) {
-    if (lowerMessage.includes(key) || lowerMessage.includes(med.name.toLowerCase())) {
+    const medName = med.name.toLowerCase();
+    if (lowerMessage.includes(key) || lowerMessage.includes(medName)) {
+      return med;
+    }
+
+    // Check for generic name within parentheses, e.g. "Prozac (Fluoxetine)"
+    const genericMatch = medName.match(/\(([^)]+)\)/);
+    if (genericMatch && lowerMessage.includes(genericMatch[1].toLowerCase())) {
+      return med;
+    }
+
+    // Check individual words from the medication name for partial matches
+    const medWords = medName.replace(/[()]/g, ' ').split(/\s+/);
+    if (medWords.some(word => word.length > 3 && lowerMessage.includes(word))) {
       return med;
     }
   }
-  
+
   // Then look for medication-related keywords with context
   const medicationKeywords = [
     'medication', 'medicine', 'pill', 'drug', 'prescription', 'antidepressant',
     'taking', 'prescribed', 'side effect', 'dose', 'dosage'
   ];
-  
-  const hasMedicationContext = medicationKeywords.some(keyword => 
+
+  const hasMedicationContext = medicationKeywords.some(keyword =>
     lowerMessage.includes(keyword)
   );
-  
+
   if (hasMedicationContext) {
-    // Look for medication names in context
+    // Look for medication names in context using partial word matching
     for (const [key, med] of Object.entries(window.medicationDatabase || {})) {
-      const medWords = med.name.toLowerCase().split(/[\s\(\)]/);
-      if (medWords.some(word => word.length > 2 && lowerMessage.includes(word))) {
+      const medWords = med.name.toLowerCase().replace(/[()]/g, ' ').split(/\s+/);
+      if (medWords.some(word => word.length > 3 && lowerMessage.includes(word))) {
         return med;
       }
     }
   }
-  
+
   return null;
 }
 
