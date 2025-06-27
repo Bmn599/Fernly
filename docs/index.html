@@ -1167,7 +1167,7 @@ window.addEventListener('load', () => {
       
       // Start hero words animation sequence
       startHeroWordsAnimation();
-    }, 1000);
+    }, 500);
   }, 3000);
 });
 
@@ -1216,34 +1216,34 @@ backToTopBtn.addEventListener('click', function() {
 function startHeroWordsAnimation() {
   const words = document.querySelectorAll('.hero h1 .word');
   
-  // Start first word after 1 second
+  // Start first word after 300ms for quicker transition
   setTimeout(() => {
     if (words[0]) {
       words[0].style.animationPlayState = 'running';
     }
-  }, 1000);
+  }, 300);
   
-  // Start second word after first completes (1s + 2s animation = 3s)
+  // Start second word after first completes (300ms + 2s animation = 2.3s)
   setTimeout(() => {
     if (words[1]) {
       words[1].style.animationPlayState = 'running';
     }
-  }, 3000);
+  }, 2300);
   
-  // Start third word after second completes (3s + 2s animation = 5s)
+  // Start third word after second completes (2.3s + 2s animation = 4.3s)
   setTimeout(() => {
     if (words[2]) {
       words[2].style.animationPlayState = 'running';
     }
-  }, 5000);
+  }, 4300);
   
-  // Show tagline after third word completes (5s + 2s animation = 7s)
+  // Show tagline after third word completes (4.3s + 2s animation = 6.3s)
   setTimeout(() => {
     const tagline = document.querySelector('.hero .tagline');
     if (tagline) {
       tagline.classList.add('show');
     }
-  }, 7000);
+  }, 6300);
 }
 
 // Tagline animation - now handled by startHeroWordsAnimation()
