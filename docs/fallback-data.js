@@ -367,7 +367,7 @@ window.fallbackAI = {
     }
     
     // General conversational fallback
-    const commonConditions = ["depression", "anxiety", "ADHD", "PTSD", "bipolar disorder", "OCD", "panic disorder", "phobias", "eating disorders", "autism", "schizophrenia", "borderline personality disorder", "seasonal affective disorder", "body dysmorphic disorder", "hoarding disorder", "trichotillomania", "dissociative identity disorder", "adjustment disorders", "substance use disorders", "insomnia", "social anxiety"];
+    const commonConditions = Object.keys(window.fallbackData.dsm5);
     return `I'm operating in fallback mode and can provide detailed information about mental health conditions and treatments. I can help you learn about numerous conditions including ${commonConditions.slice(0, 5).join(', ')}, and many others, as well as various mental health concepts.\n\nYou can ask me about symptoms, treatments, medications, or diagnostic criteria for any condition. What would you like to know about?`;
   }
 };
