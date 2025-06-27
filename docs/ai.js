@@ -1,7 +1,6 @@
 /* GitHub Pages Deployment Fix - Force rebuild to clear caches - December 2024 */
 /**
  * AI Chat Functionality for Fernly Health - Self-Improving Pattern-Based AI Implementation
- * 
  * SELF-IMPROVEMENT CAPABILITIES:
  * 
  * 1. LEARNING FROM USER INTERACTIONS:
