@@ -9,17 +9,17 @@ assert.ok(indexHtml.includes('Ask Away We\'re Listening'), 'Main heading should 
 assert.ok(!indexHtml.includes('Ask Away—We\'re Listening'), 'Should not contain the old heading with em dash');
 
 // Test 2: Check that the description text was updated correctly
-assert.ok(indexHtml.includes('Get instant answers on mental health conditions, and quick wellness check-ins confidentially and judgment free'), 'Description should be updated correctly');
-assert.ok(!indexHtml.includes('Get instant answers on medications, mental-health conditions'), 'Should not mention medications in description');
-assert.ok(!indexHtml.includes('judgment-free'), 'Should not contain hyphens in judgment-free');
+assert.ok(indexHtml.includes('Get instant answers on medications, mental health conditions, and quick wellness check-ins confidentially and judgment-free'), 'Description should mention medications and mental health conditions');
+assert.ok(!indexHtml.includes('judgment free'), 'Should contain hyphenated judgment-free');
+assert.ok(!indexHtml.includes('Get instant answers on mental health conditions, and quick wellness check-ins confidentially and judgment free'), 'Should not contain the old description without medications');
 
 // Test 3: Check that medical disclaimer was updated
-assert.ok(indexHtml.includes('I can provide general information about mental health conditions'), 'Medical disclaimer should mention mental health conditions');
-assert.ok(!indexHtml.includes('mental health and medications'), 'Medical disclaimer should not mention medications');
+assert.ok(indexHtml.includes('I can provide general information about mental health and medications'), 'Medical disclaimer should mention mental health and medications');
+assert.ok(!indexHtml.includes('I can provide general information about mental health conditions'), 'Medical disclaimer should not mention only mental health conditions');
 
 // Test 4: Check that blog content was updated
-assert.ok(indexHtml.includes('Mental Health Information'), 'Blog title should be updated');
-assert.ok(!indexHtml.includes('Psychiatric Medications Guide'), 'Should not contain medication blog title');
-assert.ok(indexHtml.includes('NIMH'), 'Should reference NIMH instead of MedlinePlus');
+assert.ok(indexHtml.includes('Psychiatric Medications Guide'), 'Blog title should be Psychiatric Medications Guide');
+assert.ok(!indexHtml.includes('Mental Health Information'), 'Should not contain generic mental health title');
+assert.ok(indexHtml.includes('MedlinePlus'), 'Should reference MedlinePlus instead of NIMH');
 
 console.log('Text update tests passed!');
