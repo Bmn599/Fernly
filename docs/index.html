@@ -21,6 +21,8 @@ Date: December 2024
   <script src="fallback-data.js"></script>
   <!-- Basic DSM-5 disorder summaries -->
   <script src="dsm5-data.js"></script>
+  <script src="medications-data.js"></script>
+  <script src="therapy-speech.js"></script>
   <!-- AI Chat functionality - depends on WebLLM and fallback-data being loaded first -->
   <script src="ai.js"></script>
   <!-- CSS STYLES WILL GO HERE -->
@@ -1144,18 +1146,19 @@ Date: December 2024
   <!-- JAVASCRIPT WILL GO HERE -->
   <script>
 // Initialize loading screen and AI
-window.addEventListener('load', async () => {
+window.addEventListener('load', () => {
   // No need for complex CDN loading setup - using local transformers.min.js file
   console.log('Transformers.js loaded from local file');
 
-  if (typeof initializeAIChat === 'function') {
-    await initializeAIChat();
-  }
-
-  document.getElementById('loadingScreen').classList.add('fade-out');
   setTimeout(() => {
-    document.getElementById('loadingScreen').style.display = 'none';
-  }, 1000);
+    document.getElementById('loadingScreen').classList.add('fade-out');
+    setTimeout(async () => {
+      document.getElementById('loadingScreen').style.display = 'none';
+      if (typeof initializeAIChat === 'function') {
+        await initializeAIChat();
+      }
+    }, 1000);
+  }, 2000);
 });
 
 // Smooth scrolling
