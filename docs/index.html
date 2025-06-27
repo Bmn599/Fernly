@@ -21,6 +21,8 @@ Date: December 2024
   <script src="fallback-data.js"></script>
   <!-- Basic DSM-5 disorder summaries -->
   <script src="dsm5-data.js"></script>
+  <script src="medications-data.js"></script>
+  <script src="therapy-speech.js"></script>
   <!-- AI Chat functionality - depends on WebLLM and fallback-data being loaded first -->
   <script src="ai.js"></script>
   <!-- CSS STYLES WILL GO HERE -->
@@ -142,6 +144,9 @@ Date: December 2024
       margin-right: 0.75rem;
       opacity: 0;
       transform: translateY(-50px) rotate(-15deg);
+    }
+
+    .logo.start-animation img {
       animation: leafDrop 2s ease-out forwards;
       animation-delay: 0.5s;
     }
@@ -175,6 +180,9 @@ Date: December 2024
       color: #4F7942;
       opacity: 0;
       transform: translateY(20px);
+    }
+
+    .logo.start-animation span {
       animation: fadeInUp 0.8s ease forwards;
       animation-delay: 2.5s;
     }
@@ -1144,18 +1152,23 @@ Date: December 2024
   <!-- JAVASCRIPT WILL GO HERE -->
   <script>
 // Initialize loading screen and AI
-window.addEventListener('load', async () => {
+window.addEventListener('load', () => {
   // No need for complex CDN loading setup - using local transformers.min.js file
   console.log('Transformers.js loaded from local file');
 
-  if (typeof initializeAIChat === 'function') {
-    await initializeAIChat();
-  }
-
-  document.getElementById('loadingScreen').classList.add('fade-out');
   setTimeout(() => {
-    document.getElementById('loadingScreen').style.display = 'none';
-  }, 1000);
+    document.getElementById('loadingScreen').classList.add('fade-out');
+    setTimeout(async () => {
+      document.getElementById('loadingScreen').style.display = 'none';
+      if (typeof initializeAIChat === 'function') {
+        await initializeAIChat();
+      }
+      setTimeout(() => {
+        const logo = document.querySelector('.logo');
+        if (logo) logo.classList.add('start-animation');
+      }, 2000);
+    }, 1000);
+  }, 5000);
 });
 
 // Smooth scrolling
