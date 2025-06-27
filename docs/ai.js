@@ -311,6 +311,26 @@ const responseTemplates = {
     "🚨 I'm very concerned about what you're going through. If you're having thoughts of harming yourself, please reach out for immediate help: Call 988 (Suicide & Crisis Lifeline) - available 24/7, or text 'HELLO' to 741741. You're not alone.",
     "This sounds like you're in a lot of pain right now. Please know that help is available. The 988 Suicide & Crisis Lifeline is available 24/7, and they have trained counselors who understand what you're going through.",
     "I'm worried about you. If you're having thoughts of suicide or self-harm, please call 988 immediately. These feelings can change with the right support - you don't have to go through this alone."
+  ],
+  
+  // Responses for simple acknowledgments
+  acknowledgment: [
+    "I appreciate you letting me know. What would you like to talk about next?",
+    "Thanks for sharing that with me. How are you feeling right now?",
+    "I understand. Is there anything specific you'd like to explore or discuss?",
+    "Got it. What's most important to you right now?",
+    "I hear you. What would be most helpful for us to focus on?",
+    "Thank you for that. What else is on your mind?"
+  ],
+  
+  // Responses for clarification requests
+  clarification: [
+    "I'd be happy to explain. What specifically would you like me to clarify?",
+    "Let me help clarify that for you. What part would you like me to explain more?",
+    "Of course! I want to make sure I'm being clear. What would be most helpful for me to explain?",
+    "I'm glad you asked. What aspect would you like me to break down further?",
+    "Absolutely - let me explain that better. What would you like to understand more about?",
+    "Good question! What specifically can I help you understand better?"
   ]
 };
 
@@ -386,6 +406,24 @@ const intentPatterns = {
     /(self harm|cutting|hurt myself|overdose|jump|gun)/i,
     /(can't go on|give up|hopeless|no way out|emergency)/i,
     /(crisis|help me|save me|dying|planning to)/i
+  ],
+  
+  // Simple acknowledgments and responses
+  acknowledgment: [
+    /^(ok|okay|kay|k)$/i,
+    /^(yes|yeah|yep|yup|sure|alright|right)$/i,
+    /^(no|nope|nah|not really)$/i,
+    /^(maybe|perhaps|i guess|sort of|kinda)$/i,
+    /^(thanks|thank you|thx)$/i
+  ],
+  
+  // Simple questions needing clarification
+  clarification: [
+    /^(why|what|how|when|where)$/i,
+    /^(what's that|whats that)$/i,
+    /^(what does that mean|what do you mean)$/i,
+    /^(i don't understand|i dont understand|huh|what)$/i,
+    /^(can you explain|explain|tell me more)$/i
   ]
 };
 
@@ -823,7 +861,7 @@ function recognizeIntent(message) {
     conversationContext.multiIntents = detectedIntents;
     
     // Prioritize mental health conditions over general categories
-    const priorityOrder = ['crisis', 'ptsd', 'ocd', 'bipolar', 'depression', 'anxiety', 'adhd', 'sleep', 'medication', 'greeting', 'general'];
+    const priorityOrder = ['crisis', 'ptsd', 'ocd', 'bipolar', 'depression', 'anxiety', 'adhd', 'sleep', 'medication', 'greeting', 'acknowledgment', 'clarification', 'general'];
     for (const priority of priorityOrder) {
       if (detectedIntents.includes(priority)) {
         return priority;
