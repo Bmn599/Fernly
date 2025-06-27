@@ -1206,7 +1206,7 @@ function addFeedbackPrompt() {
 <div class="feedback-prompt" style="background: #f0f8ff; border: 1px solid #b3d9ff; border-radius: 8px; padding: 12px; margin-top: 10px;">
   <strong>Was this helpful?</strong> 
   <div style="margin-top: 8px;">
-    <span id="${feedbackId}_helpful" style="cursor: pointer; background: #4CAF50; color: white; padding: 4px 8px; border-radius: 4px; margin-right: 8px;">👍 Yes</span>
+    <span id="${feedbackId}_helpful" style="cursor: pointer; background: #4CAF50; color: white; padding: 4px 8px; border-radius: 4px; margin-right: 8px;">Yes</span>
     <span id="${feedbackId}_not_helpful" style="cursor: pointer; background: #f44336; color: white; padding: 4px 8px; border-radius: 4px;">👎 No</span>
   </div>
   <small style="color: #666; margin-top: 8px; display: block;">Your feedback helps me improve my responses.</small>
@@ -1235,7 +1235,7 @@ function handleUserFeedback(feedbackMessage) {
   
   let responseText = '';
   
-  if (feedback.includes('helpful') || feedback.includes('yes') || feedback.includes('good') || feedback.includes('👍')) {
+  if (feedback.includes('helpful') || feedback.includes('yes') || feedback.includes('good')) {
     learningData.responseMetrics[lastResponseId].helpfulCount++;
     learningData.userProfile.engagementHistory.push({
       responseId: lastResponseId,
@@ -1511,7 +1511,7 @@ function getMedicationInfoFromMessage(message) {
 function generateMedicationResponse(medicationInfo) {
   return `
     <div class="medication-info">
-      <h3>💊 ${medicationInfo.name}</h3>
+      <h3>${medicationInfo.name}</h3>
       <p><strong>Type:</strong> ${medicationInfo.type}</p>
       <p><strong>Common Uses:</strong> ${medicationInfo.commonUses.join(', ')}</p>
       <p><strong>Common Side Effects:</strong> ${medicationInfo.commonSideEffects.join(', ')}</p>
@@ -1541,7 +1541,7 @@ function startWellnessAssessment() {
   
   return `
     <div class="wellness-assessment">
-      <h3>🧠 Mental Health Wellness Check</h3>
+      <h3>Mental Health Wellness Check</h3>
       <p>I'll ask you a few questions to better understand how you're feeling. This is not a diagnostic tool, but it can help identify areas where you might benefit from support.</p>
       <p><strong>Question 1 of 5:</strong> Over the past two weeks, how often have you felt down, depressed, or hopeless?</p>
       <p>Please respond with: Never, Several days, More than half the days, or Nearly every day</p>
@@ -1618,7 +1618,7 @@ function generateAssessmentResults() {
   
   return `
     <div class="wellness-assessment">
-      <h3>🧠 Assessment Results</h3>
+      <h3>Assessment Results</h3>
       <p><strong>Interpretation:</strong> ${interpretation}</p>
       <p><strong>Recommendations:</strong> ${resources}</p>
       <p><em>This assessment is not a diagnostic tool and should not replace professional evaluation.</em></p>
@@ -1738,7 +1738,7 @@ function showFallbackModeNotification() {
       <div class="message-content">
         <div class="message-text">
           <div style="background: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
-            <strong>✅ Smart AI Ready!</strong><br>
+            <strong>Smart AI Ready!</strong><br>
             <small style="color: #2e7d32;">
               I'm powered by advanced pattern recognition and have comprehensive knowledge about mental health conditions, medications, and therapeutic approaches. I can provide personalized support and guidance.
             </small>
@@ -1810,7 +1810,7 @@ function provideFeedback(feedbackType) {
     feedbackDiv.innerHTML = `
       <div class="message-content">
         <div class="message-text">
-          ${feedbackType === 'helpful' ? '👍 This was helpful' : '👎 This was not helpful'}
+          ${feedbackType === 'helpful' ? 'This was helpful' : 'This was not helpful'}
         </div>
       </div>
     `;

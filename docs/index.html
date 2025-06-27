@@ -970,6 +970,7 @@ Date: December 2024
           <li><a href="services.html">Services</a></li>
           <li><a href="team.html">Team</a></li>
           <li><a href="#contact">Contact</a></li>
+          <li><a href="login.html">Login</a></li>
           <li><a href="#contact" class="btn-primary">Get Started</a></li>
         </ul>
       </nav>
@@ -985,7 +986,7 @@ Date: December 2024
       </h1>
       <p class="tagline">Because just 'okay' isn't good enough</p>
       <div class="hero-buttons">
-        <a href="#ai-chat" class="btn-ai">Chat with Fernly AI</a>
+        <a href="#ai-chat" class="btn-ai">Chat with Fernly</a>
         <a href="services.html" class="btn-primary">Our Services</a>
         <a href="#contact" class="btn-secondary">Free Consultation</a>
       </div>
@@ -995,8 +996,8 @@ Date: December 2024
   <!-- AI Chat Section -->
   <section id="ai-chat">
     <div class="container">
-      <h2 class="section-title">Chat with Our AI Assistant</h2>
-      <p class="chat-intro">Get instant support and guidance. Our AI assistant is here to listen and help you navigate your mental health journey.</p>
+      <h2 class="section-title">Ask Away—We're Listening</h2>
+      <p class="chat-intro">Get instant answers on medications, mental-health conditions, and quick wellness check-ins—confidentially and judgment-free.</p>
 
       <div class="chat-interface">
         <!-- AI/Fallback Status Indicator -->
@@ -1013,7 +1014,7 @@ Date: December 2024
           <div class="message bot">
             <div class="message-content">
               <div class="message-text">
-                Hi there! I'm here to listen and help. How are you feeling today? 💚
+                Hi there! I'm here to listen and help. How are you feeling today?
               </div>
             </div>
           </div>
@@ -1128,7 +1129,7 @@ Date: December 2024
     <div class="container">
       <h2 class="section-title">Contact Us</h2>
       <p class="contact-cta">Reach out for a free consultation – your healing starts here.</p>
-      <form>
+      <form id="contactForm">
         <input type="text" placeholder="Name" required>
         <input type="email" placeholder="Email" required>
         <textarea rows="4" placeholder="How can we help?" required></textarea>
@@ -1402,8 +1403,8 @@ function addTypingIndicator() {
   return messageDiv;
 }
 
-// Form submission
-document.querySelector('form').addEventListener('submit', function(e) {
+// Contact form submission
+document.getElementById('contactForm').addEventListener('submit', function(e) {
   e.preventDefault();
   alert('Thank you for your message! We\'ll get back to you soon.');
   this.reset();
