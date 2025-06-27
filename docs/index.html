@@ -1028,7 +1028,6 @@ Date: December 2024
   <!-- Loading Screen -->
   <div class="loading-screen" id="loadingScreen">
     <div class="loading-content">
-      <div class="loading-plant">🌱</div>
       <div class="loading-text">Welcome to Fernly Health</div>
     </div>
   </div>
@@ -1245,10 +1244,12 @@ window.addEventListener('load', async () => {
     }
   }
 
-  document.getElementById('loadingScreen').classList.add('fade-out');
   setTimeout(() => {
-    document.getElementById('loadingScreen').style.display = 'none';
-  }, 1000);
+    document.getElementById('loadingScreen').classList.add('fade-out');
+    setTimeout(() => {
+      document.getElementById('loadingScreen').style.display = 'none';
+    }, 1000);
+  }, 4000);
 });
 
 // Smooth scrolling
