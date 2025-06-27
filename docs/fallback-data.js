@@ -160,6 +160,38 @@ window.fallbackData = {
       treatment: "Treatment includes supportive psychotherapy, cognitive behavioral therapy, stress management techniques, and short-term medications for specific symptoms if needed.",
       symptoms: ["Marked distress out of proportion to stressor", "Significant impairment in functioning", "Depressed mood", "Anxiety", "Behavioral disturbances", "Mixed emotional and behavioral symptoms"],
       medications: ["Short-term anxiolytics if needed", "Antidepressants for prolonged symptoms", "Sleep aids for insomnia", "Treatment focuses primarily on therapy and coping strategies"]
+    },
+    "Somatic Symptom Disorder": {
+      description: "Somatic Symptom Disorder involves one or more persistent physical symptoms that cause distress and disrupt daily life, accompanied by excessive thoughts or behaviors related to the symptoms.",
+      criteria: "At least one distressing somatic symptom plus disproportionate thoughts, feelings, or behaviors related to that symptom for more than 6 months.",
+      treatment: "Cognitive behavioral therapy, regular follow-up with a consistent provider, stress reduction techniques, and treatment of any underlying medical issues.",
+      symptoms: ["Multiple physical complaints", "High health-related anxiety", "Frequent medical visits", "Preoccupation with symptoms", "Difficulty functioning", "Excessive time spent on health concerns"],
+      medications: ["SSRIs for co-occurring anxiety or depression", "Pain management medications as appropriate"],
+      synonyms: ["somatization", "somatic disorder", "physical symptom disorder"]
+    },
+    "Illness Anxiety Disorder": {
+      description: "Illness Anxiety Disorder is characterized by a preoccupation with having or acquiring a serious illness despite minimal or no physical symptoms.",
+      criteria: "Preoccupation with illness for at least 6 months, high health anxiety, excessive health-related behaviors or avoidance, and symptoms not better explained by another disorder.",
+      treatment: "Cognitive behavioral therapy focused on health anxiety, regular medical reassurance, and SSRIs for anxiety when necessary.",
+      symptoms: ["Fear of serious illness", "Checking body for signs", "Frequent internet searches about diseases", "Avoidance of medical appointments", "Easily alarmed about health", "Minimal physical symptoms"],
+      medications: ["SSRIs (sertraline, fluoxetine)", "Anxiolytics for short-term use"],
+      synonyms: ["hypochondriasis", "health anxiety", "disease phobia"]
+    },
+    "Disruptive Mood Dysregulation Disorder": {
+      description: "Disruptive Mood Dysregulation Disorder involves severe recurrent temper outbursts in children along with a persistently irritable or angry mood between outbursts.",
+      criteria: "Temper outbursts three or more times per week for 12 or more months in multiple settings, with persistent irritable mood most of the day nearly every day.",
+      treatment: "Behavioral therapy, parent management training, school interventions, and medications such as stimulants or antidepressants when indicated.",
+      symptoms: ["Severe temper tantrums", "Chronic irritability", "Difficulty functioning at home or school", "Frequent verbal or physical outbursts", "Persistent angry mood", "Trouble with peers"],
+      medications: ["Stimulants", "SSRIs", "Mood stabilizers"],
+      synonyms: ["DMDD", "chronic irritability", "severe mood swings in children"]
+    },
+    "Premenstrual Dysphoric Disorder": {
+      description: "Premenstrual Dysphoric Disorder is a severe form of premenstrual syndrome marked by mood swings, irritability, and physical symptoms that occur in the luteal phase of the menstrual cycle.",
+      criteria: "Five or more symptoms such as mood swings, irritability, depressed mood, anxiety, and physical changes in most menstrual cycles during the past year.",
+      treatment: "SSRIs taken daily or during the luteal phase, hormonal contraceptives, lifestyle adjustments, and stress management techniques.",
+      symptoms: ["Mood swings", "Increased irritability", "Depressed mood", "Anxiety", "Breast tenderness", "Bloating"],
+      medications: ["SSRIs (fluoxetine, sertraline)", "Hormonal birth control", "NSAIDs for pain"],
+      synonyms: ["PMDD", "severe PMS", "premenstrual mood disorder"]
     }
   },
   dictionary: {
@@ -201,7 +233,7 @@ window.fallbackAI = {
       'good': "That's wonderful to hear! If you ever want to learn more about mental health or have questions, I'm here to help.",
       'fine': "I'm glad you're doing well. If you'd like to discuss anything about mental health or just want to chat, I'm here.",
       'how are you': "I'm doing well and ready to help! I'm here to provide information about mental health conditions, treatments, and support. How can I assist you today?",
-      'what can you do': "I can help you with detailed information about 20+ mental health conditions like depression, anxiety, ADHD, PTSD, and more. I can discuss symptoms, treatments, medications, and provide supportive guidance. What would you like to know about?",
+      'what can you do': "I can help you with detailed information about many mental health conditions like depression, anxiety, ADHD, PTSD, and more. I can discuss symptoms, treatments, medications, and provide supportive guidance. What would you like to know about?",
       'help': "I'm here to help! I can provide information about mental health conditions, discuss symptoms and treatments, answer questions about medications, and offer supportive guidance. What specific area would you like to explore?"
     };
     
@@ -335,7 +367,7 @@ window.fallbackAI = {
     }
     
     // General conversational fallback
-    const commonConditions = ["depression", "anxiety", "ADHD", "PTSD", "bipolar disorder", "OCD", "panic disorder", "phobias", "eating disorders", "autism", "schizophrenia", "borderline personality disorder", "seasonal affective disorder", "body dysmorphic disorder", "hoarding disorder", "trichotillomania", "dissociative identity disorder", "adjustment disorders", "substance use disorders", "insomnia", "social anxiety"];
-    return `I'm operating in fallback mode and can provide detailed information about mental health conditions and treatments. I can help you learn about over 20 different conditions including ${commonConditions.slice(0, 5).join(', ')}, and many others, as well as various mental health concepts.\n\nYou can ask me about symptoms, treatments, medications, or diagnostic criteria for any condition. What would you like to know about?`;
+    const commonConditions = Object.keys(window.fallbackData.dsm5);
+    return `I'm operating in fallback mode and can provide detailed information about mental health conditions and treatments. I can help you learn about numerous conditions including ${commonConditions.slice(0, 5).join(', ')}, and many others, as well as various mental health concepts.\n\nYou can ask me about symptoms, treatments, medications, or diagnostic criteria for any condition. What would you like to know about?`;
   }
 };
