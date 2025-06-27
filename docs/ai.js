@@ -123,6 +123,10 @@ const conversationContext = {
   }
 };
 
+// Medication and therapy data are loaded separately in medications-data.js and
+// therapy-speech.js. This file only references those global objects via
+// window.medicationDatabase and window.therapySpeech to avoid redeclaration.
+
 // LEARNING DATA MANAGEMENT FUNCTIONS
 
 /**
