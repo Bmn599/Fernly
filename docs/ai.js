@@ -324,6 +324,7 @@ const medicationDatabase = {
 // Enhanced Conversation Context for intelligent responses
 const conversationContext = {
   messages: [],
+  questionCount: 0,
   mentalHealthTopics: [],
   crisisKeywords: [],
   detectedSymptoms: {
@@ -698,6 +699,30 @@ function checkSynonyms(message, intent) {
   return false;
 }
 
+// Retrieve quick DSM-5 disorder details
+function getDisorderInfo(query) {
+  if (!window.dsm5Disorders) return null;
+  const lowerQuery = query.toLowerCase();
+
+  // Match against synonyms first for better accuracy
+  for (const info of Object.values(window.dsm5Disorders)) {
+    if (info.synonyms && info.synonyms.some(s => lowerQuery.includes(s.toLowerCase()))) {
+      return info;
+    }
+  }
+
+  // Match against full disorder names
+  for (const info of Object.values(window.dsm5Disorders)) {
+    if (info.name && lowerQuery.includes(info.name.toLowerCase())) {
+      return info;
+    }
+  }
+
+  // Fallback: match by key substring
+  const key = Object.keys(window.dsm5Disorders).find(d => lowerQuery.includes(d));
+  return key ? window.dsm5Disorders[key] : null;
+}
+
 // Fuzzy matching function for more flexible pattern recognition
 function fuzzyMatch(text, pattern) {
   const words = text.toLowerCase().split(/\s+/);
@@ -943,7 +968,6 @@ function showLearningDataNotification() {
       learningDiv.className = 'message bot learning-info';
       learningDiv.innerHTML = `
         <div class="message-content">
-          <div class="message-avatar">🧠</div>
           <div class="message-text">
             <div style="background: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
               <strong>🎓 Learning Data Loaded!</strong><br>
@@ -1258,6 +1282,7 @@ async function generateAIResponse(userMessage) {
     content: userMessage,
     timestamp: new Date().toISOString()
   });
+  conversationContext.questionCount = (conversationContext.questionCount || 0) + 1;
   
   // Clear previous multi-intent data
   conversationContext.multiIntents = null;
@@ -1285,6 +1310,20 @@ async function generateAIResponse(userMessage) {
     });
     
     return crisisResponse;
+  }
+
+  // Provide quick info on DSM-5 disorders
+  const disorder = getDisorderInfo(userMessage);
+  if (disorder) {
+    const info = `${disorder.name}: ${disorder.description}\n\nCommon symptoms include: ${disorder.symptoms.join(', ')}\n\nLearn more: ${disorder.resources[0].url}`;
+    conversationContext.messages.push({
+      role: 'assistant',
+      content: info,
+      timestamp: new Date().toISOString(),
+      intent: 'disorder_info',
+      responseId: 'disorder_' + Date.now()
+    });
+    return info + addFeedbackPrompt();
   }
   
   // Check for medication questions
@@ -1346,9 +1385,13 @@ async function generateAIResponse(userMessage) {
  * Add feedback prompt to responses
  */
 function addFeedbackPrompt() {
-  // Don't add feedback prompts too frequently
+  // Only prompt every 20 user questions
+  if ((conversationContext.questionCount || 0) % 20 !== 0) {
+    return '';
+  }
+
   const recentMessages = conversationContext.messages.slice(-6);
-  const hasFeedbackPrompt = recentMessages.some(m => 
+  const hasFeedbackPrompt = recentMessages.some(m =>
     m.content && m.content.includes('Was this helpful?')
   );
   
@@ -1885,7 +1928,6 @@ function showFallbackModeNotification() {
     infoDiv.className = 'message bot smart-ai-info';
     infoDiv.innerHTML = `
       <div class="message-content">
-        <div class="message-avatar">🤖</div>
         <div class="message-text">
           <div style="background: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
             <strong>✅ Smart AI Ready!</strong><br>
@@ -1957,7 +1999,6 @@ function provideFeedback(feedbackType) {
     feedbackDiv.className = 'message user feedback-response';
     feedbackDiv.innerHTML = `
       <div class="message-content">
-        <div class="message-avatar">👤</div>
         <div class="message-text">
           ${feedbackType === 'helpful' ? '👍 This was helpful' : '👎 This was not helpful'}
         </div>
@@ -1970,7 +2011,6 @@ function provideFeedback(feedbackType) {
     aiResponseDiv.className = 'message bot';
     aiResponseDiv.innerHTML = `
       <div class="message-content">
-        <div class="message-avatar">🤖</div>
         <div class="message-text">${response}</div>
       </div>
     `;

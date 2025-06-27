@@ -19,6 +19,8 @@ Date: December 2024
   <!-- Benefits: Fast loading, reliable operation, contextual responses, offline capable -->
   <!-- Fallback data must load before AI chat functionality -->
   <script src="fallback-data.js"></script>
+  <!-- Basic DSM-5 disorder summaries -->
+  <script src="dsm5-data.js"></script>
   <!-- AI Chat functionality - depends on WebLLM and fallback-data being loaded first -->
   <script src="ai.js"></script>
   <!-- CSS STYLES WILL GO HERE -->
@@ -894,39 +896,6 @@ Date: December 2024
       scroll-behavior: smooth;
     }
 
-    /* AI Loading Indicator */
-    .ai-loading {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      padding: 20px;
-      border-radius: 10px;
-      z-index: 10000;
-      text-align: center;
-    }
-    
-    .ai-loading.hidden {
-      display: none;
-    }
-    
-    .progress-bar {
-      width: 200px;
-      height: 4px;
-      background: #333;
-      border-radius: 2px;
-      margin: 10px 0;
-      overflow: hidden;
-    }
-    
-    .progress-fill {
-      height: 100%;
-      background: #619251;
-      width: 0%;
-      transition: width 0.3s ease;
-    }
 
     @media (max-width: 768px) {
       .nav-links {
@@ -983,14 +952,6 @@ Date: December 2024
     </div>
   </div>
 
-  <!-- AI Loading Indicator -->
-  <div class="ai-loading hidden" id="aiLoading">
-    <div>Loading AI Model...</div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-    <div id="loadingText">Initializing...</div>
-  </div>
 
   <header>
     <div class="container">
@@ -1183,21 +1144,18 @@ Date: December 2024
   <!-- JAVASCRIPT WILL GO HERE -->
   <script>
 // Initialize loading screen and AI
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
   // No need for complex CDN loading setup - using local transformers.min.js file
   console.log('Transformers.js loaded from local file');
-  
+
+  if (typeof initializeAIChat === 'function') {
+    await initializeAIChat();
+  }
+
+  document.getElementById('loadingScreen').classList.add('fade-out');
   setTimeout(() => {
-    document.getElementById('loadingScreen').classList.add('fade-out');
-    setTimeout(() => {
-      document.getElementById('loadingScreen').style.display = 'none';
-      // Initialize AI chat after loading screen fades
-      // WebLLM provides modern in-browser LLM capabilities with TinyLlama
-      if (typeof initializeAIChat === 'function') {
-        initializeAIChat();
-      }
-    }, 1000);
-  }, 2000);
+    document.getElementById('loadingScreen').style.display = 'none';
+  }, 1000);
 });
 
 // Smooth scrolling
