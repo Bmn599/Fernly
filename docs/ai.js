@@ -98,7 +98,6 @@ let learningData = {
 let awaitingFeedback = false;
 let lastResponseId = null;
 
-const medicationDatabase = window.medicationDatabase || {}; // loaded from medications-data.js
 
 // Enhanced Conversation Context for intelligent responses
 const conversationContext = {
@@ -1480,7 +1479,7 @@ function getMedicationInfoFromMessage(message) {
   const lowerMessage = message.toLowerCase();
   
   // First, look for specific medication names
-  for (const [key, med] of Object.entries(medicationDatabase)) {
+  for (const [key, med] of Object.entries(window.medicationDatabase || {})) {
     if (lowerMessage.includes(key) || lowerMessage.includes(med.name.toLowerCase())) {
       return med;
     }
@@ -1498,7 +1497,7 @@ function getMedicationInfoFromMessage(message) {
   
   if (hasMedicationContext) {
     // Look for medication names in context
-    for (const [key, med] of Object.entries(medicationDatabase)) {
+    for (const [key, med] of Object.entries(window.medicationDatabase || {})) {
       const medWords = med.name.toLowerCase().split(/[\s\(\)]/);
       if (medWords.some(word => word.length > 2 && lowerMessage.includes(word))) {
         return med;

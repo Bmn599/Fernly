@@ -1146,18 +1146,19 @@ Date: December 2024
   <!-- JAVASCRIPT WILL GO HERE -->
   <script>
 // Initialize loading screen and AI
-window.addEventListener('load', async () => {
+window.addEventListener('load', () => {
   // No need for complex CDN loading setup - using local transformers.min.js file
   console.log('Transformers.js loaded from local file');
 
-  if (typeof initializeAIChat === 'function') {
-    await initializeAIChat();
-  }
-
-  document.getElementById('loadingScreen').classList.add('fade-out');
   setTimeout(() => {
-    document.getElementById('loadingScreen').style.display = 'none';
-  }, 1000);
+    document.getElementById('loadingScreen').classList.add('fade-out');
+    setTimeout(async () => {
+      document.getElementById('loadingScreen').style.display = 'none';
+      if (typeof initializeAIChat === 'function') {
+        await initializeAIChat();
+      }
+    }, 1000);
+  }, 2000);
 });
 
 // Smooth scrolling
