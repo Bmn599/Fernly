@@ -148,7 +148,7 @@ Date: December 2024
 
     .logo.start-animation img {
       animation: leafDrop 2s ease-out forwards;
-      animation-delay: 0.5s;
+      animation-delay: 0s;
     }
 
     @keyframes leafDrop {
@@ -184,7 +184,7 @@ Date: December 2024
 
     .logo.start-animation span {
       animation: fadeInUp 0.8s ease forwards;
-      animation-delay: 2.5s;
+      animation-delay: 0s;
     }
 
     .nav-links {
@@ -322,12 +322,11 @@ Date: December 2024
       display: inline-block;
       opacity: 0;
       transform: translateY(20px);
-      animation: ghostFadeIn 2s ease forwards;
     }
 
-    .hero h1 .word:nth-child(1) { animation-delay: 1s; }
-    .hero h1 .word:nth-child(2) { animation-delay: 2.5s; }
-    .hero h1 .word:nth-child(3) { animation-delay: 4s; }
+    .hero h1 .word.show {
+      animation: ghostFadeIn 2s ease forwards;
+    }
 
     @keyframes ghostFadeIn {
       0% {
@@ -1163,10 +1162,27 @@ window.addEventListener('load', () => {
       if (typeof initializeAIChat === 'function') {
         await initializeAIChat();
       }
+
+      const words = document.querySelectorAll('.hero h1 .word');
+      const logo = document.querySelector('.logo');
+      const tagline = document.querySelector('.hero .tagline');
+
       setTimeout(() => {
-        const logo = document.querySelector('.logo');
+        if (words[0]) words[0].classList.add('show');
         if (logo) logo.classList.add('start-animation');
       }, 2000);
+
+      setTimeout(() => {
+        if (words[1]) words[1].classList.add('show');
+      }, 4000);
+
+      setTimeout(() => {
+        if (words[2]) words[2].classList.add('show');
+      }, 6000);
+
+      setTimeout(() => {
+        if (tagline) tagline.classList.add('show');
+      }, 7000);
     }, 1000);
   }, 5000);
 });
@@ -1212,11 +1228,7 @@ backToTopBtn.addEventListener('click', function() {
   });
 });
 
-// Tagline animation
-setTimeout(() => {
-  const tagline = document.querySelector('.hero .tagline');
-  tagline.classList.add('show');
-}, 5000);
+
 
 // Cursor trail effect
 let cursorTrails = [];
