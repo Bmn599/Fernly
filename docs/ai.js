@@ -1,7 +1,6 @@
 /* GitHub Pages Deployment Fix - Force rebuild to clear caches - December 2024 */
 /**
  * AI Chat Functionality for Fernly Health - Self-Improving Pattern-Based AI Implementation
- * 
  * SELF-IMPROVEMENT CAPABILITIES:
  * 
  * 1. LEARNING FROM USER INTERACTIONS:
@@ -122,6 +121,10 @@ const conversationContext = {
     empathyLevel: 'high'
   }
 };
+
+// Medication and therapy data are defined in external files.
+// Always access them via window.medicationDatabase and window.therapySpeech
+// to avoid redeclaring these objects in this file.
 
 // LEARNING DATA MANAGEMENT FUNCTIONS
 
