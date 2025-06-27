@@ -1152,10 +1152,12 @@ window.addEventListener('load', async () => {
     await initializeAIChat();
   }
 
-  document.getElementById('loadingScreen').classList.add('fade-out');
   setTimeout(() => {
-    document.getElementById('loadingScreen').style.display = 'none';
-  }, 1000);
+    document.getElementById('loadingScreen').classList.add('fade-out');
+    setTimeout(() => {
+      document.getElementById('loadingScreen').style.display = 'none';
+    }, 1000);
+  }, 4000);
 });
 
 // Smooth scrolling
