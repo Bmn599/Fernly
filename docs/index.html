@@ -1165,9 +1165,9 @@ window.addEventListener('load', () => {
       const logo = document.querySelector('.logo');
       if (logo) logo.classList.add('start-animation');
       
-      // Start hero words animation sequence
+      // Start hero words animation sequence immediately
       startHeroWordsAnimation();
-    }, 500);
+    }, 1000);
   }, 3000);
 });
 
@@ -1216,34 +1216,32 @@ backToTopBtn.addEventListener('click', function() {
 function startHeroWordsAnimation() {
   const words = document.querySelectorAll('.hero h1 .word');
   
-  // Start first word after 300ms for quicker transition
-  setTimeout(() => {
-    if (words[0]) {
-      words[0].style.animationPlayState = 'running';
-    }
-  }, 300);
+  // Start first word immediately - no delay
+  if (words[0]) {
+    words[0].style.animationPlayState = 'running';
+  }
   
-  // Start second word after first completes (300ms + 2s animation = 2.3s)
+  // Start second word after first completes (2s animation = 2s)
   setTimeout(() => {
     if (words[1]) {
       words[1].style.animationPlayState = 'running';
     }
-  }, 2300);
+  }, 2000);
   
-  // Start third word after second completes (2.3s + 2s animation = 4.3s)
+  // Start third word after second completes (2s + 2s animation = 4s)
   setTimeout(() => {
     if (words[2]) {
       words[2].style.animationPlayState = 'running';
     }
-  }, 4300);
+  }, 4000);
   
-  // Show tagline after third word completes (4.3s + 2s animation = 6.3s)
+  // Show tagline after third word completes (4s + 2s animation = 6s)
   setTimeout(() => {
     const tagline = document.querySelector('.hero .tagline');
     if (tagline) {
       tagline.classList.add('show');
     }
-  }, 6300);
+  }, 6000);
 }
 
 // Tagline animation - now handled by startHeroWordsAnimation()
