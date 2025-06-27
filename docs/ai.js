@@ -98,228 +98,7 @@ let learningData = {
 let awaitingFeedback = false;
 let lastResponseId = null;
 
-// COMPREHENSIVE MEDICATION INFORMATION DATABASE
-const medicationDatabase = {
-  // ANTIDEPRESSANTS - SSRIs
-  "prozac": {
-    name: "Prozac (Fluoxetine)",
-    type: "SSRI Antidepressant",
-    commonUses: ["Depression", "Anxiety", "OCD", "Panic Disorder"],
-    commonSideEffects: ["Nausea", "Headache", "Insomnia", "Dry mouth", "Dizziness"],
-    importantNotes: "Usually taken in the morning. May take 4-6 weeks to feel full effects.",
-    warning: "Do not stop suddenly. Consult your doctor before making any changes."
-  },
-  "zoloft": {
-    name: "Zoloft (Sertraline)",
-    type: "SSRI Antidepressant",
-    commonUses: ["Depression", "Anxiety", "PTSD", "OCD"],
-    commonSideEffects: ["Nausea", "Diarrhea", "Dry mouth", "Insomnia", "Sexual side effects"],
-    importantNotes: "Take with food to reduce stomach upset. Effects may take several weeks.",
-    warning: "Monitor for mood changes, especially in young adults. Consult doctor before stopping."
-  },
-  "lexapro": {
-    name: "Lexapro (Escitalopram)",
-    type: "SSRI Antidepressant",
-    commonUses: ["Depression", "Generalized Anxiety Disorder"],
-    commonSideEffects: ["Nausea", "Fatigue", "Insomnia", "Increased sweating"],
-    importantNotes: "Often well-tolerated. Can be taken with or without food.",
-    warning: "May cause withdrawal symptoms if stopped abruptly. Taper under medical supervision."
-  },
-  "paxil": {
-    name: "Paxil (Paroxetine)",
-    type: "SSRI Antidepressant",
-    commonUses: ["Depression", "Anxiety", "Panic Disorder", "PTSD"],
-    commonSideEffects: ["Drowsiness", "Nausea", "Dry mouth", "Weight gain"],
-    importantNotes: "May cause more sedation than other SSRIs. Take as directed.",
-    warning: "Has higher risk of withdrawal symptoms. Should be tapered slowly."
-  },
-  "celexa": {
-    name: "Celexa (Citalopram)",
-    type: "SSRI Antidepressant",
-    commonUses: ["Depression", "Anxiety"],
-    commonSideEffects: ["Nausea", "Dry mouth", "Drowsiness", "Insomnia"],
-    importantNotes: "Similar to other SSRIs but may have fewer drug interactions.",
-    warning: "Higher doses may affect heart rhythm. Regular monitoring recommended."
-  },
-  "wellbutrin": {
-    name: "Wellbutrin (Bupropion)",
-    type: "Atypical Antidepressant",
-    commonUses: ["Depression", "Smoking cessation", "ADHD"],
-    commonSideEffects: ["Dry mouth", "Nausea", "Insomnia", "Dizziness", "Constipation"],
-    importantNotes: "Less likely to cause sexual side effects or weight gain. May increase energy.",
-    warning: "Can lower seizure threshold. Avoid in people with eating disorders."
-  },
-  "effexor": {
-    name: "Effexor (Venlafaxine)",
-    type: "SNRI Antidepressant",
-    commonUses: ["Depression", "Anxiety", "Panic Disorder"],
-    commonSideEffects: ["Nausea", "Dizziness", "Dry mouth", "Sweating"],
-    importantNotes: "Works on both serotonin and norepinephrine. Take with food.",
-    warning: "Can cause withdrawal symptoms. Should be tapered slowly when stopping."
-  },
-  "cymbalta": {
-    name: "Cymbalta (Duloxetine)",
-    type: "SNRI Antidepressant",
-    commonUses: ["Depression", "Anxiety", "Chronic pain", "Fibromyalgia"],
-    commonSideEffects: ["Nausea", "Dry mouth", "Drowsiness", "Fatigue"],
-    importantNotes: "Also helps with chronic pain conditions. Take with food.",
-    warning: "May cause liver problems in rare cases. Regular monitoring recommended."
-  },
-  
-  // ANXIETY MEDICATIONS
-  "xanax": {
-    name: "Xanax (Alprazolam)",
-    type: "Benzodiazepine",
-    commonUses: ["Anxiety", "Panic Disorder"],
-    commonSideEffects: ["Drowsiness", "Dizziness", "Memory problems", "Coordination issues"],
-    importantNotes: "Fast-acting for anxiety relief. Should be used short-term.",
-    warning: "Can be habit-forming. Do not stop suddenly. Avoid alcohol."
-  },
-  "ativan": {
-    name: "Ativan (Lorazepam)",
-    type: "Benzodiazepine",
-    commonUses: ["Anxiety", "Panic attacks", "Insomnia"],
-    commonSideEffects: ["Sedation", "Dizziness", "Weakness", "Confusion"],
-    importantNotes: "Intermediate-acting benzodiazepine. Can be used as needed.",
-    warning: "Risk of dependence. Taper slowly to discontinue."
-  },
-  "klonopin": {
-    name: "Klonopin (Clonazepam)",
-    type: "Benzodiazepine",
-    commonUses: ["Anxiety", "Panic Disorder", "Seizures"],
-    commonSideEffects: ["Drowsiness", "Dizziness", "Fatigue", "Memory problems"],
-    importantNotes: "Longer-acting than other benzodiazepines. Good for consistent anxiety.",
-    warning: "High potential for dependence. Requires careful monitoring."
-  },
-  "buspar": {
-    name: "BuSpar (Buspirone)",
-    type: "Anti-anxiety medication",
-    commonUses: ["Generalized Anxiety Disorder"],
-    commonSideEffects: ["Dizziness", "Nausea", "Headache", "Nervousness"],
-    importantNotes: "Non-benzodiazepine anti-anxiety medication. Takes 2-4 weeks to work.",
-    warning: "Not effective for panic attacks. May interact with MAOIs."
-  },
-  
-  // MOOD STABILIZERS
-  "lithium": {
-    name: "Lithium (Lithobid, Eskalith)",
-    type: "Mood Stabilizer",
-    commonUses: ["Bipolar Disorder", "Depression (augmentation)"],
-    commonSideEffects: ["Tremor", "Increased urination", "Weight gain", "Nausea"],
-    importantNotes: "Requires regular blood monitoring. Stay well-hydrated.",
-    warning: "Narrow therapeutic window. Regular lab monitoring essential."
-  },
-  "lamictal": {
-    name: "Lamictal (Lamotrigine)",
-    type: "Mood Stabilizer/Anticonvulsant",
-    commonUses: ["Bipolar Disorder", "Epilepsy"],
-    commonSideEffects: ["Dizziness", "Nausea", "Fatigue", "Headache"],
-    importantNotes: "Particularly effective for bipolar depression. Start with low dose.",
-    warning: "Rare but serious skin reactions. Seek medical attention for rash."
-  },
-  "depakote": {
-    name: "Depakote (Divalproex/Valproic Acid)",
-    type: "Mood Stabilizer/Anticonvulsant",
-    commonUses: ["Bipolar Disorder", "Epilepsy", "Migraine prevention"],
-    commonSideEffects: ["Weight gain", "Hair loss", "Nausea", "Tremor"],
-    importantNotes: "Effective for mania and mixed episodes. Requires blood monitoring.",
-    warning: "Can cause liver toxicity. Regular lab monitoring required."
-  },
-  
-  // ANTIPSYCHOTICS
-  "abilify": {
-    name: "Abilify (Aripiprazole)",
-    type: "Atypical Antipsychotic",
-    commonUses: ["Schizophrenia", "Bipolar Disorder", "Depression (augmentation)", "Autism irritability"],
-    commonSideEffects: ["Nausea", "Vomiting", "Constipation", "Headache", "Dizziness"],
-    importantNotes: "Partial dopamine agonist. Lower risk of weight gain than some antipsychotics.",
-    warning: "May cause movement disorders. Monitor for tardive dyskinesia."
-  },
-  "seroquel": {
-    name: "Seroquel (Quetiapine)",
-    type: "Atypical Antipsychotic",
-    commonUses: ["Schizophrenia", "Bipolar Disorder", "Depression (augmentation)", "Insomnia"],
-    commonSideEffects: ["Drowsiness", "Weight gain", "Dizziness", "Dry mouth"],
-    importantNotes: "Sedating effects often used for sleep. Extended-release available.",
-    warning: "May cause metabolic changes. Monitor blood sugar and weight."
-  },
-  "risperdal": {
-    name: "Risperdal (Risperidone)",
-    type: "Atypical Antipsychotic",
-    commonUses: ["Schizophrenia", "Bipolar Disorder", "Autism irritability"],
-    commonSideEffects: ["Weight gain", "Sedation", "Movement disorders", "Increased prolactin"],
-    importantNotes: "Available in long-acting injection form. Effective for positive symptoms.",
-    warning: "May cause movement disorders and metabolic changes."
-  },
-  "zyprexa": {
-    name: "Zyprexa (Olanzapine)",
-    type: "Atypical Antipsychotic",
-    commonUses: ["Schizophrenia", "Bipolar Disorder"],
-    commonSideEffects: ["Significant weight gain", "Sedation", "Increased appetite", "Dry mouth"],
-    importantNotes: "Very effective but high risk of weight gain and metabolic effects.",
-    warning: "High risk of diabetes and weight gain. Regular monitoring required."
-  },
-  
-  // ADHD MEDICATIONS
-  "adderall": {
-    name: "Adderall (Mixed Amphetamine Salts)",
-    type: "Stimulant",
-    commonUses: ["ADHD", "Narcolepsy"],
-    commonSideEffects: ["Decreased appetite", "Insomnia", "Nervousness", "Increased heart rate"],
-    importantNotes: "Available in immediate and extended-release formulations.",
-    warning: "Can be habit-forming. Monitor blood pressure and heart rate."
-  },
-  "ritalin": {
-    name: "Ritalin (Methylphenidate)",
-    type: "Stimulant",
-    commonUses: ["ADHD", "Narcolepsy"],
-    commonSideEffects: ["Decreased appetite", "Sleep problems", "Nervousness", "Headache"],
-    importantNotes: "Short-acting formulation. Take 30-45 minutes before meals.",
-    warning: "Can affect growth in children. Monitor height and weight."
-  },
-  "concerta": {
-    name: "Concerta (Methylphenidate Extended-Release)",
-    type: "Stimulant",
-    commonUses: ["ADHD"],
-    commonSideEffects: ["Decreased appetite", "Sleep problems", "Mood changes", "Tics"],
-    importantNotes: "Long-acting formulation lasting 12 hours. Take in morning.",
-    warning: "May worsen existing psychiatric conditions. Monitor mood carefully."
-  },
-  "strattera": {
-    name: "Strattera (Atomoxetine)",
-    type: "Non-stimulant ADHD medication",
-    commonUses: ["ADHD"],
-    commonSideEffects: ["Nausea", "Fatigue", "Decreased appetite", "Mood swings"],
-    importantNotes: "Non-stimulant option. Takes 2-4 weeks to reach full effect.",
-    warning: "May increase suicidal thoughts in children and adolescents."
-  },
-  
-  // SLEEP MEDICATIONS
-  "ambien": {
-    name: "Ambien (Zolpidem)",
-    type: "Sleep aid",
-    commonUses: ["Insomnia"],
-    commonSideEffects: ["Drowsiness", "Dizziness", "Diarrhea", "Drugged feeling"],
-    importantNotes: "Short-term use only. Take immediately before bedtime.",
-    warning: "May cause complex sleep behaviors. Risk of dependence with long-term use."
-  },
-  "lunesta": {
-    name: "Lunesta (Eszopiclone)",
-    type: "Sleep aid",
-    commonUses: ["Insomnia"],
-    commonSideEffects: ["Metallic taste", "Dizziness", "Headache", "Nausea"],
-    importantNotes: "Can be used longer-term than other sleep medications.",
-    warning: "May cause next-day impairment. Avoid alcohol."
-  },
-  "trazodone": {
-    name: "Trazodone",
-    type: "Atypical Antidepressant (used off-label for sleep)",
-    commonUses: ["Depression", "Insomnia"],
-    commonSideEffects: ["Drowsiness", "Dizziness", "Dry mouth", "Constipation"],
-    importantNotes: "Commonly used off-label for sleep due to sedating effects.",
-    warning: "May cause priapism (prolonged erection) in men. Seek immediate medical help."
-  }
-};
+const medicationDatabase = window.medicationDatabase || {}; // loaded from medications-data.js
 
 // Enhanced Conversation Context for intelligent responses
 const conversationContext = {
@@ -327,19 +106,12 @@ const conversationContext = {
   questionCount: 0,
   mentalHealthTopics: [],
   crisisKeywords: [],
-  detectedSymptoms: {
-    depression: [],
-    anxiety: [],
-    ptsd: [],
-    adhd: [],
-    bipolar: [],
-    ocd: [],
-    sleep: []
-  },
+  detectedSymptoms: {},
   topicCounts: {},
   assessmentInProgress: false,
   assessmentStage: 0,
   assessmentResponses: {},
+  assessmentPrompted: false,
   userPreferences: {
     communicationStyle: 'supportive', // supportive, clinical, casual
     previousTopics: [],
@@ -1351,6 +1123,19 @@ async function generateAIResponse(userMessage) {
   
   // Analyze for symptoms
   analyzeForSymptoms(userMessage);
+
+  const assessmentPrompt = maybeOfferAssessment();
+  if (assessmentPrompt) {
+    conversationContext.assessmentPrompted = true;
+    conversationContext.messages.push({
+      role: 'assistant',
+      content: assessmentPrompt,
+      timestamp: new Date().toISOString(),
+      intent: 'assessment_offer',
+      responseId: 'assessment_offer_' + Date.now()
+    });
+    return assessmentPrompt;
+  }
   
   // Generate contextual response
   let response = selectResponse(intent, conversationContext);
@@ -1870,6 +1655,30 @@ function analyzeForSymptoms(message) {
   }
 }
 
+function getTherapyQuestion(condition) {
+  if (!window.therapySpeech) return '';
+  const data = window.therapySpeech[condition] || window.therapySpeech.general;
+  if (!data || !Array.isArray(data.diagnosticQuestions)) return '';
+  const questions = data.diagnosticQuestions;
+  return questions[Math.floor(Math.random() * questions.length)];
+}
+
+function maybeOfferAssessment() {
+  if (conversationContext.assessmentInProgress || conversationContext.assessmentPrompted) {
+    return '';
+  }
+
+  for (const [cond, symptoms] of Object.entries(conversationContext.detectedSymptoms)) {
+    if (symptoms && symptoms.length >= 2) {
+      const question = getTherapyQuestion(cond);
+      const prompt = question ? `${question} Would you like to do a quick wellness assessment?` :
+        'Would you like to do a quick wellness assessment to check in on how you\'re feeling?';
+      return prompt;
+    }
+  }
+  return '';
+}
+
 // UI Helper Functions
 function showAILoading() {
   const loadingDiv = document.getElementById('aiLoading');
@@ -1980,6 +1789,8 @@ window.provideFeedback = provideFeedback;
 window.saveLearningData = saveLearningData;
 window.loadLearningData = loadLearningData;
 window.resetLearningData = resetLearningData;
+window.maybeOfferAssessment = maybeOfferAssessment;
+window.conversationContext = conversationContext;
 
 /**
  * Global function for providing feedback (called from HTML)
