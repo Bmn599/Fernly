@@ -1155,7 +1155,7 @@ window.addEventListener('load', () => {
 
   setTimeout(() => {
     document.getElementById('loadingScreen').classList.add('fade-out');
-    // Wait for fade-out to complete (1s) + required 1s delay = 2s total
+    // Wait for fade-out to complete (1s) then start animations immediately
     setTimeout(async () => {
       document.getElementById('loadingScreen').style.display = 'none';
       if (typeof initializeAIChat === 'function') {
@@ -1168,7 +1168,7 @@ window.addEventListener('load', () => {
       
       // Start hero words animation sequence with precise timing
       startHeroWordsAnimation();
-    }, 2000);
+    }, 1000);
   }, 3000);
 });
 
