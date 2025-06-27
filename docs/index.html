@@ -144,6 +144,9 @@ Date: December 2024
       margin-right: 0.75rem;
       opacity: 0;
       transform: translateY(-50px) rotate(-15deg);
+    }
+
+    .logo.start-animation img {
       animation: leafDrop 2s ease-out forwards;
       animation-delay: 0.5s;
     }
@@ -177,6 +180,9 @@ Date: December 2024
       color: #4F7942;
       opacity: 0;
       transform: translateY(20px);
+    }
+
+    .logo.start-animation span {
       animation: fadeInUp 0.8s ease forwards;
       animation-delay: 2.5s;
     }
@@ -1157,8 +1163,12 @@ window.addEventListener('load', () => {
       if (typeof initializeAIChat === 'function') {
         await initializeAIChat();
       }
+      setTimeout(() => {
+        const logo = document.querySelector('.logo');
+        if (logo) logo.classList.add('start-animation');
+      }, 2000);
     }, 1000);
-  }, 2000);
+  }, 5000);
 });
 
 // Smooth scrolling
