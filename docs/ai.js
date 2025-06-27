@@ -1369,8 +1369,8 @@ function addFeedbackPrompt() {
 <div class="feedback-prompt">
   <strong>Was this helpful?</strong>
   <div class="feedback-buttons">
-    <span id="${feedbackId}_helpful" class="yes">👍 Yes</span>
-    <span id="${feedbackId}_not_helpful" class="no">👎 No</span>
+    <button id="${feedbackId}_helpful" class="yes">👍 Yes</button>
+    <button id="${feedbackId}_not_helpful" class="no">👎 No</button>
   </div>
   <small style="color: #666;">Your feedback helps me improve my responses.</small>
 </div>`;
