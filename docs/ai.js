@@ -778,6 +778,8 @@ function checkSynonyms(message, intent) {
   }
   return false;
 }
+const extraIntentPatterns = {
+  anxiety: [
     /(can't stop thinking|racing thoughts|catastrophizing|overthinking)/i,
     /(heart racing|shortness of breath|sweating|trembling)/i,
     // Variations and misspellings
@@ -867,6 +869,13 @@ function checkSynonyms(message, intent) {
     /(emotional rollercoaster|all over the place emotionally)/i
   ]
 };
+
+for (const [intent, patterns] of Object.entries(extraIntentPatterns)) {
+  if (!intentPatterns[intent]) {
+    intentPatterns[intent] = [];
+  }
+  intentPatterns[intent].push(...patterns);
+}
 
 // Initialize Smart AI System with Learning Data
 async function initializeAI() {
