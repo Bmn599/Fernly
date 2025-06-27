@@ -323,11 +323,8 @@ Date: December 2024
       opacity: 0;
       transform: translateY(20px);
       animation: ghostFadeIn 2s ease forwards;
+      animation-play-state: paused; /* Will be triggered by JavaScript */
     }
-
-    .hero h1 .word:nth-child(1) { animation-delay: 1s; }
-    .hero h1 .word:nth-child(2) { animation-delay: 2.5s; }
-    .hero h1 .word:nth-child(3) { animation-delay: 4s; }
 
     @keyframes ghostFadeIn {
       0% {
@@ -1164,12 +1161,14 @@ window.addEventListener('load', () => {
         await initializeAIChat();
       }
 
-      setTimeout(() => {
-        const logo = document.querySelector('.logo');
-        if (logo) logo.classList.add('start-animation');
-      }, 2000);
+      // Immediately trigger logo animation after loading screen fades
+      const logo = document.querySelector('.logo');
+      if (logo) logo.classList.add('start-animation');
+      
+      // Start hero words animation sequence
+      startHeroWordsAnimation();
     }, 1000);
-  }, 5000);
+  }, 3000);
 });
 
 // Smooth scrolling
@@ -1213,11 +1212,45 @@ backToTopBtn.addEventListener('click', function() {
   });
 });
 
-// Tagline animation
-setTimeout(() => {
-  const tagline = document.querySelector('.hero .tagline');
-  tagline.classList.add('show');
-}, 5000);
+// Hero words animation sequence
+function startHeroWordsAnimation() {
+  const words = document.querySelectorAll('.hero h1 .word');
+  
+  // Start first word after 1 second
+  setTimeout(() => {
+    if (words[0]) {
+      words[0].style.animationPlayState = 'running';
+    }
+  }, 1000);
+  
+  // Start second word after first completes (1s + 2s animation = 3s)
+  setTimeout(() => {
+    if (words[1]) {
+      words[1].style.animationPlayState = 'running';
+    }
+  }, 3000);
+  
+  // Start third word after second completes (3s + 2s animation = 5s)
+  setTimeout(() => {
+    if (words[2]) {
+      words[2].style.animationPlayState = 'running';
+    }
+  }, 5000);
+  
+  // Show tagline after third word completes (5s + 2s animation = 7s)
+  setTimeout(() => {
+    const tagline = document.querySelector('.hero .tagline');
+    if (tagline) {
+      tagline.classList.add('show');
+    }
+  }, 7000);
+}
+
+// Tagline animation - now handled by startHeroWordsAnimation()
+// setTimeout(() => {
+//   const tagline = document.querySelector('.hero .tagline');
+//   tagline.classList.add('show');
+// }, 5000);
 
 
 // Cursor trail effect
