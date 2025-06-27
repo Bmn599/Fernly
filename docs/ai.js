@@ -106,15 +106,7 @@ const conversationContext = {
   questionCount: 0,
   mentalHealthTopics: [],
   crisisKeywords: [],
-  detectedSymptoms: {
-    depression: [],
-    anxiety: [],
-    ptsd: [],
-    adhd: [],
-    bipolar: [],
-    ocd: [],
-    sleep: []
-  },
+  detectedSymptoms: {},
   topicCounts: {},
   assessmentInProgress: false,
   assessmentStage: 0,
@@ -1797,6 +1789,8 @@ window.provideFeedback = provideFeedback;
 window.saveLearningData = saveLearningData;
 window.loadLearningData = loadLearningData;
 window.resetLearningData = resetLearningData;
+window.maybeOfferAssessment = maybeOfferAssessment;
+window.conversationContext = conversationContext;
 
 /**
  * Global function for providing feedback (called from HTML)
