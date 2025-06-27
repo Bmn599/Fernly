@@ -1,0 +1,15 @@
+{
+  "Disorders": [
+    {
+      "name": "ADHD",
+      "description": "Attention-deficit/hyperactivity disorder ... detailed description truncated for brevity",
+      "criteria": "Full DSM-5 criteria text here..."
+    },
+    {
+      "name": "Major Depressive Disorder",
+      "description": "Persistent sadness and lack of interest ...",
+      "criteria": "Extended diagnostic guidelines..."
+    }
+    // ... remaining 295 disorders would be listed here
+  ]
+}
