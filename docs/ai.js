@@ -703,6 +703,22 @@ function checkSynonyms(message, intent) {
 function getDisorderInfo(query) {
   if (!window.dsm5Disorders) return null;
   const lowerQuery = query.toLowerCase();
+
+  // Match against synonyms first for better accuracy
+  for (const info of Object.values(window.dsm5Disorders)) {
+    if (info.synonyms && info.synonyms.some(s => lowerQuery.includes(s.toLowerCase()))) {
+      return info;
+    }
+  }
+
+  // Match against full disorder names
+  for (const info of Object.values(window.dsm5Disorders)) {
+    if (info.name && lowerQuery.includes(info.name.toLowerCase())) {
+      return info;
+    }
+  }
+
+  // Fallback: match by key substring
   const key = Object.keys(window.dsm5Disorders).find(d => lowerQuery.includes(d));
   return key ? window.dsm5Disorders[key] : null;
 }

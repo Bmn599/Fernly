@@ -7,6 +7,7 @@ const dsm5Disorders = {
       "Fidgeting",
       "Interrupting others"
     ],
+    synonyms: ["attention deficit hyperactivity disorder", "add", "attention deficit disorder"],
     resources: [
       { name: "CDC ADHD", url: "https://www.cdc.gov/ncbddd/adhd/index.html" }
     ]
@@ -19,6 +20,7 @@ const dsm5Disorders = {
       "Loss of interest",
       "Fatigue"
     ],
+    synonyms: ["major depressive disorder", "clinical depression"],
     resources: [
       { name: "NIMH Depression", url: "https://www.nimh.nih.gov/health/topics/depression" }
     ]
@@ -31,6 +33,7 @@ const dsm5Disorders = {
       "Restlessness",
       "Fatigue"
     ],
+    synonyms: ["generalized anxiety disorder", "gad", "anxiety"],
     resources: [
       { name: "NIMH Anxiety", url: "https://www.nimh.nih.gov/health/topics/anxiety-disorders" }
     ]
@@ -43,6 +46,7 @@ const dsm5Disorders = {
       "Depressive episodes",
       "Mood swings"
     ],
+    synonyms: ["bipolar disorder", "manic depression"],
     resources: [
       { name: "NIMH Bipolar Disorder", url: "https://www.nimh.nih.gov/health/topics/bipolar-disorder" }
     ]
