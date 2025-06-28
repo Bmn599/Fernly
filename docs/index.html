@@ -257,7 +257,7 @@ Date: December 2024
     .btn-primary:hover {
       background: transparent;
       color: #619251;
-      transform: translateY(-2px);
+      transform: translateY(-2px) scale(1.03);
     }
 
     .btn-secondary {
@@ -273,7 +273,7 @@ Date: December 2024
     .btn-secondary:hover {
       background: #fff;
       color: #333;
-      transform: translateY(-2px);
+      transform: translateY(-2px) scale(1.03);
     }
 
     /* AI Chat Button */
@@ -290,7 +290,7 @@ Date: December 2024
     }
 
     .btn-ai:hover {
-      transform: translateY(-2px);
+      transform: translateY(-2px) scale(1.03);
       box-shadow: 0 8px 25px rgba(97, 146, 81, 0.4);
     }
 
@@ -345,9 +345,6 @@ Date: December 2024
     .hero h1 .word {
       display: inline-block;
       opacity: 0;
-      transform: translateY(20px);
-      animation: ghostFadeIn 2s ease forwards;
-      animation-play-state: paused; /* Will be triggered by JavaScript */
     }
 
     @keyframes ghostFadeIn {
@@ -570,8 +567,8 @@ Date: December 2024
     }
 
     .disclaimer {
-      font-size: 0.75rem;
-      color: #666;
+      font-size: 0.7rem; /* smaller for less visual weight */
+      color: #777;       /* softer gray tone */
       text-align: center;
       margin-top: 1rem;
       line-height: 1.4;
@@ -603,14 +600,14 @@ Date: December 2024
 
     /* Medical Disclaimer - NEW */
     .medical-disclaimer {
-      background: rgba(219, 54, 69, 0.1);
+      background: rgba(219, 54, 69, 0.05); /* lighter background */
       border-left: 3px solid #db3645;
       padding: 0.8rem 1rem;
       margin-top: 0.5rem;
       border-radius: 8px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;  /* slightly smaller */
       line-height: 1.4;
-      color: #842029;
+      color: #555;        /* grey tone */
     }
 
     /* Medication Info Style - NEW */
@@ -905,6 +902,24 @@ Date: December 2024
       background: rgba(0, 0, 0, 0.1);
     }
 
+    .footer-flex {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .footer-links a {
+      color: #fff;
+      margin: 0 0.25rem;
+    }
+
+    .footer-blurb {
+      font-size: 0.8rem;
+      color: #ddd;
+      margin: 0;
+    }
+
     .back-to-top {
       position: fixed;
       bottom: 2rem;
@@ -1048,14 +1063,6 @@ Date: December 2024
       <p class="chat-intro">Get instant answers on medications, mental health conditions, and quick wellness check-ins confidentially and judgment-free.</p>
 
       <div class="chat-interface">
-        <!-- AI/Fallback Status Indicator -->
-        <div id="aiStatusIndicator" class="ai-status-indicator" style="display: none;">
-          <div class="status-content">
-            <span class="status-icon">⏳</span>
-            <span class="status-text">Loading AI model...</span>
-          </div>
-        </div>
-        
         <div class="chat-messages" id="chatMessages">
           <!-- Chat output area for compatibility -->
           <div id="chatOutput" style="display: none;"></div>
@@ -1064,6 +1071,13 @@ Date: December 2024
               <div class="message-text">
                 Hi there! I'm here to listen and help. How are you feeling today?
               </div>
+            </div>
+          </div>
+          <!-- AI/Fallback Status Indicator moved below greeting -->
+          <div id="aiStatusIndicator" class="ai-status-indicator" style="display: none;">
+            <div class="status-content">
+              <span class="status-icon">⏳</span>
+              <span class="status-text">Loading AI model...</span>
             </div>
           </div>
           <div class="message bot">
@@ -1192,8 +1206,13 @@ Date: December 2024
   </section>
 
   <footer>
-    <div class="container">
-      &copy; 2025 Fernly Health. All rights reserved.
+    <div class="container footer-flex">
+      <div class="footer-links">
+        <a href="#">Privacy</a> |
+        <a href="#">Careers</a>
+      </div>
+      <p class="footer-blurb">Proudly serving Phoenix, Tucson and communities across Arizona.</p>
+      <p>&copy; 2025 Fernly Health. All rights reserved.</p>
     </div>
   </footer>
 
@@ -1269,33 +1288,30 @@ backToTopBtn.addEventListener('click', function() {
 // Hero words animation sequence
 function startHeroWordsAnimation() {
   const words = document.querySelectorAll('.hero h1 .word');
-  
-  // Start first word immediately - no delay
-  if (words[0]) {
-    words[0].style.animationPlayState = 'running';
-  }
-  
-  // Start second word after first completes (2s animation = 2s)
-  setTimeout(() => {
-    if (words[1]) {
-      words[1].style.animationPlayState = 'running';
-    }
-  }, 2000);
-  
-  // Start third word after second completes (2s + 2s animation = 4s)
-  setTimeout(() => {
-    if (words[2]) {
-      words[2].style.animationPlayState = 'running';
-    }
-  }, 4000);
-  
-  // Show tagline after third word completes (4s + 2s animation = 6s)
+  const typeWriter = (el, delay = 0) => {
+    const text = el.textContent;
+    el.textContent = '';
+    el.style.opacity = 1;
+    let i = 0;
+    setTimeout(() => {
+      const interval = setInterval(() => {
+        el.textContent += text.charAt(i);
+        i++;
+        if (i >= text.length) clearInterval(interval);
+      }, 80);
+    }, delay);
+  };
+
+  if (words[0]) typeWriter(words[0], 0);
+  if (words[1]) typeWriter(words[1], 2000);
+  if (words[2]) typeWriter(words[2], 4000);
+
+  // Show tagline after last word finishes typing
+  const taglineDelay = 4000 + words[2].textContent.length * 80 + 500;
   setTimeout(() => {
     const tagline = document.querySelector('.hero .tagline');
-    if (tagline) {
-      tagline.classList.add('show');
-    }
-  }, 6000);
+    if (tagline) tagline.classList.add('show');
+  }, taglineDelay);
 }
 
 // Tagline animation - now handled by startHeroWordsAnimation()
