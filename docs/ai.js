@@ -328,7 +328,7 @@ const responseTemplates = {
     "I'd be happy to explain. What specifically would you like me to clarify?",
     "Let me help clarify that for you. What part would you like me to explain more?",
     "Of course! I want to make sure I'm being clear. What would be most helpful for me to explain?",
-    "I'm glad you asked. What aspect would you like me to break down further?",
+    "I'm glad you asked. Let me explain. What aspect would you like me to break down further?",
     "Absolutely - let me explain that better. What would you like to understand more about?",
     "Good question! What specifically can I help you understand better?"
   ]
