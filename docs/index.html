@@ -25,6 +25,7 @@ Date: December 2024
   <script src="therapy-speech.js"></script>
   <!-- AI Chat functionality - depends on WebLLM and fallback-data being loaded first -->
   <script src="ai.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.13.0/dist/transformers.min.js"></script>
   <!-- CSS STYLES WILL GO HERE -->
   <style>
     * {
@@ -1045,6 +1046,10 @@ Date: December 2024
               </button>
             </div>
           </form>
+          <input type="file" id="aiFileInput" multiple>
+          <button id="aiUploadBtn">Upload Files</button>
+          <span id="aiFileStatus" style="font-size:0.9em;color:#888;"></span>
+          <span id="aiAIStatus" style="font-size:0.9em;color:#888;margin-left:1em;"></span>
           <div class="disclaimer">
             This AI assistant provides general information only. It's not a substitute for professional medical advice. If you're in crisis, please call 988 or seek immediate help.
           </div>
@@ -1151,8 +1156,8 @@ Date: December 2024
   <script>
 // Initialize loading screen and AI
 window.addEventListener('load', () => {
-  // No need for complex CDN loading setup - using local transformers.min.js file
-  console.log('Transformers.js loaded from local file');
+  // Transformers.js loads from the CDN declared in the page head
+  console.log('Transformers.js loaded from CDN');
 
   setTimeout(() => {
     document.getElementById('loadingScreen').classList.add('fade-out');
@@ -1331,19 +1336,19 @@ async function sendMessage() {
   const typingIndicator = addTypingIndicator();
   
   try {
-    // Generate response using AI or fallback
-    const response = await generateAIResponse(message);
-    
+    // Generate response using new AI assistant
+    const answer = await window.aiGetAnswer(message, 'aiAIStatus');
+
     // Remove typing indicator and add AI response
     if (typingIndicator && typingIndicator.parentNode) {
       chatMessages.removeChild(typingIndicator);
     }
-    
-    // Check if we're in fallback mode and add appropriate styling
-    const responseElement = addMessage(response, 'bot');
-    if (isFallbackMode || !isAILoaded) {
-      responseElement.classList.add('fallback-response');
-    }
+
+    const responseElement = addMessage(answer.text + (
+      answer.sources?.length
+        ? `<div style="font-size:0.85em;color:#888;">Source: ${answer.sources.map(s => `${s.file} [${s.snippet}]`).join(', ')}</div>`
+        : ''
+    ), 'bot');
   } catch (error) {
     console.error('Error generating response:', error);
     if (typingIndicator && typingIndicator.parentNode) {
@@ -1432,6 +1437,15 @@ document.querySelectorAll('.blog-card').forEach(el => {
   el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
   observer.observe(el);
 });
+
+</script>
+<script type="module">
+import { aiHandleFileUpload, aiGetAnswer, ensureLlmLoaded } from './aiAssistant.js';
+window.aiGetAnswer = aiGetAnswer;
+window.aiHandleFileUpload = aiHandleFileUpload;
+window.ensureLlmLoaded = ensureLlmLoaded;
+document.getElementById('aiUploadBtn').onclick = () => aiHandleFileUpload('aiFileInput', 'aiFileStatus');
+ensureLlmLoaded('aiAIStatus');
 </script>
 </body>
 
