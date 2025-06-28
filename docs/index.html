@@ -345,6 +345,9 @@ Date: December 2024
     .hero h1 .word {
       display: inline-block;
       opacity: 0;
+      transform: translateY(20px);
+      animation: ghostFadeIn 2s ease forwards;
+      animation-play-state: paused; /* Will be triggered by JavaScript */
     }
 
     @keyframes ghostFadeIn {
@@ -1288,33 +1291,33 @@ backToTopBtn.addEventListener('click', function() {
 // Hero words animation sequence
 function startHeroWordsAnimation() {
   const words = document.querySelectorAll('.hero h1 .word');
-  const typeWriter = (el, delay = 0) => {
-    const text = el.textContent;
-    el.textContent = '';
-    el.style.opacity = 1;
-    let i = 0;
-    setTimeout(() => {
-      const interval = setInterval(() => {
-        el.textContent += text.charAt(i);
-        i++;
-        if (i >= text.length) clearInterval(interval);
-      }, 100);
-    }, delay);
-  };
 
-  if (words[0]) typeWriter(words[0], 0);
-  if (words[1]) typeWriter(words[1], 2000);
-  if (words[2]) typeWriter(words[2], 4000);
+  // Start first word immediately - no delay
+  if (words[0]) {
+    words[0].style.animationPlayState = 'running';
+  }
 
-  // Type tagline after last word finishes typing
-  const taglineDelay = 4000 + words[2].textContent.length * 100 + 500;
+  // Start second word after first completes (2s animation = 2s)
+  setTimeout(() => {
+    if (words[1]) {
+      words[1].style.animationPlayState = 'running';
+    }
+  }, 2000);
+
+  // Start third word after second completes (2s + 2s animation = 4s)
+  setTimeout(() => {
+    if (words[2]) {
+      words[2].style.animationPlayState = 'running';
+    }
+  }, 4000);
+
+  // Show tagline after third word completes (4s + 2s animation = 6s)
   setTimeout(() => {
     const tagline = document.querySelector('.hero .tagline');
     if (tagline) {
       tagline.classList.add('show');
-      typeWriter(tagline, 0);
     }
-  }, taglineDelay);
+  }, 6000);
 }
 
 // Tagline animation - now handled by startHeroWordsAnimation()
