@@ -1008,10 +1008,55 @@ Date: December 2024
         max-width: 90%;
       }
       
-      .message-text {
-        padding: 0.75rem 1rem;
-      }
-    }
+  .message-text {
+    padding: 0.75rem 1rem;
+  }
+}
+
+  :root {
+    --logo-height:      70px;
+    --logo-gap:         1rem;
+    --marquee-step:     calc(var(--logo-height) + var(--logo-gap) * 2);
+    --marquee-duration:  2s;
+    --marquee-pause:     1s;
+  }
+
+  #insurance .logo-marquee {
+    overflow: hidden;
+    width: var(--marquee-step);
+    margin: 0 auto;
+  }
+
+  .marquee__track {
+    display: flex;
+    animation:
+      slide var(--marquee-duration) steps(1) infinite,
+      pause var(--marquee-pause)  steps(1) infinite;
+    animation-delay: 0s, var(--marquee-duration);
+  }
+
+  .marquee__track img {
+    width: var(--marquee-step);
+    height: var(--logo-height);
+    margin: 0 var(--logo-gap);
+    object-fit: contain;
+  }
+
+  @keyframes slide {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(calc(-1 * var(--marquee-step))); }
+  }
+
+  @keyframes pause {
+    0%, 100% { transform: translateX(calc(-1 * var(--marquee-step))); }
+  }
+
+  #insurance h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.75rem;
+    color: #ffffff;
+  }
   </style>
 </head>
 
@@ -1207,6 +1252,30 @@ Date: December 2024
       </form>
     </div>
   </section>
+
+  <!-- ─── ADD INSURANCE PARTNERS MARQUEE HERE ─── -->
+  <section id="insurance" style="padding: 4rem 1rem;">
+    <h2>We Accept Your Plan</h2>
+    <div class="logo-marquee">
+      <div class="marquee__track">
+        <!-- First set of 12 real logos -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Aetna_logo.svg/200px-Aetna_logo.svg.png" alt="Aetna">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Blue_Cross_Blue_Shield_logo.svg/200px-Blue_Cross_Blue_Shield_logo.svg.png" alt="Blue Cross Blue Shield">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Cigna_logo.svg/200px-Cigna_logo.svg.png" alt="Cigna">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/UnitedHealthcare_logo.svg/200px-UnitedHealthcare_logo.svg.png" alt="UnitedHealthcare">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Humana_logo.svg/200px-Humana_logo.svg.png" alt="Humana">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Medicare_logo.svg/200px-Medicare_logo.svg.png" alt="Medicare">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Medicaid.svg/200px-Medicaid.svg.png" alt="Medicaid">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Optum_logo.svg/200px-Optum_logo.svg.png" alt="Optum">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Kaiser_Permanente_logo.svg/200px-Kaiser_Permanente_logo.svg.png" alt="Kaiser Permanente">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Anthem_logo.svg/200px-Anthem_logo.svg.png" alt="Anthem">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Tricare_logo.svg/200px-Tricare_logo.svg.png" alt="TRICARE">
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/TriWest_Healthcare_Alliance_logo.svg/200px-TriWest_Healthcare_Alliance_logo.svg.png" alt="TriWest">
+
+      </div>
+    </div>
+  </section>
+  <!-- ──────────────────────────────────────────────────────────────────── -->
 
   <footer>
     <div class="container footer-flex">
