@@ -16,7 +16,13 @@ function chunkText(text, size) {
 // File uploader
 export async function aiHandleFileUpload(inputId, statusId) {
   const files = document.getElementById(inputId).files;
+  const loaded = [];
   for (let file of files) {
+    // Skip very large files to avoid blocking the browser
+    if (file.size > 1024 * 1024) {
+      console.warn(`Skipping ${file.name}: file too large.`);
+      continue;
+    }
     const text = await file.text();
     const chunks = chunkText(text, aiState.preferences.chunkSize);
     aiState.files.push({
@@ -25,9 +31,12 @@ export async function aiHandleFileUpload(inputId, statusId) {
       content: text,
       chunks: chunks.map((txt, i) => ({ text: txt, start: i * aiState.preferences.chunkSize, end: (i + 1) * aiState.preferences.chunkSize }))
     });
+    loaded.push(file.name);
   }
-  saveAiState();
-  document.getElementById(statusId).innerText = `Loaded: ${aiState.files.map(f => f.name).join(', ')}`;
+  if (loaded.length) {
+    saveAiState();
+  }
+  document.getElementById(statusId).innerText = loaded.length ? `Loaded: ${loaded.join(', ')}` : 'No files loaded';
 }
 
 // Semantic Search (MiniLM)
