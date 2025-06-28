@@ -26,7 +26,7 @@ Date: December 2024
   <!-- AI Chat functionality -->
   <script src="ai.js"></script>
   <!-- Load Transformers.js locally with CDN fallback -->
-  <script id="transformers-cdn" type="module" src="transformers.min.js"></script>
+  <script id="transformers-cdn" src="transformers.min.js"></script>
   <script>
     (function(){
       const scriptEl = document.getElementById('transformers-cdn');
@@ -34,13 +34,12 @@ Date: December 2024
       function loadBackup(){
         if(status) status.innerText = 'Local library failed, fetching from CDN...';
         const alt = document.createElement('script');
-        alt.type = 'module';
         alt.src = 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.13.0/dist/transformers.min.js';
         alt.onload = () => {
           if(status) status.innerText = '';
           window.transformers && window.ensureLlmLoaded && ensureLlmLoaded('aiAIStatus');
         };
-        alt.onerror = () => { if(status) status.innerText = 'AI library failed to load'; };
+        alt.onerror = () => { if(status) status.innerText = 'AI library failed to load (offline or blocked)'; };
         document.head.appendChild(alt);
       }
       scriptEl.addEventListener('error', loadBackup);
