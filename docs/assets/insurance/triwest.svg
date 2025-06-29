@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40">
+  <polygon points="0,0 20,20 0,40" fill="#1A1F71"/>
+  <polygon points="160,0 140,20 160,40" fill="#1A1F71"/>
+  <text x="40" y="30" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#1A1F71" font-weight="bold">TriWest</text>
+</svg>
