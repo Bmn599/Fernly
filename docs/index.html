@@ -85,7 +85,7 @@ Date: December 2024
           var(--g5) 60%,
           var(--g6) 100%
       );
-      background-size: 400% 400%;
+      background-size: 600% 600%;
       animation: moodShift 12s ease-in-out infinite;
       background-attachment: fixed;
       margin: 0;
@@ -100,7 +100,7 @@ Date: December 2024
       inset: 0;
       background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAATElEQVR4nAXBMREAIQwEwPu3QIEHylOBBVykijRmkBAJKaBLGQU07KL3TjOjqjIi+K21eO9FKQVzTvzujtYaMhNjDOCcQxHh3pu1Vj4teh4idyTiKwAAAABJRU5ErkJggg==");
       background-size: 8px 8px;
-      opacity: .04;
+      opacity: .02;
       pointer-events: none;
     }
 
@@ -163,7 +163,7 @@ Date: December 2024
           var(--g5) 60%,
           var(--g6) 100%
       );
-      background-size: 400% 400%;
+      background-size: 600% 600%;
       animation: moodShift 12s ease-in-out infinite;
       display: flex;
       align-items: center;
@@ -822,18 +822,8 @@ Date: December 2024
     }
 
     #blog {
-      position: relative;
       padding: 6rem 0; /* Reduced from 8rem to 6rem */
       background: transparent;
-    }
-
-    #blog::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(191, 79, 79, 0.85);
-      backdrop-filter: blur(6px);
-      pointer-events: none;
     }
 
     .section-title {
@@ -1083,19 +1073,9 @@ Date: December 2024
 
   /* ---------- INSURANCE CAROUSEL ---------- */
   .insurance {
-    position: relative;
-    background: transparent;
+    background: inherit;
     padding: 4rem 1rem;
     text-align: center;
-  }
-
-  .insurance::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(191, 79, 79, 0.85);
-    backdrop-filter: blur(6px);
-    pointer-events: none;
   }
 
   .insurance h2 {
