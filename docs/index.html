@@ -1071,48 +1071,6 @@ Date: December 2024
   }
 }
 
-  /* ---------- INSURANCE CAROUSEL ---------- */
-  .insurance {
-    background: inherit;
-    padding: 4rem 1rem;
-    text-align: center;
-    margin-top: 6rem; /* Added extra space above insurance section */
-  }
-
-  .insurance h2 {
-    font-size: clamp(1.6rem, 4vw + .5rem, 2.8rem);
-    margin-bottom: 2.5rem;
-    color: #fff;
-    font-family: 'Poppins', sans-serif;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-  }
-
-  .logo-window {
-    overflow: hidden;
-    width: 100%;
-  }
-
-  .logo-track {
-    display: flex;
-    animation: scroll var(--scroll-duration) linear infinite;
-  }
-
-  .logo-track:hover {
-    animation-play-state: paused;
-  }
-
-  .logo-track img {
-    flex: 0 0 var(--slot-width);
-    max-height: var(--slot-height);
-    width: auto;
-    object-fit: contain;
-    margin: 0 1rem;
-  }
-
-  @keyframes scroll {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(calc(-1 * (var(--slot-width) + 2rem) * 12)); }
-  }
   </style>
 </head>
 
@@ -1309,40 +1267,6 @@ Date: December 2024
     </div>
   </section>
 
-  <!-- ─── INSURANCE CAROUSEL ─── -->
-  <section id="insurance" class="insurance">
-
-    <div class="logo-window">
-      <div class="logo-track">
-        <img src="assets/insurance/aetna.svg"      alt="Aetna">
-        <img src="assets/insurance/bluecross.svg"  alt="Blue Cross Blue Shield">
-        <img src="assets/insurance/cigna.svg"      alt="Cigna">
-        <img src="assets/insurance/united.svg"     alt="United Healthcare">
-        <img src="assets/insurance/humana.svg"     alt="Humana">
-        <img src="assets/insurance/medicare.svg"   alt="Medicare">
-        <img src="assets/insurance/medicaid.svg"   alt="Medicaid">
-        <img src="assets/insurance/optum.svg"      alt="Optum">
-        <img src="assets/insurance/kaiser.svg"     alt="Kaiser Permanente">
-        <img src="assets/insurance/anthem.svg"     alt="Anthem">
-        <img src="assets/insurance/tricare.svg"    alt="TRICARE">
-        <img src="assets/insurance/triwest.svg"    alt="TriWest">
-
-        <img src="assets/insurance/aetna.svg"      alt="">
-        <img src="assets/insurance/bluecross.svg"  alt="">
-        <img src="assets/insurance/cigna.svg"      alt="">
-        <img src="assets/insurance/united.svg"     alt="">
-        <img src="assets/insurance/humana.svg"     alt="">
-        <img src="assets/insurance/medicare.svg"   alt="">
-        <img src="assets/insurance/medicaid.svg"   alt="">
-        <img src="assets/insurance/optum.svg"      alt="">
-        <img src="assets/insurance/kaiser.svg"     alt="">
-        <img src="assets/insurance/anthem.svg"     alt="">
-        <img src="assets/insurance/tricare.svg"    alt="">
-        <img src="assets/insurance/triwest.svg"    alt="">
-      </div>
-    </div>
-  </section>
-  <!-- ──────────────────────────────────────────────────────────────────── -->
 
   <footer>
     <div class="container footer-flex">
