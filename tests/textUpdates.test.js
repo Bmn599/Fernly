@@ -14,9 +14,9 @@ assert.ok(indexHtml.includes('Ask Away We\'re Listening'), 'Main heading should 
 assert.ok(!indexHtml.includes('Ask Away—We\'re Listening'), 'Should not contain the old heading with em dash');
 
 // Test 2: Check that the description text was updated correctly
-assert.ok(indexHtml.includes('Get instant answers on medications, mental health conditions, and quick wellness check-ins confidentially and judgment-free'), 'Description should mention medications and mental health conditions');
-assert.ok(!indexHtml.includes('judgment free'), 'Should contain hyphenated judgment-free');
-assert.ok(!indexHtml.includes('Get instant answers on mental health conditions, and quick wellness check-ins confidentially and judgment free'), 'Should not contain the old description without medications');
+assert.ok(indexHtml.includes('Get detailed answers on medications, mental health conditions, and quick wellness check-ins confidentially and judgment free'), 'Description should mention medications and mental health conditions');
+assert.ok(!indexHtml.includes('judgment-free'), 'Should not contain hyphenated judgment-free');
+assert.ok(!indexHtml.includes('Get instant answers on medications, mental health conditions, and quick wellness check-ins confidentially and judgment-free'), 'Should not contain the old description');
 
 // Test 3: Check that medical disclaimer was updated
 assert.ok(indexHtml.includes('I can provide general information about mental health and medications'), 'Medical disclaimer should mention mental health and medications');
