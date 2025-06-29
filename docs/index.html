@@ -55,6 +55,12 @@ Date: December 2024
       --scroll-duration: 14s;
       --slot-width: 140px;
       --slot-height: 55px;
+      --g1: #8fbf8f;
+      --g2: #9ac99a;
+      --g3: #a6d3a6;
+      --g4: #b1dcb1;
+      --g5: #bf4f4f;
+      --g6: #c85b5b;
     }
     * {
       margin: 0;
@@ -70,12 +76,30 @@ Date: December 2024
     }
 
     body {
-      background: linear-gradient(45deg, #8fbf8f, #bf4f4f, #8fbf8f);
+      background: linear-gradient(
+          45deg,
+          var(--g1) 0%,
+          var(--g2) 15%,
+          var(--g3) 30%,
+          var(--g4) 45%,
+          var(--g5) 60%,
+          var(--g6) 100%
+      );
       background-size: 400% 400%;
       animation: moodShift 12s ease-in-out infinite;
       margin: 0;
       padding: 0;
       overflow-x: hidden; /* Prevent horizontal scrolling */
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMycgaGVpZ2h0PSczJyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnPjxyZWN0IHdpZHRoPScxMCUnIGhlaWdodD0nMTAlJyBmaWxsPScjZmZmJyBmaWxsLW9wYWNpdHk9JzAuNScvPjwvc3ZnPg==");
+      opacity: .04;
+      pointer-events: none;
     }
 
     /* Ensure seamless gradient across all sections */
@@ -120,7 +144,15 @@ Date: December 2024
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(45deg, #8fbf8f, #bf4f4f, #8fbf8f);
+      background: linear-gradient(
+          45deg,
+          var(--g1) 0%,
+          var(--g2) 15%,
+          var(--g3) 30%,
+          var(--g4) 45%,
+          var(--g5) 60%,
+          var(--g6) 100%
+      );
       background-size: 400% 400%;
       animation: moodShift 12s ease-in-out infinite;
       display: flex;

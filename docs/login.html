@@ -6,6 +6,15 @@
   <title>Login - Fernly Health</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --g1: #8fbf8f;
+      --g2: #9ac99a;
+      --g3: #a6d3a6;
+      --g4: #b1dcb1;
+      --g5: #bf4f4f;
+      --g6: #c85b5b;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -17,9 +26,27 @@
       height: 100%;
       font-family: 'Poppins', sans-serif;
       color: #333;
-      background: linear-gradient(45deg, #8fbf8f, #bf4f4f, #8fbf8f);
+      background: linear-gradient(
+          45deg,
+          var(--g1) 0%,
+          var(--g2) 15%,
+          var(--g3) 30%,
+          var(--g4) 45%,
+          var(--g5) 60%,
+          var(--g6) 100%
+      );
       background-size: 400% 400%;
       animation: moodShift 12s ease-in-out infinite;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMycgaGVpZ2h0PSczJyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnPjxyZWN0IHdpZHRoPScxMCUnIGhlaWdodD0nMTAlJyBmaWxsPScjZmZmJyBmaWxsLW9wYWNpdHk9JzAuNScvPjwvc3ZnPg==");
+      opacity: .04;
+      pointer-events: none;
     }
 
     @keyframes moodShift {
