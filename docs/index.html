@@ -115,7 +115,9 @@ Date: December 2024
       left: 0;
       width: 100%;
       height: 100%;
-      background: transparent;
+      background: linear-gradient(45deg, #8fbf8f, #bf4f4f, #8fbf8f);
+      background-size: 400% 400%;
+      animation: moodShift 12s ease-in-out infinite;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -387,7 +389,7 @@ Date: December 2024
     /* AI Chat Section Styles */
     #ai-chat {
       padding: 6rem 0; /* Reduced from 8rem to 6rem */
-      background: rgba(255, 255, 255, 0.1);
+      background: transparent;
     }
 
     .chat-intro {
@@ -733,6 +735,12 @@ Date: December 2024
       border-radius: 12px;
       padding: 1rem;
       margin: 0.5rem 0;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .resource-card:hover {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      transform: translateY(-4px);
     }
     
     .resource-card h4 {
@@ -768,7 +776,7 @@ Date: December 2024
 
     #blog {
       padding: 6rem 0; /* Reduced from 8rem to 6rem */
-      background: rgba(255, 255, 255, 0.1);
+      background: transparent;
     }
 
     .section-title {
@@ -796,13 +804,13 @@ Date: December 2024
     }
 
     .blog-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
     }
 
     .blog-image {
       height: 200px;
-      background: transparent;
+      background: linear-gradient(45deg, #8fbf8f, #619251);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -911,7 +919,7 @@ Date: December 2024
       font-size: 0.9rem;
       color: #fff;
       padding: 2rem 1rem;
-      background: rgba(0, 0, 0, 0.1);
+      background: transparent;
     }
 
     .footer-flex {
