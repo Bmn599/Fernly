@@ -51,6 +51,11 @@ Date: December 2024
   </script>
   <!-- CSS STYLES WILL GO HERE -->
   <style>
+    :root {
+      --scroll-duration: 14s;
+      --slot-width: 140px;
+      --slot-height: 55px;
+    }
     * {
       margin: 0;
       padding: 0;
@@ -1033,9 +1038,7 @@ Date: December 2024
 
   .logo-track {
     display: flex;
-    align-items: center;
-    gap: 3rem;
-    animation: scroll 40s linear infinite;
+    animation: scroll var(--scroll-duration) linear infinite;
   }
 
   .logo-track:hover {
@@ -1043,14 +1046,16 @@ Date: December 2024
   }
 
   .logo-track img {
-    height: 70px;
+    flex: 0 0 var(--slot-width);
+    max-height: var(--slot-height);
+    width: auto;
     object-fit: contain;
-    filter: brightness(0) saturate(0) invert(1);
+    margin: 0 1rem;
   }
 
   @keyframes scroll {
     0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    100% { transform: translateX(calc(-1 * (var(--slot-width) + 2rem) * 12)); }
   }
   </style>
 </head>
