@@ -397,26 +397,28 @@ Date: December 2024
     .hero h1 .word {
       display: inline-block;
       opacity: 0;
-      transform: translateY(20px);
-      animation: ghostFadeIn 2s ease forwards;
-      animation-play-state: paused; /* Will be triggered by JavaScript */
+      animation: smoothRise 0.9s ease-out forwards;
+      animation-play-state: paused; /* Triggered via JavaScript */
     }
 
-    @keyframes ghostFadeIn {
+    .hero h1 .word:nth-child(1) { animation-delay: 0s; }
+    .hero h1 .word:nth-child(2) { animation-delay: 0.9s; }
+    .hero h1 .word:nth-child(3) { animation-delay: 1.8s; }
+
+    @keyframes smoothRise {
       0% {
         opacity: 0;
-        transform: translateY(20px) scale(0.95);
-        filter: blur(2px);
+        transform: translateY(30px) scale(0.96);
+        filter: blur(3px);
       }
-      50% {
-        opacity: 0.5;
-        transform: translateY(10px) scale(0.98);
-        filter: blur(1px);
+      60% {
+        opacity: 1;
+        transform: translateY(-4px) scale(1.02);
+        filter: blur(0px);
       }
       100% {
         opacity: 1;
         transform: translateY(0) scale(1);
-        filter: blur(0px);
       }
     }
 
@@ -1140,7 +1142,7 @@ Date: December 2024
       <h1>
         <span class="word" data-word="Recover.">Recover.</span>
         <span class="word" data-word="Rebuild.">Rebuild.</span>
-        <span class="word" data-word="Thrive.">Thrive.</span>
+        <span class="word" data-word="Revive.">Revive.</span>
       </h1>
       <p class="tagline">Because just 'okay' isn't good enough</p>
       <div class="hero-buttons">
@@ -1419,33 +1421,17 @@ backToTopBtn.addEventListener('click', function() {
 // Hero words animation sequence
 function startHeroWordsAnimation() {
   const words = document.querySelectorAll('.hero h1 .word');
+  words.forEach(word => {
+    word.style.animationPlayState = 'running';
+  });
 
-  // Start first word immediately - no delay
-  if (words[0]) {
-    words[0].style.animationPlayState = 'running';
-  }
-
-  // Start second word after first completes (2s animation = 2s)
-  setTimeout(() => {
-    if (words[1]) {
-      words[1].style.animationPlayState = 'running';
-    }
-  }, 2000);
-
-  // Start third word after second completes (2s + 2s animation = 4s)
-  setTimeout(() => {
-    if (words[2]) {
-      words[2].style.animationPlayState = 'running';
-    }
-  }, 4000);
-
-  // Show tagline after third word completes (4s + 2s animation = 6s)
+  // Show tagline once the last word finishes
   setTimeout(() => {
     const tagline = document.querySelector('.hero .tagline');
     if (tagline) {
       tagline.classList.add('show');
     }
-  }, 6000);
+  }, 2700);
 }
 
 // Tagline animation - now handled by startHeroWordsAnimation()
