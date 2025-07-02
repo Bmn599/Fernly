@@ -1,5 +1,5 @@
 (function() {
-  document.addEventListener('DOMContentLoaded', function() {
+  function init() {
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -50px 0px'
@@ -33,12 +33,21 @@
     function prepareLines(container) {
       container.querySelectorAll('p, h1, h2, h3, li').forEach(el => {
         if (el.childElementCount === 0) {
-          const sentences = el.textContent.trim().split(/(?<=[.!?])\s+/);
+          const text = el.textContent.trim();
+          const sentences = text.match(/[^.!?]+[.!?]*/g) || [text];
           if (sentences.length > 1) {
-            el.innerHTML = sentences.map(s => `<span class="reveal-line">${s}</span>`).join(' ');
+            el.innerHTML = sentences
+              .map(s => `<span class="reveal-line">${s.trim()}</span>`)
+              .join(' ');
           }
         }
       });
     }
-  });
+  }
+
+  if (document.readyState !== 'loading') {
+    init();
+  } else {
+    document.addEventListener('DOMContentLoaded', init);
+  }
 })();
