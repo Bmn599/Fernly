@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Meet Our Team - Fernly Health</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <!-- AOS (Animate On Scroll) Library -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
   <style>
     :root {
       --g1: #8fbf8f;
@@ -368,28 +370,28 @@
     </div>
   </section>
 
-  <section id="team">
+  <section id="team" data-aos="fade-up">
     <div class="container">
       <div class="team-grid">
-        <div class="team-member">
+        <div class="team-member" data-aos="fade-up" data-aos-delay="100">
           <div class="team-photo">DR</div>
           <h3>Dr. Sarah Johnson</h3>
           <div class="title">Lead Psychiatrist</div>
           <p>Board-certified psychiatrist with over 15 years of experience in mental health care, specializing in mood disorders and addiction treatment.</p>
         </div>
-        <div class="team-member">
+        <div class="team-member" data-aos="fade-up" data-aos-delay="200">
           <div class="team-photo">LM</div>
           <h3>Lisa Martinez</h3>
           <div class="title">Licensed Therapist</div>
           <p>Compassionate therapist with expertise in trauma-informed care and cognitive behavioral therapy, helping clients navigate their healing journey.</p>
         </div>
-        <div class="team-member">
+        <div class="team-member" data-aos="fade-up" data-aos-delay="300">
           <div class="team-photo">NP</div>
           <h3>Nurse Practitioner Bill Nyaoga</h3>
           <div class="title">Psychiatric Mental Health NP</div>
           <p>Dedicated nurse practitioner providing comprehensive medication management and therapeutic support for optimal mental wellness.</p>
         </div>
-        <div class="team-member">
+        <div class="team-member" data-aos="fade-up" data-aos-delay="400">
           <div class="team-photo">CT</div>
           <h3>Carlos Torres</h3>
           <div class="title">Clinical Counselor</div>
@@ -399,10 +401,10 @@
     </div>
   </section>
 
-  <section id="founders-note">
+  <section id="founders-note" data-aos="fade-up">
     <div class="container">
-      <h2 class="section-title">A Note from Our Founder</h2>
-      <div class="founders-content">
+      <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">A Note from Our Founder</h2>
+      <div class="founders-content" data-aos="fade-up" data-aos-delay="200">
         <p>I started Fernly because I believe mental health care should feel like care — not a cold, clinical transaction.</p>
 
         <p>Over the years, working as a nurse and now a psychiatric mental health nurse practitioner, I've sat with people in their toughest moments — in hospital rooms, during breakdowns, through recovery. I've seen how overwhelming it can be just to find someone who listens, especially when you're hurting or in crisis.</p>
@@ -413,7 +415,7 @@
 
         <p>At Fernly, you're not just another intake form. You're a whole person — and we're here to walk alongside you, however that journey looks.</p>
 
-        <div class="founders-signature">
+        <div class="founders-signature" data-aos="fade-up" data-aos-delay="300">
           <div class="name">— Bill Nyaoga, MSN, RN, PMHNP-BC</div>
           <div class="title">Founder & Medical Director, Fernly Health</div>
         </div>
@@ -447,6 +449,18 @@
 
   </script>
 
+  <!-- AOS (Animate On Scroll) JavaScript -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // Initialize AOS with custom settings
+    AOS.init({
+      duration: 800,
+      easing: 'ease-out',
+      once: true,
+      offset: 100,
+      disable: false
+    });
+  </script>
 </body>
 
 </html>
