@@ -1,5 +1,12 @@
 (function() {
   function init() {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.scroll-reveal').forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+      return;
+    }
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -50px 0px'
