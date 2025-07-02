@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Services - Fernly Health</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <!-- AOS (Animate On Scroll) Library -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
   <style>
     :root {
       --g1: #8fbf8f;
@@ -333,40 +335,40 @@
     </div>
   </section>
 
-  <section id="services">
+  <section id="services" data-aos="fade-up">
     <div class="container">
       <div class="services-grid">
-        <div class="card">
+        <div class="card" data-aos="fade-up" data-aos-delay="100">
           <img src="images/Walkin.png" alt="Walk In Care">
           <h3>Walk In Care</h3>
           <p>Emergency assessments in a friendly lounge setting.</p>
           <a href="index.html#contact">Book Now →</a>
         </div>
-        <div class="card">
+        <div class="card" data-aos="fade-up" data-aos-delay="200">
           <img src="images/iop.png" alt="Intensive Outpatient">
           <h3>Intensive Outpatient (IOP)</h3>
           <p>Group therapy in a cozy, supportive space.</p>
           <a href="index.html#contact">Learn More →</a>
         </div>
-        <div class="card">
+        <div class="card" data-aos="fade-up" data-aos-delay="300">
           <img src="images/php.png" alt="Partial Hospitalization">
           <h3>Partial Hospitalization (PHP)</h3>
           <p>Full day care in a serene, home like environment.</p>
           <a href="index.html#contact">Learn More →</a>
         </div>
-        <div class="card">
+        <div class="card" data-aos="fade-up" data-aos-delay="400">
           <img src="images/mat.png" alt="Medication Assisted Treatment">
           <h3>Medication Assisted Treatment</h3>
           <p>Gentle medication plans with ongoing personal support.</p>
           <a href="index.html#contact">Learn More →</a>
         </div>
-        <div class="card">
+        <div class="card" data-aos="fade-up" data-aos-delay="500">
           <img src="images/medmgmt.png" alt="Medication Management">
           <h3>Medication Management</h3>
           <p>Tailored oversight for your mental wellness journey.</p>
           <a href="index.html#contact">Learn More →</a>
         </div>
-        <div class="card">
+        <div class="card" data-aos="fade-up" data-aos-delay="600">
           <img src="images/therapy.png" alt="Therapy & Counseling">
           <h3>Therapy & Counseling</h3>
           <p>Personal sessions that foster genuine connection and healing.</p>
@@ -402,6 +404,18 @@
 
   </script>
 
+  <!-- AOS (Animate On Scroll) JavaScript -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // Initialize AOS with custom settings
+    AOS.init({
+      duration: 800,
+      easing: 'ease-out',
+      once: true,
+      offset: 100,
+      disable: false
+    });
+  </script>
 </body>
 
 </html>
