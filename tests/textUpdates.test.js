@@ -14,7 +14,7 @@ assert.ok(indexHtml.includes('Ask Away We\'re Listening'), 'Main heading should 
 assert.ok(!indexHtml.includes('Ask Away—We\'re Listening'), 'Should not contain the old heading with em dash');
 
 // Test 2: Check that the description text was updated correctly
-assert.ok(indexHtml.includes('Get detailed answers on medications, mental health conditions, and quick wellness check-ins confidentially and judgment free'), 'Description should mention medications and mental health conditions');
+assert.ok(indexHtml.includes('Need fast, confidential answers about your medications or wellness plan but can’t make it into the clinic? Fernly AI is here 24/7 to give you in depth, judgment free guidance on prescriptions, reliable insights into mental health conditions, and quick wellness check-ins - all completely private. Just ask Fernly AI and get the clarity you need, anytime and anywhere.'), 'Description should mention confidential medication answers');
 assert.ok(!indexHtml.includes('judgment-free'), 'Should not contain hyphenated judgment-free');
 assert.ok(!indexHtml.includes('Get instant answers on medications, mental health conditions, and quick wellness check-ins confidentially and judgment-free'), 'Should not contain the old description');
 
