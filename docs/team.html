@@ -68,6 +68,13 @@
       transition: opacity 1s ease-out, transform 1s ease-out;
     }
 
+    .reveal-line {
+      opacity: 0;
+      transform: translateY(0.5em);
+      display: inline-block;
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
     @keyframes moodShift {
       0% {
         background-position: 0% 50%;
@@ -448,34 +455,11 @@
       }
     });
 
-    // Intersection Observer for animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    // Observe all team members
-    document.querySelectorAll('.team-member').forEach(el => {
-      el.classList.add('scroll-reveal');
-      observer.observe(el);
-    });
-
-    // Reveal sections after header
-    document.querySelectorAll('section:not(.page-header)').forEach(sec => {
-      sec.classList.add('scroll-reveal');
-      observer.observe(sec);
-    });
+    // Enable enhanced scroll reveal animations
+    document.querySelectorAll('.team-member').forEach(el => el.classList.add('scroll-reveal'));
+    document.querySelectorAll('section:not(.page-header)').forEach(sec => sec.classList.add('scroll-reveal'));
   </script>
+  <script src="scrollReveal.js"></script>
 </body>
 
 </html>
