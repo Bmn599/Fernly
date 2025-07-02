@@ -62,6 +62,12 @@
       background: transparent;
     }
 
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
     @keyframes moodShift {
       0% {
         background-position: 0% 50%;
@@ -414,10 +420,14 @@
 
     // Observe all cards
     document.querySelectorAll('.card').forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(30px)';
-      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      el.classList.add('scroll-reveal');
       observer.observe(el);
+    });
+
+    // Reveal sections after header
+    document.querySelectorAll('section:not(.page-header)').forEach(sec => {
+      sec.classList.add('scroll-reveal');
+      observer.observe(sec);
     });
   </script>
 </body>

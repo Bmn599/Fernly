@@ -122,6 +122,12 @@ Date: December 2024
       padding: 4rem 0;
     }
 
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
     @keyframes moodShift {
       0% {
         background-position: 0% 50%;
@@ -1555,12 +1561,16 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, observerOptions);
 
-// Observe all cards and team members
+// Observe all cards
 document.querySelectorAll('.blog-card').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(30px)';
-  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  el.classList.add('scroll-reveal');
   observer.observe(el);
+});
+
+// Reveal sections after hero
+document.querySelectorAll('section:not(.hero)').forEach(sec => {
+  sec.classList.add('scroll-reveal');
+  observer.observe(sec);
 });
 
 </script>
