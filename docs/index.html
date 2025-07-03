@@ -27,8 +27,8 @@ Date: December 2024
   <script src="therapy-speech.js" onerror="console.warn('Therapy speech data failed to load - therapeutic responses may be limited')"></script>
   <!-- AI Chat functionality -->
   <script src="ai.js" onerror="console.warn('AI chat functionality failed to load - chat feature may not work')"></script>
-  <!-- Load Transformers.js locally with CDN fallback -->
-  <script id="transformers-cdn" src="transformers.min.js" type="text/javascript"></script>
+  <!-- Load Transformers.js from CDN -->
+  <script id="transformers-cdn" src="https://cdn.jsdelivr.net/npm/@xenova/transformers/dist/transformers.min.js"></script>
   <script>
     (function(){
       const scriptEl = document.getElementById('transformers-cdn');
@@ -48,22 +48,10 @@ Date: December 2024
         }
       }
       
-      function loadBackup(){
-        if(status) status.innerText = 'Local library failed, fetching from CDN...';
-        const alt = document.createElement('script');
-        alt.src = 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.13.0/dist/transformers.min.js';
-        alt.onload = () => {
-          if(status) status.innerText = '';
-          window.transformers && window.ensureLlmLoaded && ensureLlmLoaded('aiAIStatus');
-          checkDependencies();
-        };
-        alt.onerror = () => { 
-          if(status) status.innerText = 'AI library failed to load (offline or blocked)';
-          checkDependencies();
-        };
-        document.head.appendChild(alt);
-      }
-      scriptEl.addEventListener('error', loadBackup);
+      scriptEl.addEventListener('error', () => {
+        if(status) status.innerText = 'AI library failed to load (offline or blocked)';
+        checkDependencies();
+      });
       scriptEl.addEventListener('load', () => {
         if(status) status.innerText = '';
         window.transformers && window.ensureLlmLoaded && ensureLlmLoaded('aiAIStatus');
