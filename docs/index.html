@@ -112,15 +112,13 @@ Date: December 2024
           var(--g5) 60%,
           var(--g6) 100%
       );
-      background-size: 400% 400%;
+      background-size: 600% 600%;
       animation: moodShift 12s ease-in-out infinite;
+      background-attachment: fixed;
       margin: 0;
       padding: 0;
       overflow-x: hidden; /* Prevent horizontal scrolling */
       position: relative;
-      /* Performance optimizations */
-      will-change: background-position;
-      contain: layout style paint;
     }
 
     body::before {
@@ -188,16 +186,13 @@ Date: December 2024
           var(--g5) 60%,
           var(--g6) 100%
       );
-      background-size: 400% 400%;
+      background-size: 600% 600%;
       animation: moodShift 12s ease-in-out infinite;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 9999;
       transition: opacity 1s ease, visibility 1s ease;
-      /* Performance optimizations */
-      will-change: opacity, visibility;
-      contain: layout style paint;
     }
 
     .loading-screen.fade-out {
@@ -234,10 +229,7 @@ Date: December 2024
       left: 0;
       right: 0;
       z-index: 1000;
-      transition: background-color 0.3s ease;
-      /* Performance optimizations */
-      will-change: background-color;
-      contain: layout style paint;
+      transition: all 0.3s ease;
     }
 
     nav {
@@ -1035,13 +1027,10 @@ Date: December 2024
       height: 50px;
       font-size: 1.5rem;
       cursor: pointer;
-      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+      transition: all 0.3s ease;
       opacity: 0;
       visibility: hidden;
       z-index: 1000;
-      /* Performance optimizations */
-      will-change: opacity, visibility, transform;
-      contain: layout style paint;
     }
 
     .back-to-top.visible {
@@ -1067,7 +1056,7 @@ Date: December 2024
     }
 
     html {
-      scroll-behavior: auto; /* Let JavaScript handle smooth scrolling for better performance */
+      scroll-behavior: smooth;
     }
 
 
@@ -1367,37 +1356,25 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// Optimized scroll handling with throttling
-let isScrolling = false;
-const header = document.querySelector('header');
-const backToTopBtn = document.getElementById('backToTop');
-
-function handleScroll() {
-  if (!isScrolling) {
-    requestAnimationFrame(() => {
-      const scrollY = window.scrollY;
-      
-      // Navbar scroll effect
-      if (scrollY > 100) {
-        header.style.background = 'rgba(255,255,255,0.98)';
-      } else {
-        header.style.background = 'rgba(255,255,255,0.95)';
-      }
-      
-      // Back to top button
-      if (scrollY > 300) {
-        backToTopBtn.classList.add('visible');
-      } else {
-        backToTopBtn.classList.remove('visible');
-      }
-      
-      isScrolling = false;
-    });
+// Navbar scroll effect
+window.addEventListener('scroll', function() {
+  const header = document.querySelector('header');
+  if (window.scrollY > 100) {
+    header.style.background = 'rgba(255,255,255,0.98)';
+  } else {
+    header.style.background = 'rgba(255,255,255,0.95)';
   }
-  isScrolling = true;
-}
+});
 
-window.addEventListener('scroll', handleScroll, { passive: true });
+// Back to top button
+const backToTopBtn = document.getElementById('backToTop');
+window.addEventListener('scroll', function() {
+  if (window.scrollY > 300) {
+    backToTopBtn.classList.add('visible');
+  } else {
+    backToTopBtn.classList.remove('visible');
+  }
+});
 
 backToTopBtn.addEventListener('click', function() {
   window.scrollTo({
@@ -1606,15 +1583,13 @@ if (window.transformers) {
 <!-- AOS (Animate On Scroll) JavaScript -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-  // Initialize AOS with optimized settings for better scroll performance
+  // Initialize AOS with custom settings
   AOS.init({
-    duration: 600,
+    duration: 800,
     easing: 'ease-out',
     once: true,
-    offset: 50,
-    // Mobile animations enabled for better section visibility
-    throttleDelay: 99,
-    debounceDelay: 50
+    offset: 100,
+    disable: false
   });
 </script>
 </body>
