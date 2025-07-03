@@ -20,19 +20,34 @@ Date: December 2024
   <!-- License: Custom implementation - Suitable for commercial use -->
   <!-- Benefits: Fast loading, reliable operation, contextual responses, offline capable -->
   <!-- Fallback data must load before AI chat functionality -->
-  <script src="fallback-data.js"></script>
+  <script src="fallback-data.js" onerror="console.warn('Fallback data failed to load - AI chat may have limited functionality')"></script>
   <!-- Basic DSM-5 disorder summaries -->
-  <script src="dsm5-data.js"></script>
-  <script src="medications-data.js"></script>
-  <script src="therapy-speech.js"></script>
+  <script src="dsm5-data.js" onerror="console.warn('DSM-5 data failed to load - mental health information may be limited')"></script>
+  <script src="medications-data.js" onerror="console.warn('Medications data failed to load - medication information may be limited')"></script>
+  <script src="therapy-speech.js" onerror="console.warn('Therapy speech data failed to load - therapeutic responses may be limited')"></script>
   <!-- AI Chat functionality -->
-  <script src="ai.js"></script>
+  <script src="ai.js" onerror="console.warn('AI chat functionality failed to load - chat feature may not work')"></script>
   <!-- Load Transformers.js locally with CDN fallback -->
   <script id="transformers-cdn" src="transformers.min.js"></script>
   <script>
     (function(){
       const scriptEl = document.getElementById('transformers-cdn');
       const status = document.getElementById('aiAIStatus');
+      
+      // Check if required dependencies are loaded
+      function checkDependencies() {
+        const missingDeps = [];
+        if (!window.fallbackData) missingDeps.push('fallback-data.js');
+        if (!window.dsm5Data) missingDeps.push('dsm5-data.js');
+        if (!window.medicationsData) missingDeps.push('medications-data.js');
+        if (!window.therapySpeechData) missingDeps.push('therapy-speech.js');
+        
+        if (missingDeps.length > 0 && status) {
+          status.innerText = `Some resources failed to load: ${missingDeps.join(', ')}. AI chat may have limited functionality.`;
+          status.style.color = '#ff6b35';
+        }
+      }
+      
       function loadBackup(){
         if(status) status.innerText = 'Local library failed, fetching from CDN...';
         const alt = document.createElement('script');
@@ -40,14 +55,19 @@ Date: December 2024
         alt.onload = () => {
           if(status) status.innerText = '';
           window.transformers && window.ensureLlmLoaded && ensureLlmLoaded('aiAIStatus');
+          checkDependencies();
         };
-        alt.onerror = () => { if(status) status.innerText = 'AI library failed to load (offline or blocked)'; };
+        alt.onerror = () => { 
+          if(status) status.innerText = 'AI library failed to load (offline or blocked)';
+          checkDependencies();
+        };
         document.head.appendChild(alt);
       }
       scriptEl.addEventListener('error', loadBackup);
       scriptEl.addEventListener('load', () => {
         if(status) status.innerText = '';
         window.transformers && window.ensureLlmLoaded && ensureLlmLoaded('aiAIStatus');
+        checkDependencies();
       });
     })();
   </script>
@@ -1592,7 +1612,7 @@ if (window.transformers) {
     easing: 'ease-out',
     once: true,
     offset: 50,
-    disable: 'mobile', // Disable on mobile for better performance
+    // Mobile animations enabled for better section visibility
     throttleDelay: 99,
     debounceDelay: 50
   });
