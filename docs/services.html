@@ -390,6 +390,49 @@
     </div>
   </footer>
 
+  <!-- AI Chat Scripts for cross-page functionality -->
+  <!-- License: Custom implementation - Suitable for commercial use -->
+  <!-- Benefits: Fast loading, reliable operation, contextual responses, offline capable -->
+  <!-- Fallback data must load before AI chat functionality -->
+  <script src="fallback-data.js" onerror="console.warn('Fallback data failed to load - AI chat may have limited functionality')"></script>
+  <!-- Basic DSM-5 disorder summaries -->
+  <script src="dsm5-data.js" onerror="console.warn('DSM-5 data failed to load - mental health information may be limited')"></script>
+  <script src="medications-data.js" onerror="console.warn('Medications data failed to load - medication information may be limited')"></script>
+  <script src="therapy-speech.js" onerror="console.warn('Therapy speech data failed to load - therapeutic responses may be limited')"></script>
+  <!-- AI Chat functionality -->
+  <script src="ai.js" onerror="console.warn('AI chat functionality failed to load - chat feature may not work')"></script>
+  <!-- Dependencies checking script for AI data files -->
+  <script>
+    (function(){
+      const status = document.getElementById('aiAIStatus');
+      
+      // Check if required dependencies are loaded
+      function checkDependencies() {
+        const missingDeps = [];
+        if (!window.fallbackData) missingDeps.push('fallback-data.js');
+        if (!window.dsm5Data) missingDeps.push('dsm5-data.js');
+        if (!window.medicationsData) missingDeps.push('medications-data.js');
+        if (!window.therapySpeechData) missingDeps.push('therapy-speech.js');
+        
+        if (missingDeps.length > 0 && status) {
+          status.innerText = `Some resources failed to load: ${missingDeps.join(', ')}. AI chat may have limited functionality.`;
+          status.style.color = '#ff6b35';
+        }
+      }
+      
+      // Initialize AI chat functionality when page loads
+      window.addEventListener('load', function() {
+        checkDependencies();
+        // Initialize AI if available
+        if (typeof initializeAIChat === 'function') {
+          initializeAIChat().catch(function(error) {
+            console.warn('AI initialization failed:', error);
+          });
+        }
+      });
+    })();
+  </script>
+
   <script>
     // Navbar scroll effect
     window.addEventListener('scroll', function() {
