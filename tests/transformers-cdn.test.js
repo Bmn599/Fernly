@@ -2,68 +2,60 @@ const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 
-// Test to verify transformers.min.js CDN implementation
-console.log('Testing transformers.min.js CDN implementation...');
+// Test to verify transformers.min.js dependency has been removed
+console.log('Testing transformers.min.js dependency removal...');
 
 // Read the index.html file
 const indexHtmlPath = path.join(__dirname, '..', 'docs', 'index.html');
 const indexHtml = fs.readFileSync(indexHtmlPath, 'utf8');
 
-// Test 1: Check that the script uses CDN source
-console.log('Test 1: Checking CDN source...');
+// Test 1: Check that transformers CDN script has been removed
+console.log('Test 1: Checking transformers CDN removal...');
 assert.ok(
-  indexHtml.includes('src="https://cdn.jsdelivr.net/npm/@xenova/transformers/dist/transformers.min.js"'),
-  'Script should use CDN source for transformers.min.js'
+  !indexHtml.includes('src="https://cdn.jsdelivr.net/npm/@xenova/transformers/dist/transformers.min.js"'),
+  'Transformers CDN script should be removed'
 );
 
-// Test 2: Check that there's no local reference
-console.log('Test 2: Checking no local reference...');
+// Test 2: Check that transformers-cdn ID has been removed
+console.log('Test 2: Checking transformers-cdn ID removal...');
 assert.ok(
-  !indexHtml.includes('src="transformers.min.js"'),
-  'Should not reference local transformers.min.js'
+  !indexHtml.includes('id="transformers-cdn"'),
+  'transformers-cdn ID should be removed'
 );
 
-// Test 3: Check that loadBackup function has been removed
-console.log('Test 3: Checking loadBackup function removal...');
+// Test 3: Check that transformers event handlers have been removed
+console.log('Test 3: Checking transformers event handlers removal...');
 assert.ok(
-  !indexHtml.includes('loadBackup'),
-  'loadBackup function should be removed'
+  !indexHtml.includes('scriptEl.addEventListener'),
+  'Transformers event handlers should be removed'
 );
 
-// Test 4: Check that old fallback mechanism has been removed
-console.log('Test 4: Checking old fallback mechanism removal...');
+// Test 4: Check that window.transformers checks have been removed
+console.log('Test 4: Checking window.transformers checks removal...');
 assert.ok(
-  !indexHtml.includes('alt.src = \'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.13.0/dist/transformers.min.js\''),
-  'Old fallback mechanism should be removed'
+  !indexHtml.includes('window.transformers'),
+  'window.transformers references should be removed'
 );
 
-// Test 5: Check that the comment has been updated
-console.log('Test 5: Checking comment update...');
+// Test 5: Check that ensureLlmLoaded import has been removed from module
+console.log('Test 5: Checking ensureLlmLoaded import removal...');
 assert.ok(
-  indexHtml.includes('<!-- Load Transformers.js from CDN -->'),
-  'Comment should indicate CDN loading'
+  !indexHtml.includes('ensureLlmLoaded'),
+  'ensureLlmLoaded references should be removed'
 );
 
-// Test 6: Check that local transformers.min.js file has been removed
-console.log('Test 6: Checking local file removal...');
-const localTransformersPath = path.join(__dirname, '..', 'docs', 'transformers.min.js');
+// Test 6: Check that AI status is set directly
+console.log('Test 6: Checking direct AI status setting...');
 assert.ok(
-  !fs.existsSync(localTransformersPath),
-  'Local transformers.min.js file should be removed'
+  indexHtml.includes('Smart AI Active'),
+  'AI status should be set directly to Smart AI Active'
 );
 
-// Test 7: Check that script has proper error handling for CDN failure
-console.log('Test 7: Checking error handling...');
+// Test 7: Check that dependencies checking script still exists
+console.log('Test 7: Checking dependencies checking functionality...');
 assert.ok(
-  indexHtml.includes('addEventListener(\'error\', () => {'),
-  'Should have error handling for CDN failure'
+  indexHtml.includes('checkDependencies'),
+  'Dependencies checking functionality should remain'
 );
 
-// Test 8: Check that the script element has correct ID
-console.log('Test 8: Checking script element ID...');
-assert.ok(
-  indexHtml.includes('id="transformers-cdn"'),
-  'Script should have transformers-cdn ID'
-);
-
-console.log('All transformers.min.js CDN tests passed!');
+console.log('All transformers dependency removal tests passed!');
