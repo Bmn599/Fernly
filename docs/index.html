@@ -27,11 +27,9 @@ Date: December 2024
   <script src="therapy-speech.js" onerror="console.warn('Therapy speech data failed to load - therapeutic responses may be limited')"></script>
   <!-- AI Chat functionality -->
   <script src="ai.js" onerror="console.warn('AI chat functionality failed to load - chat feature may not work')"></script>
-  <!-- Load Transformers.js from CDN -->
-  <script id="transformers-cdn" src="https://cdn.jsdelivr.net/npm/@xenova/transformers/dist/transformers.min.js"></script>
+  <!-- Dependencies checking script for AI data files -->
   <script>
     (function(){
-      const scriptEl = document.getElementById('transformers-cdn');
       const status = document.getElementById('aiAIStatus');
       
       // Check if required dependencies are loaded
@@ -48,15 +46,8 @@ Date: December 2024
         }
       }
       
-      scriptEl.addEventListener('error', () => {
-        if(status) status.innerText = 'AI library failed to load (offline or blocked)';
-        checkDependencies();
-      });
-      scriptEl.addEventListener('load', () => {
-        if(status) status.innerText = '';
-        window.transformers && window.ensureLlmLoaded && ensureLlmLoaded('aiAIStatus');
-        checkDependencies();
-      });
+      // Check dependencies when page loads
+      window.addEventListener('load', checkDependencies);
     })();
   </script>
   <!-- CSS STYLES WILL GO HERE -->
@@ -1330,8 +1321,8 @@ Date: December 2024
   <script>
 // Initialize loading screen and AI
 window.addEventListener('load', () => {
-  // Transformers.js loads from the CDN declared in the page head
-  console.log('Transformers.js loaded from CDN');
+  // AI system loads from ai.js with pattern-based responses
+  console.log('Smart AI system initialized');
 
   setTimeout(() => {
     document.getElementById('loadingScreen').classList.add('fade-out');
@@ -1577,16 +1568,12 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
 </script>
 
 <script type="module">
-import { aiHandleFileUpload, aiGetAnswer, ensureLlmLoaded } from './aiAssistant.js';
+import { aiHandleFileUpload, aiGetAnswer } from './aiAssistant.js';
 window.aiGetAnswer = aiGetAnswer;
 window.aiHandleFileUpload = aiHandleFileUpload;
-window.ensureLlmLoaded = ensureLlmLoaded;
 document.getElementById('aiUploadBtn').onclick = () => aiHandleFileUpload('aiFileInput', 'aiFileStatus');
-if (window.transformers) {
-  ensureLlmLoaded('aiAIStatus');
-} else {
-  document.getElementById('aiAIStatus').innerText = 'AI library not available';
-}
+// Note: Main AI chat functionality uses ai.js with pattern-based responses
+document.getElementById('aiAIStatus').innerText = 'Smart AI Active';
 </script>
 
 <!-- AOS (Animate On Scroll) JavaScript -->
