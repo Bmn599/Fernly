@@ -21,13 +21,12 @@ assert.ok(loginHtml.includes('Google'), 'Login page should have Google SSO optio
 assert.ok(loginHtml.includes('Apple'), 'Login page should have Apple SSO option');
 
 // Test 3: Check that the login page has support and help features
-assert.ok(loginHtml.includes('Need Help?'), 'Login page should have help link');
-assert.ok(loginHtml.includes('Quick Check-In'), 'Login page should have quick check-in link');
+assert.ok(loginHtml.includes('Need Help or Quick Check-In?'), 'Login page should have combined support toggle');
 assert.ok(loginHtml.includes('Create one now'), 'Login page should have create account link');
 
 // Test 4: Check that the login page has security indicators
 assert.ok(loginHtml.includes('SSL Secured'), 'Login page should have SSL security indicator');
-assert.ok(loginHtml.includes('Enable 2FA'), 'Login page should have 2FA link');
+// Note: 2FA has been moved to post-login account settings to reduce visual clutter
 
 // Test 5: Check that the login page has crisis resources
 assert.ok(loginHtml.includes('In crisis? Call 988'), 'Login page should have crisis resources');
