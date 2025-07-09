@@ -184,7 +184,9 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       text-align: center;
       max-width: 400px;
+      min-width: 320px;
       width: 100%;
+      margin: 0 auto;
     }
 
     .login-title {
@@ -222,6 +224,11 @@
       font-size: 1rem;
       transition: all 0.3s ease;
       background: white;
+    }
+
+    .form-group input:hover {
+      border-color: #c0c0c0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
 
     .form-group input:focus {
@@ -280,21 +287,41 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .remember-me:hover {
+      color: #4F7942;
     }
 
     .remember-me input[type="checkbox"] {
       width: auto;
       margin: 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .remember-me input[type="checkbox"]:hover {
+      transform: scale(1.1);
+    }
+
+    .remember-me label {
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
 
     .forgot-password {
       color: #619251;
       text-decoration: none;
       font-weight: 500;
+      transition: all 0.3s ease;
     }
 
     .forgot-password:hover {
       text-decoration: underline;
+      color: #4F7942;
+      transform: translateY(-1px);
     }
 
     .login-btn {
@@ -389,6 +416,8 @@
     .social-btn:hover {
       border-color: #619251;
       background: #f8f9fa;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(97, 146, 81, 0.15);
     }
 
     .social-btn img {
@@ -405,10 +434,13 @@
       color: #619251;
       text-decoration: none;
       font-weight: 500;
+      transition: all 0.3s ease;
     }
 
     .create-account a:hover {
       text-decoration: underline;
+      color: #4F7942;
+      transform: translateY(-1px);
     }
 
     .support-links {
@@ -430,6 +462,7 @@
     .support-links a:hover {
       color: #4F7942;
       background: rgba(97, 146, 81, 0.1);
+      transform: translateY(-1px);
     }
 
     .security-indicators {
@@ -462,10 +495,13 @@
       color: #856404;
       text-decoration: none;
       font-weight: 600;
+      transition: all 0.3s ease;
     }
 
     .crisis-link a:hover {
       text-decoration: underline;
+      color: #6b5203;
+      transform: translateY(-1px);
     }
 
     .quick-checkin {
@@ -481,10 +517,13 @@
       color: #4F7942;
       text-decoration: none;
       font-weight: 600;
+      transition: all 0.3s ease;
     }
 
     .quick-checkin a:hover {
       text-decoration: underline;
+      color: #3e5f34;
+      transform: translateY(-1px);
     }
 
     .modal {
@@ -530,10 +569,13 @@
       font-size: 0.8rem;
       margin-top: 1rem;
       display: inline-block;
+      transition: all 0.3s ease;
     }
 
     .privacy-link:hover {
       text-decoration: underline;
+      color: #4F7942;
+      transform: translateY(-1px);
     }
 
     @keyframes shake {
@@ -555,6 +597,7 @@
       .login-container {
         margin: 1rem;
         padding: 2rem;
+        min-width: 280px;
       }
 
       .social-login {
@@ -593,7 +636,7 @@
       <div class="login-container">
         <h1 class="login-title">Welcome Back</h1>
         <p class="login-greeting">
-          Ready to continue your mental wellness journey? Sign in to access your personalized support tools and connect with our Arizona-based team of mental health professionals.
+          Continue your journey to mental wellness—log in now to unlock personalized support tools and connect with our compassionate Arizona based care team.
         </p>
 
         <form id="loginForm">
