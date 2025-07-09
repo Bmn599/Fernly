@@ -235,6 +235,13 @@
       object-fit: contain;
       margin: 0 auto 1.5rem;
       display: block;
+      /* Remove light cream background by making it blend with white */
+      mix-blend-mode: screen;
+      filter: 
+        contrast(1.6) 
+        brightness(0.8) 
+        saturate(1.3);
+      background: transparent;
     }
 
     .card h3 {
