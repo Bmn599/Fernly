@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - Fernly Health</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --g1: #8fbf8f;
+      --g2: #9ac99a;
+      --g3: #a6d3a6;
+      --g4: #b1dcb1;
+      --g5: #add9c5;
+      --g6: #e8c864;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      color: #333;
+      background: linear-gradient(
+          45deg,
+          var(--g1) 0%,
+          var(--g2) 15%,
+          var(--g3) 30%,
+          var(--g4) 45%,
+          var(--g5) 60%,
+          var(--g6) 100%
+      );
+      background-size: 600% 600%;
+      animation: moodShift 12s ease-in-out infinite;
+      background-attachment: fixed;
+      will-change: background;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Playfair Display', serif;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAATElEQVR4nAXBMREAIQwEwPu3QIEHylOBBVykijRmkBAJKaBLGQU07KL3TjOjqjIi+K21eO9FKQVzTvzujtYaMhNjDOCcQxHh3pu1Vj4teh4idyTiKwAAAABJRU5ErkJggg==");
+      background-size: 8px 8px;
+      opacity: .02;
+      pointer-events: none;
+    }
+
+    @keyframes moodShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo img {
+      height: 40px;
+      width: auto;
+    }
+
+    .logo span {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #4F7942;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #619251;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #619251 0%, #4F7942 100%);
+      color: white !important;
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(97, 146, 81, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(97, 146, 81, 0.4);
+    }
+
+    .privacy-content {
+      margin-top: 120px;
+      padding: 3rem 0;
+      min-height: calc(100vh - 120px);
+    }
+
+    .privacy-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .privacy-header h1 {
+      font-size: 3rem;
+      color: #fff;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .privacy-header p {
+      font-size: 1.2rem;
+      color: #fff;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .privacy-policy {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 3rem;
+      margin: 2rem 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .privacy-policy h2 {
+      color: #4F7942;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 3px solid #619251;
+      padding-bottom: 0.5rem;
+    }
+
+    .privacy-policy h3 {
+      color: #619251;
+      font-size: 1.5rem;
+      margin: 2rem 0 1rem 0;
+    }
+
+    .privacy-policy p {
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    .privacy-policy ul {
+      margin: 1rem 0;
+      padding-left: 2rem;
+    }
+
+    .privacy-policy li {
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+
+    .highlight-box {
+      background: rgba(97, 146, 81, 0.1);
+      border-left: 4px solid #619251;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .highlight-box h3 {
+      color: #4F7942;
+      margin-top: 0;
+    }
+
+    .contact-info {
+      background: rgba(79, 121, 66, 0.1);
+      border-radius: 10px;
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .contact-info h3 {
+      color: #4F7942;
+      margin-bottom: 1rem;
+    }
+
+    .contact-info p {
+      margin-bottom: 1rem;
+    }
+
+    .contact-info a {
+      color: #619251;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    .contact-info a:hover {
+      color: #4F7942;
+    }
+
+    .effective-date {
+      text-align: center;
+      font-style: italic;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .back-to-home {
+      text-align: center;
+      margin: 3rem 0;
+    }
+
+    .back-to-home a {
+      color: #fff;
+      font-weight: 600;
+      padding: 1rem 2rem;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .back-to-home a:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      font-size: 0.9rem;
+      color: #333;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+    }
+
+    .footer-flex {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .footer-links a {
+      color: #619251;
+      margin: 0 0.25rem;
+      font-weight: 500;
+    }
+
+    .footer-links a:hover {
+      color: #4F7942;
+    }
+
+    .footer-blurb {
+      font-size: 0.8rem;
+      color: #666;
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .privacy-header h1 {
+        font-size: 2rem;
+      }
+
+      .privacy-policy {
+        padding: 2rem 1.5rem;
+      }
+
+      .privacy-policy h2 {
+        font-size: 1.5rem;
+      }
+
+      .privacy-policy h3 {
+        font-size: 1.2rem;
+      }
+
+      .container {
+        padding: 0 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">
+          <img src="images/Fernly-logo.png" alt="Fernly Health Logo">
+          <span>Fernly Health</span>
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="index.html#contact" class="btn-primary">Get Started</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="privacy-content">
+    <div class="container">
+      <div class="privacy-header">
+        <h1>Privacy Policy</h1>
+        <p>Your privacy and the security of your health information are fundamental to our mission of providing exceptional mental health care.</p>
+      </div>
+
+      <div class="privacy-policy">
+        <div class="effective-date">
+          <p><strong>Effective Date:</strong> January 1, 2025</p>
+        </div>
+
+        <div class="highlight-box">
+          <h3>Important Notice</h3>
+          <p>By accessing or using Fernly Health's website, services, or platforms, you acknowledge that you have read, understood, and agree to be bound by this Privacy Policy. This policy may be updated at any time, and changes become effective immediately upon posting. Your continued use of our services constitutes acceptance of any updates.</p>
+        </div>
+
+        <h2>1. Information We Collect</h2>
+        
+        <h3>Personal Health Information (PHI)</h3>
+        <p>In accordance with HIPAA regulations and to provide comprehensive mental health care, we collect and process:</p>
+        <ul>
+          <li>Medical and psychiatric history, including diagnoses, symptoms, and treatment plans</li>
+          <li>Medication information, including prescriptions, dosages, and adherence patterns</li>
+          <li>Therapeutic session notes, assessments, and progress evaluations</li>
+          <li>Emergency contact information and healthcare proxy details</li>
+          <li>Insurance information and billing records</li>
+          <li>Laboratory results, psychological testing, and diagnostic reports</li>
+        </ul>
+
+        <h3>Personal Information</h3>
+        <p>We collect personal information necessary for healthcare delivery and platform operations:</p>
+        <ul>
+          <li>Contact details (name, address, phone number, email)</li>
+          <li>Demographic information (age, gender, ethnicity, preferred language)</li>
+          <li>Account credentials and authentication information</li>
+          <li>Communication preferences and accessibility needs</li>
+          <li>Employment information relevant to treatment planning</li>
+        </ul>
+
+        <h3>Technical Information</h3>
+        <p>Our platform automatically collects technical data to improve services and ensure security:</p>
+        <ul>
+          <li>Device information, IP addresses, and browser specifications</li>
+          <li>Usage patterns, session duration, and feature utilization</li>
+          <li>Platform performance metrics and error logs</li>
+          <li>Location data (with consent) for service personalization</li>
+        </ul>
+
+        <h2>2. How We Use Your Information</h2>
+        
+        <p>Fernly Health is authorized to use your information for the following purposes:</p>
+
+        <h3>Healthcare Operations</h3>
+        <ul>
+          <li>Providing, coordinating, and managing your mental health care</li>
+          <li>Conducting clinical assessments and developing treatment plans</li>
+          <li>Prescribing and monitoring medications</li>
+          <li>Facilitating communication between healthcare providers</li>
+          <li>Maintaining comprehensive medical records</li>
+        </ul>
+
+        <h3>Platform Operations and Analytics</h3>
+        <ul>
+          <li>Improving service quality and user experience</li>
+          <li>Conducting research and analytics to enhance treatment outcomes</li>
+          <li>Developing new features and therapeutic tools</li>
+          <li>Ensuring platform security and preventing unauthorized access</li>
+          <li>Personalizing content and treatment recommendations</li>
+        </ul>
+
+        <h3>Legal and Regulatory Compliance</h3>
+        <ul>
+          <li>Meeting healthcare regulatory requirements</li>
+          <li>Responding to legal requests and court orders</li>
+          <li>Conducting audits and quality assurance reviews</li>
+          <li>Reporting to health authorities as required by law</li>
+        </ul>
+
+        <h2>3. Information Sharing and Disclosure</h2>
+        
+        <p>We may share your information with authorized parties under the following circumstances:</p>
+
+        <h3>Healthcare Providers and Partners</h3>
+        <ul>
+          <li>Licensed mental health professionals within our network</li>
+          <li>Consulting specialists and healthcare facilities</li>
+          <li>Insurance companies for coverage verification and claims processing</li>
+          <li>Pharmacies for prescription fulfillment and medication management</li>
+          <li>Emergency services when immediate intervention is required</li>
+        </ul>
+
+        <h3>Service Providers</h3>
+        <ul>
+          <li>Technology vendors supporting our platform infrastructure</li>
+          <li>Data analytics providers for treatment outcome research</li>
+          <li>Payment processors for billing and financial transactions</li>
+          <li>Communication platforms for telehealth services</li>
+        </ul>
+
+        <div class="highlight-box">
+          <h3>Legal Disclosures</h3>
+          <p>We may disclose your information without your consent when required by law, including:</p>
+          <ul>
+            <li>Court orders, subpoenas, or legal proceedings</li>
+            <li>Public health reporting requirements</li>
+            <li>Mandatory reporting of abuse or neglect</li>
+            <li>Threats to public safety or imminent harm</li>
+          </ul>
+        </div>
+
+        <h2>4. Data Security and Protection</h2>
+        
+        <p>We implement comprehensive security measures to protect your information:</p>
+        <ul>
+          <li>End-to-end encryption for all data transmission and storage</li>
+          <li>Multi-factor authentication and access controls</li>
+          <li>Regular security audits and vulnerability assessments</li>
+          <li>HIPAA-compliant data handling procedures</li>
+          <li>Employee training on privacy and security protocols</li>
+          <li>Incident response procedures for data breaches</li>
+        </ul>
+
+        <h2>5. Data Retention</h2>
+        
+        <p>We retain your information for as long as necessary to:</p>
+        <ul>
+          <li>Provide ongoing healthcare services</li>
+          <li>Comply with legal and regulatory requirements</li>
+          <li>Maintain medical records as required by law</li>
+          <li>Resolve disputes and enforce agreements</li>
+          <li>Conduct research and quality improvement activities</li>
+        </ul>
+
+        <p>Medical records are typically retained for a minimum of 7 years after the last treatment date, or longer as required by state law.</p>
+
+        <h2>6. Your Rights and Choices</h2>
+        
+        <p>You have the following rights regarding your information:</p>
+        <ul>
+          <li><strong>Access:</strong> Request copies of your health information</li>
+          <li><strong>Amendment:</strong> Request corrections to inaccurate information</li>
+          <li><strong>Restriction:</strong> Request limitations on use or disclosure</li>
+          <li><strong>Portability:</strong> Request transfer of your information to another provider</li>
+          <li><strong>Confidential Communications:</strong> Request alternative communication methods</li>
+        </ul>
+
+        <div class="highlight-box">
+          <h3>Consent and Agreement</h3>
+          <p>By using our services, you consent to the collection, use, and disclosure of your information as described in this policy. You acknowledge that this consent is a condition of receiving services from Fernly Health.</p>
+        </div>
+
+        <h2>7. Cookies and Tracking Technologies</h2>
+        
+        <p>Our website uses cookies and similar technologies to:</p>
+        <ul>
+          <li>Maintain your session and preferences</li>
+          <li>Analyze website usage and improve functionality</li>
+          <li>Provide personalized content and recommendations</li>
+          <li>Ensure security and prevent fraud</li>
+        </ul>
+
+        <h2>8. Third-Party Services</h2>
+        
+        <p>Our platform may integrate with third-party services for enhanced functionality. These services are subject to their own privacy policies, and we encourage you to review them. We are not responsible for the privacy practices of third-party services.</p>
+
+        <h2>9. Children's Privacy</h2>
+        
+        <p>Our services are designed for adults and individuals over 18 years of age. We do not knowingly collect personal information from children under 13 without parental consent. For minors aged 13-17, we require parental or guardian consent before providing services.</p>
+
+        <h2>10. International Users</h2>
+        
+        <p>Our services are primarily intended for users in the United States. If you access our services from other countries, you acknowledge that your information may be transferred to and processed in the United States, where privacy laws may differ from your jurisdiction.</p>
+
+        <h2>11. Limitation of Liability</h2>
+        
+        <p>To the fullest extent permitted by law, Fernly Health limits its liability for any damages arising from the use of our services or the processing of your information. You agree to indemnify and hold harmless Fernly Health from any claims arising from your misuse of our services or violation of this policy.</p>
+
+        <h2>12. Updates to This Policy</h2>
+        
+        <p>We reserve the right to update this Privacy Policy at any time without prior notice. Changes become effective immediately upon posting to our website. We encourage you to review this policy regularly to stay informed about how we protect your information.</p>
+
+        <div class="contact-info">
+          <h3>Questions or Concerns?</h3>
+          <p>If you have questions about this Privacy Policy or wish to exercise your rights, please contact us through our secure web form:</p>
+          <p><a href="index.html#contact">Submit a Secure Privacy Inquiry</a></p>
+          <p>For immediate concerns, you may also contact our Privacy Officer through the same secure contact form.</p>
+        </div>
+      </div>
+
+      <div class="back-to-home">
+        <a href="index.html">← Back to Home</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-flex">
+      <div class="footer-links">
+        <a href="privacy.html">Privacy Policy</a> |
+        <a href="#">Careers</a>
+      </div>
+      <p class="footer-blurb">Proudly serving Phoenix, Tucson and communities across Arizona.</p>
+      <p>&copy; 2025 Fernly Health. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
