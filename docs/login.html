@@ -177,30 +177,60 @@
       justify-content: center;
     }
 
+    .login-layout {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .login-illustration {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-illustration img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-form-section {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
     .login-container {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
       border-radius: 20px;
-      padding: 2.5rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 2rem 1.5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
       text-align: center;
-      max-width: 420px;
+      max-width: 480px;
       min-width: 320px;
-      width: 100%;
+      width: 90%;
       margin: 0 auto;
     }
 
     .login-title {
       font-size: 2rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       color: #4F7942;
+      line-height: 1.2;
     }
 
     .login-greeting {
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: #666;
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+      font-weight: 400;
     }
 
     .form-group {
@@ -258,10 +288,20 @@
       color: #666;
       font-size: 1.2rem;
       padding: 5px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .password-toggle:hover {
       color: #4F7942;
+    }
+
+    .password-toggle svg {
+      width: 18px;
+      height: 18px;
     }
 
     .error-message {
@@ -372,17 +412,19 @@
 
     .divider {
       text-align: center;
-      margin: 1rem 0;
+      margin: 1.5rem 0;
       position: relative;
       color: #666;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
     }
 
-    .divider::before {
+    .divider::before,
+    .divider::after {
       content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
+      flex: 1;
       height: 1px;
       background: #e0e0e0;
     }
@@ -391,6 +433,16 @@
       background: white;
       padding: 0 1rem;
       font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .fern-icon {
+      width: 12px;
+      height: 12px;
+      fill: #619251;
+      opacity: 0.6;
     }
 
     .social-login {
@@ -595,6 +647,15 @@
         display: none;
       }
 
+      .login-layout {
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .login-illustration {
+        display: none;
+      }
+
       .login-container {
         margin: 1rem;
         padding: 1.5rem;
@@ -634,7 +695,13 @@
 
   <main>
     <div class="container">
-      <div class="login-container">
+      <div class="login-layout">
+        <div class="login-illustration">
+          <img src="Images3/oziel-gomez-6K-xLVV0-wg-unsplash.jpg" alt="Calming nature scene with greenery">
+        </div>
+        
+        <div class="login-form-section">
+          <div class="login-container">
         <h1 class="login-title">Welcome Back</h1>
         <p class="login-greeting">
           Continue your journey to mental wellness—log in now to unlock personalized support tools and connect with our compassionate Arizona based care team.
@@ -652,7 +719,10 @@
             <div style="position: relative;">
               <input type="password" id="password" name="password" required aria-describedby="passwordError">
               <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
-                👁️
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
               </button>
             </div>
             <div class="error-message" id="passwordError"></div>
@@ -673,7 +743,21 @@
         </form>
 
         <div class="divider">
-          <span>or continue with</span>
+          <span>
+            <svg class="fern-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 2C12 2 15 5 15 9C15 11 14 12 12 12C10 12 9 11 9 9C9 5 12 2 12 2Z" fill="currentColor"/>
+              <path d="M12 12C12 12 15 15 15 19C15 21 14 22 12 22C10 22 9 21 9 19C9 15 12 12 12 12Z" fill="currentColor"/>
+              <path d="M12 7C12 7 8 9 6 11C5 12 5 13 6 13C7 13 8 12 8 11C8 9 12 7 12 7Z" fill="currentColor"/>
+              <path d="M12 7C12 7 16 9 18 11C19 12 19 13 18 13C17 13 16 12 16 11C16 9 12 7 12 7Z" fill="currentColor"/>
+            </svg>
+            or continue with
+            <svg class="fern-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 2C12 2 15 5 15 9C15 11 14 12 12 12C10 12 9 11 9 9C9 5 12 2 12 2Z" fill="currentColor"/>
+              <path d="M12 12C12 12 15 15 15 19C15 21 14 22 12 22C10 22 9 21 9 19C9 15 12 12 12 12Z" fill="currentColor"/>
+              <path d="M12 7C12 7 8 9 6 11C5 12 5 13 6 13C7 13 8 12 8 11C8 9 12 7 12 7Z" fill="currentColor"/>
+              <path d="M12 7C12 7 16 9 18 11C19 12 19 13 18 13C17 13 16 12 16 11C16 9 12 7 12 7Z" fill="currentColor"/>
+            </svg>
+          </span>
         </div>
 
         <div class="social-login">
@@ -697,8 +781,20 @@
         </div>
 
         <div class="security-indicators">
-          <span>🔒 SSL Secured</span>
-          <span>🛡️ <a href="#" id="twoFactorLink">Enable 2FA</a></span>
+          <span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <circle cx="12" cy="16" r="1"></circle>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            SSL Secured
+          </span>
+          <span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <a href="#" id="twoFactorLink">Enable 2FA</a>
+          </span>
         </div>
 
         <div class="quick-checkin">
@@ -710,6 +806,8 @@
         </div>
 
         <a href="privacy.html" target="_blank" class="privacy-link">Privacy Policy</a>
+      </div>
+        </div>
       </div>
     </div>
   </main>
@@ -786,7 +884,10 @@
           <div style="position: relative;">
             <input type="password" id="newPassword" name="newPassword" required>
             <button type="button" class="password-toggle" id="newPasswordToggle" aria-label="Toggle password visibility">
-              👁️
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
             </button>
           </div>
           <div class="error-message" id="newPasswordError"></div>
@@ -820,7 +921,27 @@
           toggle.addEventListener('click', function() {
             const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
             input.setAttribute('type', type);
-            toggle.textContent = type === 'password' ? '👁️' : '🙈';
+            
+            // Update the SVG icon
+            const isVisible = type === 'text';
+            const svg = toggle.querySelector('svg');
+            if (svg) {
+              if (isVisible) {
+                // Show "eye-off" icon
+                svg.innerHTML = `
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94L6.06 6.06"></path>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19l-6.37-6.37z"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                  <path d="M14.12 14.12a3 3 0 0 1-4.24-4.24"></path>
+                `;
+              } else {
+                // Show "eye" icon
+                svg.innerHTML = `
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                `;
+              }
+            }
           });
         }
       }
