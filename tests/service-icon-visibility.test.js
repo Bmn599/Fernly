@@ -18,7 +18,7 @@ assert.ok(servicesHtml.includes('background: transparent'), 'Icons should still 
 assert.ok(servicesHtml.includes('drop-shadow(') || servicesHtml.includes('box-shadow:'), 'Icons should have drop shadow for visibility');
 
 // Test 4: Verify card styling is preserved
-assert.ok(servicesHtml.includes('background: rgba(255, 255, 255, 0.95)'), 'Card background should remain white');
+assert.ok(servicesHtml.includes('background: rgba(232, 200, 100, 0.95)'), 'Card background should be light cream');
 assert.ok(servicesHtml.includes('border-radius: 15px'), 'Card border-radius should be preserved');
 
 // Test 5: Verify image sizing and layout is preserved
