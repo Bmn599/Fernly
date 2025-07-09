@@ -193,6 +193,39 @@
       color: #4F7942;
     }
 
+    footer {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      font-size: 0.9rem;
+      color: #333;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+    }
+
+    .footer-flex {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .footer-links a {
+      color: #619251;
+      margin: 0 0.25rem;
+      font-weight: 500;
+    }
+
+    .footer-links a:hover {
+      color: #4F7942;
+    }
+
+    .footer-blurb {
+      font-size: 0.8rem;
+      color: #666;
+      margin: 0;
+    }
+
     @media (max-width: 768px) {
       .nav-links {
         display: none;
@@ -233,5 +266,16 @@
       </div>
     </div>
   </main>
+
+  <footer>
+    <div class="container footer-flex">
+      <div class="footer-links">
+        <a href="privacy.html" target="_blank">Privacy Policy</a> |
+        <a href="#">Careers</a>
+      </div>
+      <p class="footer-blurb">Proudly serving Phoenix, Tucson and communities across Arizona.</p>
+      <p>&copy; 2025 Fernly Health. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
 </html>
