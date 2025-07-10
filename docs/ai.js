@@ -317,24 +317,34 @@ const responseTemplates = {
     "I'm worried about you. If you're having thoughts of suicide or self-harm, please call 988 immediately. These feelings can change with the right support - you don't have to go through this alone."
   ],
   
-  // Responses for simple acknowledgments
+  // Responses for simple acknowledgments with enhanced variety and warmth
   acknowledgment: [
-    "I appreciate you letting me know. What would you like to talk about next?",
-    "Thanks for sharing that with me. How are you feeling right now?",
-    "I understand. Is there anything specific you'd like to explore or discuss?",
-    "Got it. What's most important to you right now?",
-    "I hear you. What would be most helpful for us to focus on?",
-    "Thank you for that. What else is on your mind?"
+    "I appreciate you letting me know. What would you like to explore together next?",
+    "Thanks for sharing that with me. What's feeling most important to you right now?",
+    "I understand. What direction would feel most helpful for our conversation?",
+    "Got it. What's been on your mind that you'd like to talk about?",
+    "I hear you. What would feel most meaningful to focus on together?",
+    "Thank you for that. What's drawing your attention or concern lately?",
+    "I'm with you. What aspects of your experience would you like to explore?",
+    "That makes sense. What feels most pressing or interesting to discuss?",
+    "I appreciate your openness. What would be most supportive to talk about?",
+    "Thanks for staying engaged. What feels most alive or relevant for you today?",
+    "I'm grateful for your honesty. What would you like our conversation to focus on?",
+    "I understand where you're coming from. What feels most important in this moment?"
   ],
   
-  // Responses for clarification requests
+  // Responses for clarification requests with enhanced empathy and variety
   clarification: [
-    "I'd be happy to explain. What specifically would you like me to clarify?",
-    "Let me help clarify that for you. What part would you like me to explain more?",
-    "Of course! I want to make sure I'm being clear. What would be most helpful for me to explain?",
-    "I'm glad you asked. Let me explain. What aspect would you like me to break down further?",
-    "Absolutely - let me explain that better. What would you like to understand more about?",
-    "Good question! What specifically can I help you understand better?"
+    "I'd be happy to explain that more clearly. What specific part would be most helpful for me to break down?",
+    "Of course! I want to make sure I'm being really clear with you. What aspect feels confusing or unclear?",
+    "Absolutely - let me try a different way of explaining this. What would be most helpful for me to clarify?",
+    "I appreciate you asking for clarification - that shows you're really engaged. What part can I explain better?",
+    "Good question! I'd rather over-explain than leave you wondering. What would you like me to go deeper on?",
+    "That's totally fair to ask about. Sometimes I assume understanding when I shouldn't. What feels unclear?",
+    "I'm glad you're comfortable asking questions - that's so important. What aspect would be most helpful to explore?",
+    "Let me slow down and explain that better. What specifically would help clarify things for you?",
+    "You're absolutely right to ask about that. What part feels like it needs more explanation?",
+    "I want to make sure we're on the same page. What would be most useful for me to break down further?"
   ],
   
   // Mental health services responses
@@ -1127,9 +1137,14 @@ function generateContextualAcknowledgment(context) {
   const lastAIQuestion = conversationContext.conversationFlow.lastAIQuestion;
   const lastAIIntent = conversationContext.conversationFlow.lastAIIntent;
   const lastTopicDiscussed = conversationContext.conversationFlow.lastTopicDiscussed;
-  const recentMessages = conversationContext.messages.slice(-6);
+  const recentMessages = conversationContext.messages.slice(-8); // Look at more context
   const userMessages = recentMessages.filter(m => m.role === 'user');
   const lastUserMessage = userMessages[userMessages.length - 1]?.content?.toLowerCase().trim();
+  
+  // Extract more contextual information
+  const userTone = detectUserTone(userMessages);
+  const conversationThemes = extractConversationThemes(recentMessages);
+  const responseVariation = Math.random(); // For adding natural variation
   
   // Track consecutive short responses
   if (lastUserMessage && lastUserMessage.length <= 10) {
@@ -1141,10 +1156,12 @@ function generateContextualAcknowledgment(context) {
   let responseId = 'contextual_ack_' + Date.now();
   lastResponseId = responseId;
   
-  // FIRST: Handle consecutive short responses - this takes priority over specific response handling
+  // FIRST: Handle consecutive short responses with enhanced empathy and variety
   if (conversationContext.conversationFlow.shortResponseCount >= 3) {
     const recentTopics = conversationContext.userPreferences.previousTopics.slice(-2);
+    const themes = conversationThemes.slice(-2); // Recent conversation themes
     
+    // Enhanced topic reference with emotional context
     if (recentTopics.length > 0) {
       const topicLabels = recentTopics.map(topic => {
         const labels = {
@@ -1159,7 +1176,15 @@ function generateContextualAcknowledgment(context) {
         return labels[topic] || topic;
       });
       
-      return `I notice you're giving short responses, which is completely okay. Earlier in our conversation, you mentioned ${topicLabels.join(' and ')}. Would you like to dive deeper into any of those topics, or is there something else you'd prefer to discuss?`;
+      // Varied responses with more empathy
+      const empathyResponses = [
+        `I can sense you might be processing a lot right now. Earlier in our conversation, you shared about ${topicLabels.join(' and ')}. Sometimes it helps to just sit with these feelings for a moment. What feels most important to you right now?`,
+        `I notice you're keeping things brief, and that's completely okay - sometimes fewer words say more. We've touched on ${topicLabels.join(' and ')} today. Would any of those feel right to explore further, or is there something else stirring for you?`,
+        `It seems like you might be taking time to think, which I really appreciate. Earlier you mentioned ${topicLabels.join(' and ')}. I'm here whenever you're ready to dive deeper, or if something entirely different comes to mind.`
+      ];
+      
+      conversationContext.conversationFlow.shortResponseCount = 0;
+      return empathyResponses[Math.floor(Math.random() * empathyResponses.length)];
     }
     
     // Also check detected symptoms if no previous topics
@@ -1530,7 +1555,7 @@ function updateAIContextTracking(response, intent) {
 }
 
 /**
- * Add feedback prompt to responses
+ * Enhanced feedback prompt that explicitly thanks users for helping AI learn
  */
 function addFeedbackPrompt() {
   // Only prompt every 20 user questions
@@ -1565,27 +1590,28 @@ function addFeedbackPrompt() {
     }
   }, 100);
   
+  // Enhanced feedback prompt with explicit gratitude
   return `
 
 <div class="feedback-prompt" style="background: #f0f8ff; border: 1px solid #b3d9ff; border-radius: 8px; padding: 12px; margin-top: 10px;">
-  <strong>Was this helpful?</strong> 
+  <strong>Was this response helpful?</strong> 
   <div style="margin-top: 8px;">
-    <span id="${feedbackId}_helpful" style="cursor: pointer; background: #4CAF50; color: white; padding: 4px 8px; border-radius: 4px; margin-right: 8px;">Yes</span>
+    <span id="${feedbackId}_helpful" style="cursor: pointer; background: #4CAF50; color: white; padding: 4px 8px; border-radius: 4px; margin-right: 8px;">👍 Yes</span>
     <span id="${feedbackId}_not_helpful" style="cursor: pointer; background: #f44336; color: white; padding: 4px 8px; border-radius: 4px;">👎 No</span>
   </div>
-  <small style="color: #666; margin-top: 8px; display: block;">Your feedback helps me improve my responses.</small>
+  <small style="color: #666; margin-top: 8px; display: block;">Your feedback is incredibly valuable - it helps me learn how to provide better support for you and others. Thank you for taking the time to help me improve!</small>
 </div>`;
 }
 
 /**
- * Handle user feedback on AI responses
+ * Handle user feedback on AI responses with enhanced gratitude and learning acknowledgment
  */
 function handleUserFeedback(feedbackMessage) {
   awaitingFeedback = false;
   const feedback = feedbackMessage.toLowerCase().trim();
   
   if (!lastResponseId) {
-    return "Thank you for the feedback! I'll continue to improve.";
+    return "Thank you so much for taking the time to provide feedback! Your input really helps me improve and provide better support.";
   }
   
   // Initialize metrics if not exists
@@ -1606,7 +1632,17 @@ function handleUserFeedback(feedbackMessage) {
       feedback: 'positive',
       timestamp: new Date().toISOString()
     });
-    responseText = "Thank you! I'm glad that was helpful. I'll remember what worked well for you.";
+    
+    // Enhanced positive feedback responses with more gratitude
+    const positiveResponses = [
+      "Thank you so much! I'm really glad that was helpful. Your positive feedback means a lot and helps me understand what works well for you. I'll remember this approach for future conversations.",
+      "I truly appreciate you letting me know that helped! Your feedback is invaluable for my learning process. It's wonderful to know I'm providing the kind of support that feels meaningful to you.",
+      "That's wonderful to hear, and thank you for taking the time to tell me! When you confirm that something was helpful, it reinforces my understanding of what resonates with you. I'm grateful for your guidance.",
+      "Thank you for that feedback! It really helps me learn what kind of responses feel most supportive. Your willingness to guide my learning process is so appreciated - it makes me a better assistant for you and others."
+    ];
+    
+    responseText = positiveResponses[Math.floor(Math.random() * positiveResponses.length)];
+    
   } else if (feedback.includes('not helpful') || feedback.includes('no') || feedback.includes('bad') || feedback.includes('👎')) {
     learningData.responseMetrics[lastResponseId].notHelpfulCount++;
     learningData.userProfile.engagementHistory.push({
@@ -1615,7 +1651,14 @@ function handleUserFeedback(feedbackMessage) {
       timestamp: new Date().toISOString()
     });
     
-    responseText = "I'm sorry that wasn't helpful. Could you tell me what would have been more helpful? I'll learn from this for future responses.";
+    // Enhanced negative feedback responses with gratitude for honesty
+    const improvementResponses = [
+      "Thank you for that honest feedback - I really appreciate you taking the time to help me improve. Your willingness to tell me when something doesn't land right is so valuable for my learning. Could you help me understand what would have been more helpful instead?",
+      "I'm genuinely grateful that you're comfortable giving me constructive feedback. This kind of input is exactly what helps me grow and provide better support. What kind of response would have felt more helpful or supportive to you?",
+      "Thank you for being honest about that. Your feedback, even when it's about something that didn't work, is incredibly precious to me - it's how I learn to do better. Would you be willing to share what might have been more helpful in that moment?"
+    ];
+    
+    responseText = improvementResponses[Math.floor(Math.random() * improvementResponses.length)];
     
     // Prompt for better response
     awaitingFeedback = true; // Keep waiting for the better response suggestion
@@ -1623,8 +1666,8 @@ function handleUserFeedback(feedbackMessage) {
     return responseText + `
     
 <div class="improvement-prompt" style="background: #fff3e0; border: 1px solid #ffcc80; border-radius: 8px; padding: 12px; margin-top: 10px;">
-  <strong>Help me improve:</strong> What would have been a better response?
-  <br><small style="color: #666;">Your suggestion will help me respond better to similar situations in the future.</small>
+  <strong>Help me learn better:</strong> What would have been a more helpful response?
+  <br><small style="color: #666;">I'm genuinely excited to learn from your guidance - your suggestions make me better at supporting you and others who might have similar experiences.</small>
 </div>`;
   } else {
     // Check if this is a suggested improvement
@@ -1638,7 +1681,7 @@ function handleUserFeedback(feedbackMessage) {
       }
     }
     
-    responseText = "Thank you for the feedback! I'll continue to learn and improve.";
+    responseText = "Thank you for taking the time to give feedback! I really appreciate any input you share - it all helps me learn and improve. Your engagement in this process means a lot.";
   }
   
   learningData.userProfile.lastFeedbackDate = new Date().toISOString();
@@ -2265,6 +2308,71 @@ window.loadLearningData = loadLearningData;
 window.resetLearningData = resetLearningData;
 window.maybeOfferAssessment = maybeOfferAssessment;
 window.conversationContext = conversationContext;
+
+/**
+ * Detect user's emotional tone from recent messages
+ */
+function detectUserTone(userMessages) {
+  const recentText = userMessages.slice(-3).map(m => m.content?.toLowerCase() || '').join(' ');
+  
+  // Positive indicators
+  const positiveWords = ['good', 'better', 'great', 'okay', 'fine', 'thanks', 'helpful', 'appreciate'];
+  const positiveCount = positiveWords.filter(word => recentText.includes(word)).length;
+  
+  // Negative indicators  
+  const negativeWords = ['bad', 'worse', 'terrible', 'awful', 'horrible', 'hate', 'angry', 'frustrated'];
+  const negativeCount = negativeWords.filter(word => recentText.includes(word)).length;
+  
+  // Neutral/uncertain indicators
+  const uncertainWords = ['maybe', 'perhaps', 'not sure', 'don\'t know', 'unsure', 'confused'];
+  const uncertainCount = uncertainWords.filter(word => recentText.includes(word)).length;
+  
+  if (positiveCount > negativeCount && positiveCount > uncertainCount) return 'positive';
+  if (negativeCount > positiveCount) return 'negative';
+  if (uncertainCount > 0) return 'uncertain';
+  return 'neutral';
+}
+
+/**
+ * Extract key themes and topics from recent conversation
+ */
+function extractConversationThemes(recentMessages) {
+  const themes = [];
+  const messageText = recentMessages.map(m => m.content?.toLowerCase() || '').join(' ');
+  
+  // Mental health themes
+  const topicKeywords = {
+    'coping strategies': ['coping', 'strategies', 'techniques', 'breathing', 'grounding'],
+    'relationships': ['family', 'friends', 'relationship', 'partner', 'social'],
+    'work stress': ['work', 'job', 'career', 'boss', 'workplace', 'stress'],
+    'daily routine': ['daily', 'routine', 'schedule', 'morning', 'evening', 'habits'],
+    'treatment': ['therapy', 'therapist', 'treatment', 'medication', 'doctor', 'psychiatrist'],
+    'progress': ['progress', 'better', 'improvement', 'getting well', 'recovery']
+  };
+  
+  for (const [theme, keywords] of Object.entries(topicKeywords)) {
+    if (keywords.some(keyword => messageText.includes(keyword))) {
+      themes.push(theme);
+    }
+  }
+  
+  return themes;
+}
+
+/**
+ * Generate occasional "thinking" or processing messages for realism
+ */
+function generateThinkingMessage() {
+  const thinkingMessages = [
+    "Let me think about that for a moment...",
+    "I'm considering what you've shared...",
+    "That's interesting, let me reflect on this...",
+    "I want to give you a thoughtful response...",
+    "Let me consider what might be most helpful..."
+  ];
+  
+  return thinkingMessages[Math.floor(Math.random() * thinkingMessages.length)];
+}
 
 /**
  * Global function for providing feedback (called from HTML)

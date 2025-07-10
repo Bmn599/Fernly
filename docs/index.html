@@ -1469,7 +1469,7 @@ document.getElementById('chatForm').addEventListener('submit', function(e) {
   sendMessage();
 });
 
-// Enhanced message sending function with AI
+// Enhanced message sending function with AI and realistic timing
 async function sendMessage() {
   const message = chatInput.value.trim();
   if (!message) return;
@@ -1486,6 +1486,11 @@ async function sendMessage() {
   // Show typing indicator
   const typingIndicator = addTypingIndicator();
   
+  // Add small realistic delay before processing (100-300ms)
+  const processingDelay = 100 + Math.random() * 200;
+  
+  await new Promise(resolve => setTimeout(resolve, processingDelay));
+  
   try {
     // Generate response using mental health AI system
     const aiResponse = await window.generateAIResponse(message);
@@ -1493,6 +1498,16 @@ async function sendMessage() {
     // Remove typing indicator and add AI response
     if (typingIndicator && typingIndicator.parentNode) {
       chatMessages.removeChild(typingIndicator);
+    }
+
+    // Check if this is a "thinking" message
+    if (aiResponse && (aiResponse.includes('Let me think') || aiResponse.includes('considering') || aiResponse.includes('reflect'))) {
+      // Add the thinking message
+      addMessage(aiResponse, 'bot');
+      
+      // Don't re-enable inputs yet, wait for the actual response
+      // The generateAIResponse function will handle the delayed actual response
+      return;
     }
 
     addMessage(aiResponse, 'bot');
