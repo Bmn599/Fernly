@@ -1487,25 +1487,24 @@ async function sendMessage() {
   const typingIndicator = addTypingIndicator();
   
   try {
-    // Generate response using new AI assistant
-    const answer = await window.aiGetAnswer(message, 'aiAIStatus');
+    // Generate response using mental health AI system
+    const aiResponse = await window.generateAIResponse(message);
 
     // Remove typing indicator and add AI response
     if (typingIndicator && typingIndicator.parentNode) {
       chatMessages.removeChild(typingIndicator);
     }
 
-    const responseElement = addMessage(answer.text + (
-      answer.sources?.length
-        ? `<div style="font-size:0.85em;color:#888;">Source: ${answer.sources.map(s => `${s.file} [${s.snippet}]`).join(', ')}</div>`
-        : ''
-    ), 'bot');
+    addMessage(aiResponse, 'bot');
   } catch (error) {
     console.error('Error generating response:', error);
     if (typingIndicator && typingIndicator.parentNode) {
       chatMessages.removeChild(typingIndicator);
     }
-    addMessage("I'm sorry, I'm having trouble processing that right now. Let me try again with a different approach.", 'bot');
+    
+    // Fallback to basic response if AI fails
+    const fallbackResponse = "I'm here to listen and support you. Could you tell me more about what's on your mind?";
+    addMessage(fallbackResponse, 'bot');
   } finally {
     // Re-enable send button and input
     chatSend.disabled = false;
@@ -1570,12 +1569,26 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
 </script>
 
 <script type="module">
-import { aiHandleFileUpload, aiGetAnswer } from './aiAssistant.js';
-window.aiGetAnswer = aiGetAnswer;
-window.aiHandleFileUpload = aiHandleFileUpload;
-document.getElementById('aiUploadBtn').onclick = () => aiHandleFileUpload('aiFileInput', 'aiFileStatus');
-// Note: Main AI chat functionality uses ai.js with pattern-based responses
-document.getElementById('aiAIStatus').innerText = 'Smart AI Active';
+// Optional file upload functionality - independent of main mental health AI
+try {
+  const { aiHandleFileUpload, aiGetAnswer } = await import('./aiAssistant.js');
+  window.aiGetAnswer = aiGetAnswer;
+  window.aiHandleFileUpload = aiHandleFileUpload;
+  document.getElementById('aiUploadBtn').onclick = () => aiHandleFileUpload('aiFileInput', 'aiFileStatus');
+} catch (error) {
+  console.log('File upload AI not available - mental health chat still fully functional');
+  document.getElementById('aiUploadBtn').style.display = 'none';
+  document.getElementById('aiFileInput').style.display = 'none';
+  const uploadHelpElement = document.querySelector('.upload-help');
+  if (uploadHelpElement) {
+    uploadHelpElement.style.display = 'none';
+  }
+}
+
+// Update status to indicate mental health AI is active
+if (document.getElementById('aiAIStatus')) {
+  document.getElementById('aiAIStatus').innerText = 'Mental Health AI Active';
+}
 </script>
 
 <!-- AOS (Animate On Scroll) JavaScript -->
