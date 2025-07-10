@@ -64,7 +64,10 @@ async function runConversationalTests() {
            'Should not use generic acknowledgment template');
   assert.ok(noResponse.toLowerCase().includes('understand') || 
            noResponse.toLowerCase().includes('okay') ||
-           noResponse.toLowerCase().includes('fine'),
+           noResponse.toLowerCase().includes('fine') ||
+           noResponse.toLowerCase().includes('natural') ||
+           noResponse.toLowerCase().includes('worries') ||
+           noResponse.toLowerCase().includes('heart'),
            'Should acknowledge the negative response appropriately');
 
   // Test 3: Multiple short responses should reference recent topics

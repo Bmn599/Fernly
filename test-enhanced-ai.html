@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced AI Chat Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .chat-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .messages {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #fafafa;
+            border-radius: 5px;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+        .user {
+            background: #007bff;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+        .bot {
+            background: #e9ecef;
+            color: #333;
+        }
+        .thinking-message {
+            opacity: 0.7;
+            font-style: italic;
+        }
+        .input-container {
+            display: flex;
+            gap: 10px;
+        }
+        #userInput {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .test-buttons {
+            margin: 10px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .test-button {
+            padding: 5px 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .scenario {
+            margin: 20px 0;
+            padding: 15px;
+            background: #e8f4fd;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1>Enhanced AI Contextual Awareness Test</h1>
+        
+        <div class="scenario">
+            <h3>Testing Scenarios:</h3>
+            <p>Try these conversation patterns to test the enhanced AI behavior:</p>
+            <ol>
+                <li><strong>Short responses after topic establishment:</strong> Say "I have anxiety" then respond with "ok", "maybe", "yeah" repeatedly</li>
+                <li><strong>Positive acknowledgments:</strong> When AI asks something, respond with "yes", "sure", "okay"</li>
+                <li><strong>Negative acknowledgments:</strong> When AI asks something, respond with "no", "nope", "not really"</li>
+                <li><strong>Uncertainty:</strong> Respond with "maybe", "not sure", "I guess"</li>
+                <li><strong>Clarification:</strong> Ask "why", "what", "how"</li>
+            </ol>
+        </div>
+
+        <div class="test-buttons">
+            <button class="test-button" onclick="testMessage('I have anxiety and trouble sleeping')">Test: Anxiety + Sleep</button>
+            <button class="test-button" onclick="testMessage('I feel depressed')">Test: Depression</button>
+            <button class="test-button" onclick="testMessage('ok')">Test: Short Response</button>
+            <button class="test-button" onclick="testMessage('yes')">Test: Positive</button>
+            <button class="test-button" onclick="testMessage('no')">Test: Negative</button>
+            <button class="test-button" onclick="testMessage('maybe')">Test: Uncertain</button>
+            <button class="test-button" onclick="testMessage('why')">Test: Clarification</button>
+            <button class="test-button" onclick="clearChat()">Clear Chat</button>
+        </div>
+
+        <div id="chatMessages" class="messages"></div>
+        
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Type your message..." 
+                   onkeypress="if(event.key==='Enter') sendMessage()">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- Load required scripts -->
+    <script src="docs/therapy-speech.js"></script>
+    <script src="docs/medications-data.js"></script>
+    <script src="docs/ai.js"></script>
+
+    <script>
+        // Initialize AI when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeAIChat();
+        });
+
+        function addMessage(content, isUser = false, className = '') {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'} ${className}`;
+            messageDiv.innerHTML = `<div>${content}</div>`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addMessage(message, true);
+            input.value = '';
+            
+            try {
+                // Get AI response
+                const response = await generateAIResponse(message);
+                
+                // Add AI response
+                addMessage(response);
+                
+            } catch (error) {
+                addMessage('Sorry, I encountered an error: ' + error.message);
+            }
+        }
+
+        function testMessage(message) {
+            document.getElementById('userInput').value = message;
+            sendMessage();
+        }
+
+        function clearChat() {
+            document.getElementById('chatMessages').innerHTML = '';
+            // Reset conversation context
+            if (window.conversationContext) {
+                window.conversationContext.messages = [];
+                window.conversationContext.questionCount = 0;
+                window.conversationContext.conversationFlow.shortResponseCount = 0;
+                window.conversationContext.conversationFlow.lastAIQuestion = null;
+                window.conversationContext.conversationFlow.lastAIIntent = null;
+                window.conversationContext.conversationFlow.lastTopicDiscussed = null;
+                window.conversationContext.userPreferences.previousTopics = [];
+                window.conversationContext.detectedSymptoms = {};
+            }
+        }
+
+        // Override addThinkingMessage to work with our test interface
+        window.addThinkingMessage = function(message) {
+            addMessage(message, false, 'thinking-message');
+        };
+    </script>
+</body>
+</html>

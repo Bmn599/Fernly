@@ -317,7 +317,7 @@ const responseTemplates = {
     "I'm worried about you. If you're having thoughts of suicide or self-harm, please call 988 immediately. These feelings can change with the right support - you don't have to go through this alone."
   ],
   
-  // Responses for simple acknowledgments
+  // Responses for simple acknowledgments - Enhanced with more empathy and human warmth
   acknowledgment: [
     "I appreciate you letting me know. What would you like to talk about next?",
     "Thanks for sharing that with me. How are you feeling right now?",
@@ -325,6 +325,17 @@ const responseTemplates = {
     "Got it. What's most important to you right now?",
     "I hear you. What would be most helpful for us to focus on?",
     "Thank you for that. What else is on your mind?"
+  ],
+
+  // New empathetic templates for short/ambiguous responses
+  empathetic_acknowledgment: [
+    "Sometimes it's hard to know what to say, and that's okay—I'm here for you.",
+    "Take your time, I'm listening. There's no pressure to say anything specific.",
+    "I can sense you might be processing things. Would it help if I shared more about something we discussed?",
+    "It's totally fine to give short responses—everyone communicates differently. I'm here whenever you're ready.",
+    "No need to feel like you have to elaborate. Sometimes a simple response says everything.",
+    "I appreciate you being here with me. What feels right to talk about in this moment?",
+    "You don't have to have all the words right now. I'm patient and here to support you however feels comfortable."
   ],
   
   // Responses for clarification requests
@@ -1145,13 +1156,21 @@ function generateContextualAcknowledgment(context) {
   if (conversationContext.conversationFlow.shortResponseCount >= 3) {
     const recentTopics = conversationContext.userPreferences.previousTopics.slice(-2);
     
+    // Empathetic responses that acknowledge the communication style
+    const empathetic_short_responses = [
+      "I can tell you're keeping things brief today, and that's completely okay. Sometimes fewer words say more than we realize.",
+      "No need to feel like you have to elaborate—I appreciate whatever you're comfortable sharing.",
+      "Short responses are perfectly fine with me. I'm here to listen, whether you want to say a lot or a little.",
+      "I notice you're being concise, which is totally valid. Everyone processes and communicates differently."
+    ];
+    
     if (recentTopics.length > 0) {
       const topicLabels = recentTopics.map(topic => {
         const labels = {
           'anxiety': 'anxiety and worry',
-          'depression': 'low mood and depression', 
-          'sleep': 'sleep issues',
-          'ptsd': 'trauma and difficult memories',
+          'depression': 'your mood and feelings', 
+          'sleep': 'sleep challenges',
+          'ptsd': 'some difficult experiences',
           'adhd': 'focus and attention',
           'bipolar': 'mood changes',
           'ocd': 'repetitive thoughts and behaviors'
@@ -1159,7 +1178,9 @@ function generateContextualAcknowledgment(context) {
         return labels[topic] || topic;
       });
       
-      return `I notice you're giving short responses, which is completely okay. Earlier in our conversation, you mentioned ${topicLabels.join(' and ')}. Would you like to dive deeper into any of those topics, or is there something else you'd prefer to discuss?`;
+      const empathetic_start = empathetic_short_responses[Math.floor(Math.random() * empathetic_short_responses.length)];
+      
+      return `${empathetic_start} Earlier in our conversation, you opened up about ${topicLabels.join(' and ')}. Would it feel right to explore any of those areas a bit more, or is there something else that would be more helpful to focus on right now?`;
     }
     
     // Also check detected symptoms if no previous topics
@@ -1171,20 +1192,30 @@ function generateContextualAcknowledgment(context) {
       const topicLabels = detectedTopics.slice(0, 2).map(topic => {
         const labels = {
           'anxiety': 'anxiety and worry',
-          'depression': 'low mood and feelings',
+          'depression': 'your mood and emotional state',
           'sleep': 'sleep concerns',
-          'ptsd': 'difficult experiences',
+          'ptsd': 'some challenging experiences',
           'adhd': 'focus and attention',
-          'bipolar': 'mood changes',
+          'bipolar': 'mood fluctuations',
           'ocd': 'repetitive thoughts'
         };
         return labels[topic] || topic;
       });
       
-      return `I notice you're keeping things brief, which is perfectly fine. Earlier you mentioned things related to ${topicLabels.join(' and ')}. Would you like to explore any of those areas further, or is there something else on your mind?`;
+      const empathetic_start = empathetic_short_responses[Math.floor(Math.random() * empathetic_short_responses.length)];
+      
+      return `${empathetic_start} I remember you mentioning things related to ${topicLabels.join(' and ')}. If any of those feel important to talk about right now, I'm here. Or we can explore whatever else feels right for you.`;
     }
     
-    return `I notice you're keeping things brief today, and that's perfectly fine. Sometimes it's hard to know what to say. Is there anything specific that's been on your mind lately, or would you like me to suggest some topics we could explore?`;
+    // Use new empathetic acknowledgment templates for cases with no topic context
+    const fallback_responses = [
+      "I notice you're keeping things simple today, and that's perfectly okay with me. Sometimes it's hard to know what to say, and there's no pressure to fill the silence. What feels most comfortable for you right now?",
+      "Short responses are completely fine—I appreciate whatever you're willing to share. Would it help if I suggested a gentle topic, or would you prefer to sit with whatever you're thinking about?",
+      "I can sense you might be processing things internally, which is so normal. Take your time. I'm here whenever you're ready, whether that's now or in a few moments.",
+      "You know what? Sometimes the most honest response is a brief one. I'm grateful you're here with me, however you choose to communicate. What would feel most supportive right now?"
+    ];
+    
+    return fallback_responses[Math.floor(Math.random() * fallback_responses.length)];
   }
   
   // Handle positive acknowledgments (yes, sure, okay) with specific context
@@ -1209,64 +1240,111 @@ function generateContextualAcknowledgment(context) {
       }
     }
     
-    // If there was a recent topic discussed, continue with it
+    // If there was a recent topic discussed, continue with it using varied responses
     if (lastTopicDiscussed) {
       return generateTopicContinuation(lastTopicDiscussed, 'positive');
     }
+    
+    // Fallback positive acknowledgments with more variation and warmth
+    const positive_fallbacks = [
+      "I'm glad you're open to that. What feels most important for you to focus on right now?",
+      "Great! I appreciate your willingness to engage. Where would you like to start?",
+      "Wonderful. What's been weighing on your mind that we could explore together?",
+      "I'm here for whatever direction feels right to you. What would be most helpful?",
+      "Thank you for being so open. What topic feels most pressing or interesting to you today?"
+    ];
+    
+    return positive_fallbacks[Math.floor(Math.random() * positive_fallbacks.length)];
   }
   
-  // Handle negative acknowledgments (no, nope, not really)
+  // Handle negative acknowledgments (no, nope, not really) with more empathy
   if (lastUserMessage && /^(no|nope|nah|not really|not now)$/i.test(lastUserMessage)) {
     
     // If the last AI was asking about something specific, acknowledge and redirect
     if (lastAIIntent && lastAIIntent !== 'general') {
-      return `I understand. Is there something else you'd like to focus on instead? I'm here to support you with whatever feels most important right now.`;
+      const empathetic_redirects = [
+        "I completely understand—that doesn't feel right for you right now. What would feel more comfortable or helpful to talk about instead?",
+        "That's perfectly okay. Sometimes we need to focus on different things. Is there something else that feels more important to you at the moment?",
+        "No worries at all. I want to go where it feels most natural for you. What's on your heart or mind that we could explore?",
+        "Absolutely fine—I'm here to follow your lead. What direction would feel most supportive for you right now?"
+      ];
+      
+      return empathetic_redirects[Math.floor(Math.random() * empathetic_redirects.length)];
     }
     
-    // If there were recent topics, reference them
+    // If there were recent topics, reference them warmly
     if (lastTopicDiscussed || conversationContext.userPreferences.previousTopics.length > 0) {
       const recentTopics = conversationContext.userPreferences.previousTopics.slice(-2);
       if (recentTopics.length > 0) {
         const topicLabels = recentTopics.map(topic => {
           const labels = {
             'anxiety': 'anxiety',
-            'depression': 'mood',
+            'depression': 'your mood',
             'sleep': 'sleep',
-            'ptsd': 'trauma',
-            'adhd': 'focus',
+            'ptsd': 'some difficult experiences',
+            'adhd': 'focus challenges',
             'bipolar': 'mood changes',
             'ocd': 'repetitive thoughts'
           };
           return labels[topic] || topic;
         });
         
-        return `That's okay. Earlier you mentioned ${topicLabels.join(' and ')}. Would you like to talk about any of those, or is there something else on your mind?`;
+        const warm_topic_redirects = [
+          `That's totally understandable. Earlier you shared about ${topicLabels.join(' and ')}—would any of those feel right to revisit, or is there something completely different on your mind?`,
+          `I hear you. We touched on ${topicLabels.join(' and ')} before. Would you like to continue with any of those, or would something else be more helpful right now?`,
+          `Of course, no pressure at all. Since you mentioned ${topicLabels.join(' and ')} earlier, I'm happy to explore those or go in whatever direction feels right for you.`
+        ];
+        
+        return warm_topic_redirects[Math.floor(Math.random() * warm_topic_redirects.length)];
       }
     }
     
-    return `That's perfectly fine. What would you like to talk about instead? I'm here to support you with whatever feels most important.`;
+    const general_negative_responses = [
+      "That's perfectly fine—I'm here to support you with whatever feels most important. What would you like to focus on instead?",
+      "No problem at all. What feels most comfortable or helpful for you to talk about right now?",
+      "Absolutely okay. I want this to feel right for you. What's on your mind that we could explore together?",
+      "I completely understand. Is there something else that would feel more supportive or interesting to discuss?"
+    ];
+    
+    return general_negative_responses[Math.floor(Math.random() * general_negative_responses.length)];
   }
   
-  // Handle maybe/uncertain responses
+  // Handle maybe/uncertain responses with more empathy and validation
   if (lastUserMessage && /^(maybe|perhaps|i guess|sort of|kinda|not sure)$/i.test(lastUserMessage)) {
     
     if (lastAIIntent && lastAIIntent !== 'general') {
-      return `I hear some uncertainty there. That's completely normal. Would it help to explore this a bit more, or would you prefer to talk about something else?`;
+      const uncertainty_responses = [
+        "I can hear the uncertainty in your response, and that's completely okay. Uncertainty often means we're exploring something important. Would it feel helpful to talk through this a bit more, or would you prefer to focus on something that feels clearer?",
+        "Uncertainty can actually be really valuable—it often means you're being thoughtful and honest with yourself. We can explore this tentatively, or we can shift to whatever feels more solid for you right now.",
+        "I appreciate that honest response. Sometimes 'maybe' is the most truthful answer we have. Would it help to explore this gently, or is there something else that feels more certain for you?",
+        "That uncertainty sounds really human and real. We don't have to figure everything out right now. What would feel most comfortable—exploring this a bit more, or talking about something else?"
+      ];
+      
+      return uncertainty_responses[Math.floor(Math.random() * uncertainty_responses.length)];
     }
     
-    return `I understand - sometimes it's hard to know exactly what we need. What feels most pressing for you right now, even if you're not completely sure about it?`;
+    const general_uncertainty_responses = [
+      "I understand that feeling of not being quite sure. Sometimes uncertainty is exactly where we need to start. What feels most pressing for you right now, even if you're not completely sure about it?",
+      "Uncertainty can be really tough to sit with. I'm here to explore whatever feels important, even if it's unclear. What's on your mind, even in a vague way?",
+      "That 'maybe' or 'not sure' feeling is so relatable. Sometimes we're processing things that don't have clear answers yet. What feels most alive or present for you right now?",
+      "I appreciate that honest uncertainty. We don't need to have everything figured out. What draws your attention most, even if it's fuzzy or unclear?"
+    ];
+    
+    return general_uncertainty_responses[Math.floor(Math.random() * general_uncertainty_responses.length)];
   }
   
-  // Default contextual acknowledgment
-  const acknowledgeAndContinue = [
-    `Thanks for letting me know. What's most on your mind right now?`,
-    `I appreciate you sharing that. How are you feeling about things today?`,
-    `Thank you. What would be most helpful for us to focus on?`,
-    `I understand. What feels most important to talk about right now?`,
-    `Got it. What's been weighing on you lately?`
+  // Default contextual acknowledgment with enhanced warmth and variety
+  const varied_acknowledgeAndContinue = [
+    `Thanks for sharing that with me. What's been on your heart lately?`,
+    `I appreciate you letting me know. How are you doing with everything today?`,
+    `Thank you for that. What feels most important for us to talk about right now?`,
+    `I hear you. What's weighing on you or what would be most helpful to explore?`,
+    `Got it. What's been occupying your thoughts recently?`,
+    `I understand. What would feel most supportive or interesting to focus on?`,
+    `Thanks for being here with me. What direction feels right for our conversation today?`
   ];
   
-  return acknowledgeAndContinue[Math.floor(Math.random() * acknowledgeAndContinue.length)];
+  return varied_acknowledgeAndContinue[Math.floor(Math.random() * varied_acknowledgeAndContinue.length)];
 }
 
 /**
@@ -1278,51 +1356,51 @@ function generateTopicContinuation(topic, responseType) {
   const continuations = {
     anxiety: {
       positive: [
-        "I'm glad you want to talk about anxiety. Anxiety can feel overwhelming, but there are many effective ways to manage it. What specific situations or thoughts tend to trigger your anxiety the most?",
-        "Great, let's explore your anxiety together. Can you tell me about when you tend to feel most anxious? Is it in specific situations, or does it seem to happen randomly?",
-        "I appreciate you wanting to discuss this. Anxiety affects everyone differently. What does anxiety feel like for you physically and emotionally?"
+        "I'm really glad you want to explore this with me. Anxiety can feel so overwhelming sometimes, but talking about it is such a brave step. What specific situations or thoughts tend to bring up the most anxiety for you?",
+        "Thank you for trusting me with this. Anxiety affects everyone differently, and I want to understand your unique experience. Can you tell me about when you tend to feel most anxious—is it in certain situations, or does it seem to come out of nowhere?",
+        "I appreciate you wanting to dive into this together. Anxiety can be like this constant background hum, can't it? What does it feel like for you, both physically and emotionally, when anxiety shows up?"
       ]
     },
     depression: {
       positive: [
-        "Thank you for being open about wanting to discuss depression. It takes courage to talk about these feelings. Can you tell me what depression feels like for you day-to-day?",
-        "I'm here to support you with this. Depression can be really heavy to carry alone. What aspects of depression have been most challenging for you lately?",
-        "Let's work through this together. When you think about your mood and energy, what patterns do you notice? Are there times when things feel a bit easier?"
+        "I'm honored that you want to share about this with me. Depression can feel like carrying this invisible weight that others can't see. Can you help me understand what your experience with depression feels like day-to-day?",
+        "Thank you for being willing to open up about something so personal. Depression can be incredibly isolating, and I want you to know you're not alone in this. What aspects of depression have been the most challenging for you lately?",
+        "I'm here to walk through this with you, at whatever pace feels right. When you think about your mood and energy levels, are there patterns you've noticed? Maybe times when things feel a little lighter, or when everything feels especially heavy?"
       ]
     },
     sleep: {
       positive: [
-        "Sleep issues can really impact everything else in our lives, so I'm glad we're talking about this. Are you having trouble falling asleep, staying asleep, or both?",
-        "Good, let's focus on your sleep. Sleep and mental health are so closely connected. What does a typical night look like for you? When do you usually try to go to bed?",
-        "I'm glad you want to address this. Poor sleep can make everything else feel harder. Have you noticed any patterns in what might be affecting your sleep?"
+        "Sleep is so foundational to everything else we deal with, so I'm really glad we're talking about this. Are you struggling more with falling asleep, staying asleep, or maybe both? I know how frustrating sleep issues can be.",
+        "Yes, let's definitely focus on your sleep. There's such a strong connection between sleep and mental health—when one is off, it affects everything else. What does a typical night look like for you? When do you usually try to wind down?",
+        "I'm so glad you want to address this. Poor sleep can make every other challenge feel so much harder to manage. Have you noticed any patterns in what might be affecting your sleep, or does it feel pretty unpredictable?"
       ]
     },
     ptsd: {
       positive: [
-        "I appreciate your willingness to discuss this. Trauma can be very difficult to talk about, and I want you to know you're in control of how much you share. What feels most important for you to talk about regarding your experiences?",
-        "Thank you for trusting me with this topic. PTSD affects everyone differently. Are there particular symptoms or experiences that are bothering you most right now?",
-        "I'm here to support you through this conversation. With trauma, it's important to go at your own pace. What aspects of PTSD have been most challenging for you lately?"
+        "I really appreciate your courage in wanting to discuss this. Trauma can be incredibly difficult to talk about, and I want you to know that you're completely in control of how much you share and at what pace. What feels most important for you to talk about regarding your experiences?",
+        "Thank you for trusting me with something so significant. PTSD can affect people in so many different ways, and everyone's experience is unique. Are there particular symptoms or experiences that feel most present or challenging for you right now?",
+        "I'm honored that you're willing to explore this with me. With trauma, it's so important that we go at your pace and follow your lead. What aspects of your PTSD experience have been most difficult to manage lately?"
       ]
     },
     adhd: {
       positive: [
-        "I'm glad we're talking about ADHD. Attention and focus challenges can be really frustrating. What areas of your life do you find ADHD affects most? Is it work, relationships, daily tasks, or something else?",
-        "Let's explore this together. ADHD shows up differently for everyone. Do you struggle more with attention and focus, hyperactivity and impulsiveness, or a combination of both?",
-        "Thank you for wanting to discuss this. Managing ADHD can be challenging but there are many strategies that can help. What specific ADHD symptoms have been most difficult for you lately?"
+        "I'm really glad we're diving into this. ADHD can be so frustrating when your brain feels like it's constantly going in different directions. What areas of your life do you find ADHD affects most—is it work, relationships, daily tasks, or maybe a combination of things?",
+        "Yes, let's explore this together. ADHD can show up so differently for different people. Do you find you struggle more with the attention and focus piece, the hyperactivity and impulsiveness, or is it kind of a mix of both for you?",
+        "Thank you for wanting to discuss this openly. Managing ADHD can feel like you're fighting against your own brain sometimes. What specific ADHD symptoms have been giving you the most trouble lately, or making daily life feel harder?"
       ]
     },
     bipolar: {
       positive: [
-        "I appreciate you wanting to talk about bipolar disorder. Mood changes can be really challenging to navigate. Are you currently experiencing mood swings, or is this something you're managing with treatment?",
-        "Thank you for bringing this up. Bipolar disorder affects everyone differently. Can you tell me about your experience with mood episodes? What do your highs and lows typically look like?",
-        "Let's discuss this together. Managing bipolar disorder often involves recognizing patterns and triggers. Have you noticed certain things that tend to trigger mood episodes for you?"
+        "I appreciate you being open about this with me. Bipolar disorder can feel like riding an emotional rollercoaster that you can't get off of sometimes. Are you currently experiencing mood swings, or is this something you're managing with treatment and looking for additional support?",
+        "Thank you for bringing this up—it takes courage to talk about bipolar disorder. The mood changes can be so intense and unpredictable. Can you help me understand your experience with mood episodes? What do your highs and lows typically look like for you?",
+        "I'm glad we can discuss this together. Managing bipolar disorder often involves recognizing patterns and identifying triggers, which can be really empowering. Have you noticed certain things that tend to trigger mood episodes for you, or do they feel pretty unpredictable?"
       ]
     },
     ocd: {
       positive: [
-        "I'm glad you want to talk about OCD. Obsessive thoughts and compulsive behaviors can be really distressing and time-consuming. What types of obsessions or compulsions are you dealing with most?",
-        "Thank you for sharing this with me. OCD can feel very isolating, but you're not alone. Are you currently experiencing intrusive thoughts, compulsive behaviors, or both?",
-        "Let's work through this together. OCD can be very treatable with the right approach. What aspects of OCD are interfering most with your daily life right now?"
+        "I'm really glad you want to talk about this with me. OCD can be so exhausting when your mind gets stuck in these loops, and the compulsions can take up so much time and energy. What types of obsessions or compulsions are you dealing with most right now?",
+        "Thank you for being willing to share about this. OCD can feel very isolating because the thoughts and behaviors can seem so strange to others, but they're very real and distressing for you. Are you currently experiencing more intrusive thoughts, compulsive behaviors, or kind of both?",
+        "I appreciate you trusting me with this. OCD can be incredibly treatable with the right approach, which is hopeful. What aspects of your OCD are interfering most with your daily life right now, or causing you the most distress?"
       ]
     }
   };
@@ -1340,14 +1418,51 @@ function generateTopicContinuation(topic, responseType) {
   
   // Fallback for topics not specifically handled
   if (isPositive) {
-    return `I'm glad you want to talk about that. Let's explore this together. Can you tell me more about what you're experiencing?`;
+    const general_positive_responses = [
+      `I'm so glad you want to talk about that with me. Let's explore this together at whatever pace feels right for you. Can you tell me more about what you're experiencing?`,
+      `Thank you for being open to discussing this. I'm here to listen and support you however I can. What would feel most helpful for you to share about this?`,
+      `I appreciate your willingness to dive into this topic. Let's take it step by step. What feels most important or pressing for you to talk about?`
+    ];
+    
+    return general_positive_responses[Math.floor(Math.random() * general_positive_responses.length)];
   } else {
-    return `That's okay. What would you like to focus on instead? I'm here to support you with whatever feels most important.`;
+    const general_redirect_responses = [
+      `That's completely okay—I want to focus on whatever feels right for you. What would you like to explore instead? I'm here to support you with whatever feels most important.`,
+      `No worries at all. I'm here to go wherever feels most comfortable and helpful for you. What else is on your mind that we could talk about?`,
+      `Absolutely fine. Let's shift to something that feels better for you right now. What would be most supportive or interesting to discuss?`
+    ];
+    
+    return general_redirect_responses[Math.floor(Math.random() * general_redirect_responses.length)];
   }
 }
 
-// Enhanced AI Response Generation with Learning and Feedback
+// Enhanced AI Response Generation with Learning, Feedback, and Natural Delays
 async function generateAIResponse(userMessage) {
+  // Occasionally add a brief "thinking" delay for more natural conversation flow
+  // 25% chance for responses that aren't crisis-related
+  const shouldAddThinkingDelay = Math.random() < 0.25;
+  let thinkingMessage = null;
+  
+  if (shouldAddThinkingDelay && !recognizeIntent(userMessage).includes('crisis')) {
+    const thinkingMessages = [
+      "Let me think about that for a moment...",
+      "Hmm, let me consider how to best respond to that...",
+      "Give me just a second to process what you've shared...",
+      "I want to give you a thoughtful response, one moment...",
+      "Let me reflect on what you've said..."
+    ];
+    
+    thinkingMessage = thinkingMessages[Math.floor(Math.random() * thinkingMessages.length)];
+    
+    // Add thinking message to chat
+    if (typeof window !== 'undefined' && window.addThinkingMessage) {
+      window.addThinkingMessage(thinkingMessage);
+      
+      // Wait 1-3 seconds before continuing with actual response
+      await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+    }
+  }
+  
   // Check if user is providing feedback on previous response
   if (awaitingFeedback && lastResponseId) {
     return handleUserFeedback(userMessage);
@@ -1375,6 +1490,16 @@ async function generateAIResponse(userMessage) {
   // Update conversation context
   if (intent !== 'general' && intent !== 'greeting') {
     conversationContext.topicCounts[intent] = (conversationContext.topicCounts[intent] || 0) + 1;
+    
+    // Also track in previousTopics for better contextual awareness
+    if (intent !== 'acknowledgment' && intent !== 'clarification') {
+      if (!conversationContext.userPreferences.previousTopics.includes(intent)) {
+        conversationContext.userPreferences.previousTopics.push(intent);
+        if (conversationContext.userPreferences.previousTopics.length > 10) {
+          conversationContext.userPreferences.previousTopics.shift();
+        }
+      }
+    }
   }
   
   // Handle crisis immediately
@@ -1606,7 +1731,17 @@ function handleUserFeedback(feedbackMessage) {
       feedback: 'positive',
       timestamp: new Date().toISOString()
     });
-    responseText = "Thank you! I'm glad that was helpful. I'll remember what worked well for you.";
+    
+    // More grateful and warm responses
+    const gratefulResponses = [
+      "Thank you so much! That really means a lot to me. I'm learning and getting better at supporting people like you through our conversations.",
+      "I'm genuinely grateful for that feedback—it helps me understand what's most helpful for you and others. Thank you for taking the time to let me know.",
+      "That's wonderful to hear! Your feedback is so valuable in helping me learn how to be more supportive. I really appreciate you teaching me.",
+      "Thank you for helping me get better! Every piece of feedback like yours helps me understand how to be more helpful in future conversations.",
+      "I'm so glad that resonated with you. Thank you for letting me know—it helps me learn what works and what feels supportive."
+    ];
+    
+    responseText = gratefulResponses[Math.floor(Math.random() * gratefulResponses.length)];
   } else if (feedback.includes('not helpful') || feedback.includes('no') || feedback.includes('bad') || feedback.includes('👎')) {
     learningData.responseMetrics[lastResponseId].notHelpfulCount++;
     learningData.userProfile.engagementHistory.push({
@@ -1680,7 +1815,15 @@ function handleResponseImprovement(suggestedResponse) {
     
     saveLearningData();
     
-    return `Thank you! I've learned from your suggestion and will use similar responses for ${intent} topics in the future. Your input helps me provide better support.`;
+    const improvementResponses = [
+      `Thank you so much for taking the time to teach me! I've learned from your suggestion and will use similar approaches for ${intent} topics in the future. Your patience in helping me improve means a lot.`,
+      `This is incredibly helpful—thank you for showing me a better way to respond. I've saved your suggestion and will remember this for similar conversations. I really appreciate you helping me grow.`,
+      `Wow, that's so much better! Thank you for teaching me. I've learned from your example and will use similar language when talking about ${intent} in the future. You're helping me become more supportive.`,
+      `I'm genuinely grateful for your guidance. Your suggestion helps me understand what feels more helpful and human. I've saved this to improve future conversations about ${intent}.`,
+      `Thank you for being so thoughtful in helping me improve! I've learned from your example and will use similar approaches going forward. Your feedback makes me better at supporting others.`
+    ];
+    
+    return improvementResponses[Math.floor(Math.random() * improvementResponses.length)];
   }
   
   return "Thank you for the suggestion. I'll keep improving based on your feedback.";
@@ -2267,6 +2410,38 @@ window.maybeOfferAssessment = maybeOfferAssessment;
 window.conversationContext = conversationContext;
 
 /**
+ * Add a temporary thinking message to show AI is processing
+ */
+window.addThinkingMessage = function(message) {
+  // Only work in browser environment
+  if (typeof document === 'undefined') {
+    return;
+  }
+  
+  const chatMessages = document.getElementById('chatMessages');
+  if (chatMessages) {
+    const thinkingDiv = document.createElement('div');
+    thinkingDiv.className = 'message bot thinking-message';
+    thinkingDiv.innerHTML = `
+      <div class="message-content">
+        <div class="message-text" style="font-style: italic; color: #666; opacity: 0.8;">
+          ${message}
+        </div>
+      </div>
+    `;
+    chatMessages.appendChild(thinkingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    // Remove thinking message after delay to replace with actual response
+    setTimeout(() => {
+      if (thinkingDiv.parentNode) {
+        thinkingDiv.remove();
+      }
+    }, 2500);
+  }
+};
+
+/**
  * Global function for providing feedback (called from HTML)
  */
 function provideFeedback(feedbackType) {
@@ -2276,38 +2451,41 @@ function provideFeedback(feedbackType) {
   // Handle the feedback in the AI system
   const response = handleUserFeedback(feedbackMessage);
   
-  // Update the chat interface to show the feedback was received
-  const chatMessages = document.getElementById('chatMessages');
-  if (chatMessages) {
-    // Add user feedback message
-    const feedbackDiv = document.createElement('div');
-    feedbackDiv.className = 'message user feedback-response';
-    feedbackDiv.innerHTML = `
-      <div class="message-content">
-        <div class="message-text">
-          ${feedbackType === 'helpful' ? 'This was helpful' : 'This was not helpful'}
+  // Only update chat interface in browser environment
+  if (typeof document !== 'undefined') {
+    // Update the chat interface to show the feedback was received
+    const chatMessages = document.getElementById('chatMessages');
+    if (chatMessages) {
+      // Add user feedback message
+      const feedbackDiv = document.createElement('div');
+      feedbackDiv.className = 'message user feedback-response';
+      feedbackDiv.innerHTML = `
+        <div class="message-content">
+          <div class="message-text">
+            ${feedbackType === 'helpful' ? 'This was helpful' : 'This was not helpful'}
+          </div>
         </div>
-      </div>
-    `;
-    chatMessages.appendChild(feedbackDiv);
-    
-    // Add AI response to the feedback
-    const aiResponseDiv = document.createElement('div');
-    aiResponseDiv.className = 'message bot';
-    aiResponseDiv.innerHTML = `
-      <div class="message-content">
-        <div class="message-text">${response}</div>
-      </div>
-    `;
-    chatMessages.appendChild(aiResponseDiv);
-    
-    // Remove the feedback prompt by finding and hiding it
-    const feedbackPrompts = chatMessages.querySelectorAll('.feedback-prompt');
-    feedbackPrompts.forEach(prompt => {
-      prompt.style.display = 'none';
-    });
-    
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+      `;
+      chatMessages.appendChild(feedbackDiv);
+      
+      // Add AI response to the feedback
+      const aiResponseDiv = document.createElement('div');
+      aiResponseDiv.className = 'message bot';
+      aiResponseDiv.innerHTML = `
+        <div class="message-content">
+          <div class="message-text">${response}</div>
+        </div>
+      `;
+      chatMessages.appendChild(aiResponseDiv);
+      
+      // Remove the feedback prompt by finding and hiding it
+      const feedbackPrompts = chatMessages.querySelectorAll('.feedback-prompt');
+      feedbackPrompts.forEach(prompt => {
+        prompt.style.display = 'none';
+      });
+      
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
   }
   
   return response;
