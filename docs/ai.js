@@ -119,7 +119,11 @@ const conversationContext = {
   conversationFlow: {
     stage: 'greeting', // greeting, exploring, supporting, concluding
     lastResponseType: null,
-    empathyLevel: 'high'
+    empathyLevel: 'high',
+    lastAIQuestion: null, // Track the last question/intent the AI asked about
+    lastAIIntent: null, // Track the intent of the last AI message
+    shortResponseCount: 0, // Track consecutive short responses
+    lastTopicDiscussed: null // Track the last substantial topic discussed
   }
 };
 
@@ -1013,6 +1017,11 @@ function selectResponse(intent, context) {
   let selectedResponse = '';
   let responseId = '';
   
+  // Handle acknowledgment with context awareness
+  if (intent === 'acknowledgment') {
+    return generateContextualAcknowledgment(context);
+  }
+  
   // First, check for learned responses that have positive feedback
   const learnedResponses = learningData.learnedResponses[intent] || [];
   const highQualityLearned = learnedResponses.filter(r => 
@@ -1074,6 +1083,232 @@ function selectResponse(intent, context) {
   return selectedResponse;
 }
 
+/**
+ * Generate contextual acknowledgment responses that reference previous AI questions and conversation context
+ */
+function generateContextualAcknowledgment(context) {
+  const lastAIQuestion = conversationContext.conversationFlow.lastAIQuestion;
+  const lastAIIntent = conversationContext.conversationFlow.lastAIIntent;
+  const lastTopicDiscussed = conversationContext.conversationFlow.lastTopicDiscussed;
+  const recentMessages = conversationContext.messages.slice(-6);
+  const userMessages = recentMessages.filter(m => m.role === 'user');
+  const lastUserMessage = userMessages[userMessages.length - 1]?.content?.toLowerCase().trim();
+  
+  // Track consecutive short responses
+  if (lastUserMessage && lastUserMessage.length <= 10) {
+    conversationContext.conversationFlow.shortResponseCount++;
+  } else {
+    conversationContext.conversationFlow.shortResponseCount = 0;
+  }
+  
+  let responseId = 'contextual_ack_' + Date.now();
+  lastResponseId = responseId;
+  
+  // FIRST: Handle consecutive short responses - this takes priority over specific response handling
+  if (conversationContext.conversationFlow.shortResponseCount >= 3) {
+    const recentTopics = conversationContext.userPreferences.previousTopics.slice(-2);
+    
+    if (recentTopics.length > 0) {
+      const topicLabels = recentTopics.map(topic => {
+        const labels = {
+          'anxiety': 'anxiety and worry',
+          'depression': 'low mood and depression', 
+          'sleep': 'sleep issues',
+          'ptsd': 'trauma and difficult memories',
+          'adhd': 'focus and attention',
+          'bipolar': 'mood changes',
+          'ocd': 'repetitive thoughts and behaviors'
+        };
+        return labels[topic] || topic;
+      });
+      
+      return `I notice you're giving short responses, which is completely okay. Earlier in our conversation, you mentioned ${topicLabels.join(' and ')}. Would you like to dive deeper into any of those topics, or is there something else you'd prefer to discuss?`;
+    }
+    
+    // Also check detected symptoms if no previous topics
+    const detectedTopics = Object.keys(conversationContext.detectedSymptoms).filter(topic => 
+      conversationContext.detectedSymptoms[topic] && conversationContext.detectedSymptoms[topic].length > 0
+    );
+    
+    if (detectedTopics.length > 0) {
+      const topicLabels = detectedTopics.slice(0, 2).map(topic => {
+        const labels = {
+          'anxiety': 'anxiety and worry',
+          'depression': 'low mood and feelings',
+          'sleep': 'sleep concerns',
+          'ptsd': 'difficult experiences',
+          'adhd': 'focus and attention',
+          'bipolar': 'mood changes',
+          'ocd': 'repetitive thoughts'
+        };
+        return labels[topic] || topic;
+      });
+      
+      return `I notice you're keeping things brief, which is perfectly fine. Earlier you mentioned things related to ${topicLabels.join(' and ')}. Would you like to explore any of those areas further, or is there something else on your mind?`;
+    }
+    
+    return `I notice you're keeping things brief today, and that's perfectly fine. Sometimes it's hard to know what to say. Is there anything specific that's been on your mind lately, or would you like me to suggest some topics we could explore?`;
+  }
+  
+  // Handle positive acknowledgments (yes, sure, okay) with specific context
+  if (lastUserMessage && /^(yes|yeah|yep|yup|sure|okay|ok|alright|right)$/i.test(lastUserMessage)) {
+    
+    // If the last AI message was asking about a specific topic, continue with that topic
+    if (lastAIIntent && lastAIIntent !== 'general' && lastAIIntent !== 'greeting') {
+      return generateTopicContinuation(lastAIIntent, 'positive');
+    }
+    
+    // If the last AI question was about assessment, start it
+    if (lastAIQuestion && (lastAIQuestion.includes('assessment') || lastAIQuestion.includes('wellness check'))) {
+      return startWellnessAssessment();
+    }
+    
+    // If AI was asking about talking about something specific
+    if (lastAIQuestion && lastAIQuestion.includes('talk about')) {
+      const topicMatch = lastAIQuestion.match(/talk about (\w+)/i);
+      if (topicMatch) {
+        const topic = topicMatch[1].toLowerCase();
+        return generateTopicContinuation(topic, 'positive');
+      }
+    }
+    
+    // If there was a recent topic discussed, continue with it
+    if (lastTopicDiscussed) {
+      return generateTopicContinuation(lastTopicDiscussed, 'positive');
+    }
+  }
+  
+  // Handle negative acknowledgments (no, nope, not really)
+  if (lastUserMessage && /^(no|nope|nah|not really|not now)$/i.test(lastUserMessage)) {
+    
+    // If the last AI was asking about something specific, acknowledge and redirect
+    if (lastAIIntent && lastAIIntent !== 'general') {
+      return `I understand. Is there something else you'd like to focus on instead? I'm here to support you with whatever feels most important right now.`;
+    }
+    
+    // If there were recent topics, reference them
+    if (lastTopicDiscussed || conversationContext.userPreferences.previousTopics.length > 0) {
+      const recentTopics = conversationContext.userPreferences.previousTopics.slice(-2);
+      if (recentTopics.length > 0) {
+        const topicLabels = recentTopics.map(topic => {
+          const labels = {
+            'anxiety': 'anxiety',
+            'depression': 'mood',
+            'sleep': 'sleep',
+            'ptsd': 'trauma',
+            'adhd': 'focus',
+            'bipolar': 'mood changes',
+            'ocd': 'repetitive thoughts'
+          };
+          return labels[topic] || topic;
+        });
+        
+        return `That's okay. Earlier you mentioned ${topicLabels.join(' and ')}. Would you like to talk about any of those, or is there something else on your mind?`;
+      }
+    }
+    
+    return `That's perfectly fine. What would you like to talk about instead? I'm here to support you with whatever feels most important.`;
+  }
+  
+  // Handle maybe/uncertain responses
+  if (lastUserMessage && /^(maybe|perhaps|i guess|sort of|kinda|not sure)$/i.test(lastUserMessage)) {
+    
+    if (lastAIIntent && lastAIIntent !== 'general') {
+      return `I hear some uncertainty there. That's completely normal. Would it help to explore this a bit more, or would you prefer to talk about something else?`;
+    }
+    
+    return `I understand - sometimes it's hard to know exactly what we need. What feels most pressing for you right now, even if you're not completely sure about it?`;
+  }
+  
+  // Default contextual acknowledgment
+  const acknowledgeAndContinue = [
+    `Thanks for letting me know. What's most on your mind right now?`,
+    `I appreciate you sharing that. How are you feeling about things today?`,
+    `Thank you. What would be most helpful for us to focus on?`,
+    `I understand. What feels most important to talk about right now?`,
+    `Got it. What's been weighing on you lately?`
+  ];
+  
+  return acknowledgeAndContinue[Math.floor(Math.random() * acknowledgeAndContinue.length)];
+}
+
+/**
+ * Generate topic continuation responses based on user's acknowledgment
+ */
+function generateTopicContinuation(topic, responseType) {
+  const isPositive = responseType === 'positive';
+  
+  const continuations = {
+    anxiety: {
+      positive: [
+        "I'm glad you want to talk about anxiety. Anxiety can feel overwhelming, but there are many effective ways to manage it. What specific situations or thoughts tend to trigger your anxiety the most?",
+        "Great, let's explore your anxiety together. Can you tell me about when you tend to feel most anxious? Is it in specific situations, or does it seem to happen randomly?",
+        "I appreciate you wanting to discuss this. Anxiety affects everyone differently. What does anxiety feel like for you physically and emotionally?"
+      ]
+    },
+    depression: {
+      positive: [
+        "Thank you for being open about wanting to discuss depression. It takes courage to talk about these feelings. Can you tell me what depression feels like for you day-to-day?",
+        "I'm here to support you with this. Depression can be really heavy to carry alone. What aspects of depression have been most challenging for you lately?",
+        "Let's work through this together. When you think about your mood and energy, what patterns do you notice? Are there times when things feel a bit easier?"
+      ]
+    },
+    sleep: {
+      positive: [
+        "Sleep issues can really impact everything else in our lives, so I'm glad we're talking about this. Are you having trouble falling asleep, staying asleep, or both?",
+        "Good, let's focus on your sleep. Sleep and mental health are so closely connected. What does a typical night look like for you? When do you usually try to go to bed?",
+        "I'm glad you want to address this. Poor sleep can make everything else feel harder. Have you noticed any patterns in what might be affecting your sleep?"
+      ]
+    },
+    ptsd: {
+      positive: [
+        "I appreciate your willingness to discuss this. Trauma can be very difficult to talk about, and I want you to know you're in control of how much you share. What feels most important for you to talk about regarding your experiences?",
+        "Thank you for trusting me with this topic. PTSD affects everyone differently. Are there particular symptoms or experiences that are bothering you most right now?",
+        "I'm here to support you through this conversation. With trauma, it's important to go at your own pace. What aspects of PTSD have been most challenging for you lately?"
+      ]
+    },
+    adhd: {
+      positive: [
+        "I'm glad we're talking about ADHD. Attention and focus challenges can be really frustrating. What areas of your life do you find ADHD affects most? Is it work, relationships, daily tasks, or something else?",
+        "Let's explore this together. ADHD shows up differently for everyone. Do you struggle more with attention and focus, hyperactivity and impulsiveness, or a combination of both?",
+        "Thank you for wanting to discuss this. Managing ADHD can be challenging but there are many strategies that can help. What specific ADHD symptoms have been most difficult for you lately?"
+      ]
+    },
+    bipolar: {
+      positive: [
+        "I appreciate you wanting to talk about bipolar disorder. Mood changes can be really challenging to navigate. Are you currently experiencing mood swings, or is this something you're managing with treatment?",
+        "Thank you for bringing this up. Bipolar disorder affects everyone differently. Can you tell me about your experience with mood episodes? What do your highs and lows typically look like?",
+        "Let's discuss this together. Managing bipolar disorder often involves recognizing patterns and triggers. Have you noticed certain things that tend to trigger mood episodes for you?"
+      ]
+    },
+    ocd: {
+      positive: [
+        "I'm glad you want to talk about OCD. Obsessive thoughts and compulsive behaviors can be really distressing and time-consuming. What types of obsessions or compulsions are you dealing with most?",
+        "Thank you for sharing this with me. OCD can feel very isolating, but you're not alone. Are you currently experiencing intrusive thoughts, compulsive behaviors, or both?",
+        "Let's work through this together. OCD can be very treatable with the right approach. What aspects of OCD are interfering most with your daily life right now?"
+      ]
+    }
+  };
+  
+  if (continuations[topic] && continuations[topic][responseType]) {
+    const responses = continuations[topic][responseType];
+    const selectedResponse = responses[Math.floor(Math.random() * responses.length)];
+    
+    // Update conversation context to track this as the current topic
+    conversationContext.conversationFlow.lastTopicDiscussed = topic;
+    conversationContext.conversationFlow.lastAIIntent = topic;
+    
+    return selectedResponse;
+  }
+  
+  // Fallback for topics not specifically handled
+  if (isPositive) {
+    return `I'm glad you want to talk about that. Let's explore this together. Can you tell me more about what you're experiencing?`;
+  } else {
+    return `That's okay. What would you like to focus on instead? I'm here to support you with whatever feels most important.`;
+  }
+}
+
 // Enhanced AI Response Generation with Learning and Feedback
 async function generateAIResponse(userMessage) {
   // Check if user is providing feedback on previous response
@@ -1119,6 +1354,9 @@ async function generateAIResponse(userMessage) {
       responseId: lastResponseId
     });
     
+    // Track AI context for crisis responses
+    updateAIContextTracking(crisisResponse, intent);
+    
     return crisisResponse;
   }
 
@@ -1133,6 +1371,7 @@ async function generateAIResponse(userMessage) {
       intent: 'disorder_info',
       responseId: 'disorder_' + Date.now()
     });
+    updateAIContextTracking(info, 'disorder_info');
     return info + addFeedbackPrompt();
   }
   
@@ -1149,14 +1388,19 @@ async function generateAIResponse(userMessage) {
       responseId: 'medication_' + Date.now()
     });
     
+    updateAIContextTracking(medResponse, 'medication');
     return medResponse + addFeedbackPrompt();
   }
   
   // Check if wellness assessment is in progress or being requested
   if (isWellnessAssessmentRequest(userMessage)) {
-    return startWellnessAssessment();
+    const assessmentResponse = startWellnessAssessment();
+    updateAIContextTracking(assessmentResponse, 'assessment');
+    return assessmentResponse;
   } else if (conversationContext.assessmentInProgress) {
-    return continueWellnessAssessment(userMessage);
+    const assessmentResponse = continueWellnessAssessment(userMessage);
+    updateAIContextTracking(assessmentResponse, 'assessment');
+    return assessmentResponse;
   }
   
   // Analyze for symptoms
@@ -1172,6 +1416,7 @@ async function generateAIResponse(userMessage) {
       intent: 'assessment_offer',
       responseId: 'assessment_offer_' + Date.now()
     });
+    updateAIContextTracking(assessmentPrompt, 'assessment_offer');
     return assessmentPrompt;
   }
   
@@ -1192,6 +1437,9 @@ async function generateAIResponse(userMessage) {
     responseId: lastResponseId
   });
   
+  // Track the AI question and intent for contextual responses
+  updateAIContextTracking(response, intent);
+  
   // Add feedback prompt and learning opportunities
   const responseWithFeedback = response + addFeedbackPrompt();
   
@@ -1202,6 +1450,31 @@ async function generateAIResponse(userMessage) {
   }
   
   return responseWithFeedback;
+}
+
+/**
+ * Update AI context tracking for future conversational awareness
+ */
+function updateAIContextTracking(response, intent) {
+  // Extract questions from the response
+  const questionMatch = response.match(/[^.!]*\?[^.!]*/g);
+  if (questionMatch && questionMatch.length > 0) {
+    conversationContext.conversationFlow.lastAIQuestion = questionMatch[questionMatch.length - 1].trim();
+  }
+  
+  // Track the intent of the AI's response
+  conversationContext.conversationFlow.lastAIIntent = intent;
+  
+  // Update last topic discussed if it's a mental health topic
+  if (intent && ['anxiety', 'depression', 'ptsd', 'adhd', 'bipolar', 'ocd', 'sleep'].includes(intent)) {
+    conversationContext.conversationFlow.lastTopicDiscussed = intent;
+  }
+  
+  // Only reset short response count when AI provides substantial content (not just acknowledging short responses)
+  // Don't reset if this is a contextual acknowledgment response
+  if (questionMatch && questionMatch.length > 0 && intent !== 'acknowledgment') {
+    conversationContext.conversationFlow.shortResponseCount = 0;
+  }
 }
 
 /**
@@ -1449,10 +1722,12 @@ function personalizeResponse(response, intent) {
   const previousTopics = conversationContext.userPreferences.previousTopics || [];
   
   // Track this topic for future reference
-  if (intent && !previousTopics.includes(intent)) {
-    conversationContext.userPreferences.previousTopics.push(intent);
-    if (conversationContext.userPreferences.previousTopics.length > 10) {
-      conversationContext.userPreferences.previousTopics.shift();
+  if (intent && intent !== 'general' && intent !== 'greeting' && intent !== 'acknowledgment' && intent !== 'clarification') {
+    if (!previousTopics.includes(intent)) {
+      conversationContext.userPreferences.previousTopics.push(intent);
+      if (conversationContext.userPreferences.previousTopics.length > 10) {
+        conversationContext.userPreferences.previousTopics.shift();
+      }
     }
   }
   
