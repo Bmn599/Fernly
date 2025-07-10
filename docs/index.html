@@ -1132,6 +1132,20 @@ Date: December 2024
       margin-top: 3rem;
     }
 
+    .resource-description {
+      color: #fff;
+      text-align: center;
+      margin: 1rem auto 2rem;
+      max-width: 800px;
+      line-height: 1.6;
+    }
+
+    .blog-date {
+      color: #666;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+
     /* ORIGINAL WORKING BLOG CARD STYLES */
     .blog-card {
       background: rgba(255, 255, 255, 0.95);
@@ -1582,6 +1596,9 @@ Date: December 2024
   <section id="blog" data-aos="fade-up">
     <div class="container">
       <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Mental Health Resources</h2>
+      <div class="resource-description" data-aos="fade-up" data-aos-delay="150">
+        Whether you’re seeking practical self care tips, evidence based strategies, or expert insights, our hand picked articles and guides are here to help you build resilience, manage stress, and take charge of your well being. We refresh this collection every month with the latest research and actionable techniques. Dive in and start thriving today!
+      </div>
       <div class="blog-grid">
         <div class="blog-card" data-aos="fade-up" data-aos-delay="200">
           <div class="blog-image">
@@ -1589,6 +1606,7 @@ Date: December 2024
           </div>
           <div class="blog-content">
             <div class="blog-source">Psychology Today</div>
+            <div class="blog-date"></div>
             <h3 class="blog-title">What to Do When Your Anxiety Won't Go Away</h3>
             <p class="blog-excerpt">A practical guide to calming persistent anxiety using simple, everyday strategies rooted in mindfulness and self-care.</p>
             <a href="https://www.psychologytoday.com/us/blog/anxiety-zen/201505/what-do-when-your-anxiety-won-t-go-away" target="_blank" class="read-more">Read More →</a>
@@ -1600,6 +1618,7 @@ Date: December 2024
           </div>
           <div class="blog-content">
             <div class="blog-source">American Psychological Association</div>
+            <div class="blog-date"></div>
             <h3 class="blog-title">The Science of Resilience: Building Mental Strength</h3>
             <p class="blog-excerpt">Evidence-based strategies for developing psychological resilience and coping mechanisms in challenging times.</p>
             <a href="https://www.apa.org/topics/resilience" target="_blank" class="read-more">Read More →</a>
@@ -1611,6 +1630,7 @@ Date: December 2024
           </div>
           <div class="blog-content">
             <div class="blog-source">PsychCentral</div>
+            <div class="blog-date"></div>
             <h3 class="blog-title">Mindfulness and Recovery: A Holistic Approach</h3>
             <p class="blog-excerpt">How mindfulness practices can enhance traditional therapy and support long-term mental health recovery.</p>
             <a href="https://psychcentral.com/blog/mindfulness-in-mental-health-recovery" target="_blank" class="read-more">Read More →</a>
@@ -1622,6 +1642,7 @@ Date: December 2024
           </div>
           <div class="blog-content">
             <div class="blog-source">PsyPost</div>
+            <div class="blog-date"></div>
             <h3 class="blog-title">Latest Research on Depression Treatment</h3>
             <p class="blog-excerpt">New findings on personalized treatment approaches and the role of genetics in depression management.</p>
             <a href="https://www.psypost.org/category/mental-health/depression/" target="_blank" class="read-more">Read More →</a>
@@ -1633,6 +1654,7 @@ Date: December 2024
           </div>
           <div class="blog-content">
             <div class="blog-source">Verywell Mind</div>
+            <div class="blog-date"></div>
             <h3 class="blog-title">8 Ways to Provide Emotional Support for Your Partner</h3>
             <p class="blog-excerpt">Practical, emotionally grounded tips—like active listening, meaningful gestures, and emotional validation—to help partners feel seen, heard, and supported during tough times.</p>
             <a href="https://www.verywellmind.com/how-to-provide-emotional-support-for-your-partner-7505967" target="_blank" class="read-more">Read More →</a>
@@ -1644,6 +1666,7 @@ Date: December 2024
           </div>
           <div class="blog-content">
             <div class="blog-source">MedlinePlus</div>
+            <div class="blog-date"></div>
             <h3 class="blog-title">Psychiatric Medications Guide</h3>
             <p class="blog-excerpt">Comprehensive information about mental health conditions, symptoms, and treatment approaches for various psychological wellbeing concerns.</p>
             <a href="https://medlineplus.gov/mentalhealthmedicines.html" target="_blank" class="read-more">Read More →</a>
@@ -2169,6 +2192,17 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize the chat bubble
   initializeChatBubble();
 });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const dateEls = document.querySelectorAll('.blog-date');
+    const now = new Date();
+    const monthYear = now.toLocaleString('default', { month: 'long', year: 'numeric' });
+    dateEls.forEach(el => {
+      el.textContent = 'Last updated ' + monthYear;
+    });
+  });
 </script>
 
 <!-- AOS (Animate On Scroll) JavaScript -->
