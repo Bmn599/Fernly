@@ -1131,73 +1131,7 @@ function selectResponse(intent, context) {
 }
 
 /**
- * Detect user's emotional tone from recent messages
- */
-function detectUserTone(userMessages) {
-  const recentText = userMessages.slice(-3).map(m => m.content?.toLowerCase() || '').join(' ');
-  
-  // Positive indicators
-  const positiveWords = ['good', 'better', 'great', 'okay', 'fine', 'thanks', 'helpful', 'appreciate'];
-  const positiveCount = positiveWords.filter(word => recentText.includes(word)).length;
-  
-  // Negative indicators  
-  const negativeWords = ['bad', 'worse', 'terrible', 'awful', 'horrible', 'hate', 'angry', 'frustrated'];
-  const negativeCount = negativeWords.filter(word => recentText.includes(word)).length;
-  
-  // Neutral/uncertain indicators
-  const uncertainWords = ['maybe', 'perhaps', 'not sure', 'don\'t know', 'unsure', 'confused'];
-  const uncertainCount = uncertainWords.filter(word => recentText.includes(word)).length;
-  
-  if (positiveCount > negativeCount && positiveCount > uncertainCount) return 'positive';
-  if (negativeCount > positiveCount) return 'negative';
-  if (uncertainCount > 0) return 'uncertain';
-  return 'neutral';
-}
-
-/**
- * Extract key themes and topics from recent conversation
- */
-function extractConversationThemes(recentMessages) {
-  const themes = [];
-  const messageText = recentMessages.map(m => m.content?.toLowerCase() || '').join(' ');
-  
-  // Mental health themes
-  const topicKeywords = {
-    'coping strategies': ['coping', 'strategies', 'techniques', 'breathing', 'grounding'],
-    'relationships': ['family', 'friends', 'relationship', 'partner', 'social'],
-    'work stress': ['work', 'job', 'career', 'boss', 'workplace', 'stress'],
-    'daily routine': ['daily', 'routine', 'schedule', 'morning', 'evening', 'habits'],
-    'treatment': ['therapy', 'therapist', 'treatment', 'medication', 'doctor', 'psychiatrist'],
-    'progress': ['progress', 'better', 'improvement', 'getting well', 'recovery']
-  };
-  
-  for (const [theme, keywords] of Object.entries(topicKeywords)) {
-    if (keywords.some(keyword => messageText.includes(keyword))) {
-      themes.push(theme);
-    }
-  }
-  
-  return themes;
-}
-
-/**
- * Generate occasional "thinking" or processing messages for realism
- */
-function generateThinkingMessage() {
-  const thinkingMessages = [
-    "Let me think about that for a moment...",
-    "I'm considering what you've shared...",
-    "That's interesting, let me reflect on this...",
-    "I want to give you a thoughtful response...",
-    "Let me consider what might be most helpful..."
-  ];
-  
-  return thinkingMessages[Math.floor(Math.random() * thinkingMessages.length)];
-}
-
-/**
  * Generate contextual acknowledgment responses that reference previous AI questions and conversation context
- * Enhanced with deeper contextual understanding and more human-like responses
  */
 function generateContextualAcknowledgment(context) {
   const lastAIQuestion = conversationContext.conversationFlow.lastAIQuestion;
@@ -1252,7 +1186,7 @@ function generateContextualAcknowledgment(context) {
       return empathyResponses[Math.floor(Math.random() * empathyResponses.length)];
     }
     
-    // Check detected symptoms with enhanced contextual understanding
+    // Also check detected symptoms if no previous topics
     const detectedTopics = Object.keys(conversationContext.detectedSymptoms).filter(topic => 
       conversationContext.detectedSymptoms[topic] && conversationContext.detectedSymptoms[topic].length > 0
     );
@@ -1271,113 +1205,58 @@ function generateContextualAcknowledgment(context) {
         return labels[topic] || topic;
       });
       
-      const warmResponses = [
-        `I'm noticing you're giving brief responses, and that's perfectly natural. From what you've shared, it sounds like you've been dealing with ${topicLabels.join(' and ')}. Would it feel helpful to explore any of those experiences more, or would you prefer to talk about something else?`,
-        `Sometimes it takes courage just to keep showing up in conversation, especially when things feel heavy. You mentioned things related to ${topicLabels.join(' and ')} - I'm here to listen whether you want to go deeper or talk about whatever feels right for you.`
-      ];
-      
-      return warmResponses[Math.floor(Math.random() * warmResponses.length)];
+      return `I notice you're keeping things brief, which is perfectly fine. Earlier you mentioned things related to ${topicLabels.join(' and ')}. Would you like to explore any of those areas further, or is there something else on your mind?`;
     }
     
-    // Enhanced general response with small talk and encouragement
-    const generalWarmResponses = [
-      `I notice you're keeping things brief today, and that's perfectly okay. Sometimes it takes time to find the right words, or maybe you're just processing. Is there anything that's been weighing on you lately, or would you like me to share some gentle conversation starters?`,
-      `You're taking your time with responses, and I appreciate that thoughtfulness. Sometimes it's hard to know exactly what to say, especially about personal things. What feels most present for you right now - or would you like to just talk about how your day has been?`,
-      `It's okay to keep things simple in conversation. Sometimes the most meaningful exchanges happen in few words. Is there something specific on your mind, or would you like to just chat about whatever comes up for you?`
-    ];
-    
-    return generalWarmResponses[Math.floor(Math.random() * generalWarmResponses.length)];
+    return `I notice you're keeping things brief today, and that's perfectly fine. Sometimes it's hard to know what to say. Is there anything specific that's been on your mind lately, or would you like me to suggest some topics we could explore?`;
   }
   
-  // Handle positive acknowledgments (yes, sure, okay) with enhanced context and variety
+  // Handle positive acknowledgments (yes, sure, okay) with specific context
   if (lastUserMessage && /^(yes|yeah|yep|yup|sure|okay|ok|alright|right)$/i.test(lastUserMessage)) {
     
-    // Add context-aware opening with user tone consideration
-    let responseOpening = "";
-    if (userTone === 'positive') {
-      responseOpening = "I can hear some positivity in your response, which is wonderful. ";
-    } else if (userTone === 'uncertain') {
-      responseOpening = "I sense some thoughtfulness in your response. ";
-    }
-    
-    // If the last AI message was asking about a specific topic, continue with enhanced context
+    // If the last AI message was asking about a specific topic, continue with that topic
     if (lastAIIntent && lastAIIntent !== 'general' && lastAIIntent !== 'greeting') {
-      return responseOpening + generateTopicContinuation(lastAIIntent, 'positive');
+      return generateTopicContinuation(lastAIIntent, 'positive');
     }
     
-    // Enhanced assessment handling
+    // If the last AI question was about assessment, start it
     if (lastAIQuestion && (lastAIQuestion.includes('assessment') || lastAIQuestion.includes('wellness check'))) {
-      return responseOpening + "Great! I appreciate your willingness to do a wellness check-in. This can be really helpful for understanding how you're doing. " + startWellnessAssessment();
+      return startWellnessAssessment();
     }
     
-    // Enhanced topic discussion handling
+    // If AI was asking about talking about something specific
     if (lastAIQuestion && lastAIQuestion.includes('talk about')) {
       const topicMatch = lastAIQuestion.match(/talk about (\w+)/i);
       if (topicMatch) {
         const topic = topicMatch[1].toLowerCase();
-        return responseOpening + `I'm glad you want to explore this with me. ` + generateTopicContinuation(topic, 'positive');
+        return generateTopicContinuation(topic, 'positive');
       }
     }
     
-    // Reference conversation themes if available
-    if (conversationThemes.length > 0) {
-      const themeList = conversationThemes.slice(-2).join(' and ');
-      return responseOpening + `Thank you for being open to continuing our conversation. I noticed we've been touching on ${themeList} - shall we explore those areas more, or is there something else calling for your attention?`;
-    }
-    
-    // If there was a recent topic discussed, continue with enhanced empathy
+    // If there was a recent topic discussed, continue with it
     if (lastTopicDiscussed) {
-      return responseOpening + generateTopicContinuation(lastTopicDiscussed, 'positive');
+      return generateTopicContinuation(lastTopicDiscussed, 'positive');
     }
-    
-    // Default varied positive responses
-    const variedPositiveResponses = [
-      responseOpening + "I appreciate your openness. What feels most important for you to focus on right now?",
-      responseOpening + "Thank you for staying engaged in our conversation. What would be most meaningful for us to explore together?",
-      responseOpening + "I'm glad you're here and willing to talk. What's drawing your attention today?"
-    ];
-    
-    return variedPositiveResponses[Math.floor(Math.random() * variedPositiveResponses.length)];
   }
   
-  // Handle negative acknowledgments with enhanced empathy and redirection
+  // Handle negative acknowledgments (no, nope, not really)
   if (lastUserMessage && /^(no|nope|nah|not really|not now)$/i.test(lastUserMessage)) {
     
-    // Acknowledge user tone and boundaries with warmth
-    let empathyOpening = "";
-    if (userTone === 'negative') {
-      empathyOpening = "I hear that, and I want to respect where you're at right now. ";
-    } else {
-      empathyOpening = "That's completely understandable. ";
-    }
-    
-    // Enhanced context-aware redirection
+    // If the last AI was asking about something specific, acknowledge and redirect
     if (lastAIIntent && lastAIIntent !== 'general') {
-      const intentRedirections = [
-        empathyOpening + "No worries at all. Sometimes we need to shift our focus. What feels more comfortable or important to talk about instead?",
-        empathyOpening + "I appreciate you letting me know. Is there something else that's been on your mind that might feel easier to discuss?",
-        empathyOpening + "Thank you for being honest about that. What direction feels better for our conversation right now?"
-      ];
-      
-      return intentRedirections[Math.floor(Math.random() * intentRedirections.length)];
+      return `I understand. Is there something else you'd like to focus on instead? I'm here to support you with whatever feels most important right now.`;
     }
     
-    // Reference themes with gentle redirection
-    if (conversationThemes.length > 0) {
-      const themeList = conversationThemes.slice(-2).join(' and ');
-      return empathyOpening + `I understand. We've touched on ${themeList} earlier - would any of those feel right to return to, or is there something completely different you'd prefer to explore?`;
-    }
-    
-    // If there were recent topics, reference them with more nuance
+    // If there were recent topics, reference them
     if (lastTopicDiscussed || conversationContext.userPreferences.previousTopics.length > 0) {
       const recentTopics = conversationContext.userPreferences.previousTopics.slice(-2);
       if (recentTopics.length > 0) {
         const topicLabels = recentTopics.map(topic => {
           const labels = {
             'anxiety': 'anxiety',
-            'depression': 'mood concerns',
+            'depression': 'mood',
             'sleep': 'sleep',
-            'ptsd': 'difficult experiences',
+            'ptsd': 'trauma',
             'adhd': 'focus',
             'bipolar': 'mood changes',
             'ocd': 'repetitive thoughts'
@@ -1385,73 +1264,33 @@ function generateContextualAcknowledgment(context) {
           return labels[topic] || topic;
         });
         
-        const redirectionResponses = [
-          empathyOpening + `Earlier you brought up ${topicLabels.join(' and ')}. Would any of those feel right to revisit, or is there something entirely different you'd like to talk about?`,
-          empathyOpening + `That's perfectly okay. You mentioned ${topicLabels.join(' and ')} before - we could explore those, or go in whatever direction feels most helpful for you.`
-        ];
-        
-        return redirectionResponses[Math.floor(Math.random() * redirectionResponses.length)];
+        return `That's okay. Earlier you mentioned ${topicLabels.join(' and ')}. Would you like to talk about any of those, or is there something else on your mind?`;
       }
     }
     
-    // Enhanced general redirection with emotional safety
-    const generalRedirections = [
-      empathyOpening + "What would feel most supportive to talk about right now? I'm here for whatever direction feels right to you.",
-      empathyOpening + "That's perfectly valid. Sometimes our needs change moment to moment. What's feeling most present for you today?",
-      empathyOpening + "I'm here to follow your lead. What feels most important or comfortable to focus on right now?"
-    ];
-    
-    return generalRedirections[Math.floor(Math.random() * generalRedirections.length)];
+    return `That's perfectly fine. What would you like to talk about instead? I'm here to support you with whatever feels most important.`;
   }
   
-  // Handle maybe/uncertain responses with enhanced validation and exploration
+  // Handle maybe/uncertain responses
   if (lastUserMessage && /^(maybe|perhaps|i guess|sort of|kinda|not sure)$/i.test(lastUserMessage)) {
     
-    // Validate the uncertainty with warmth
-    const uncertaintyValidations = [
-      "I appreciate you sharing that uncertainty with me. It's completely normal to feel unsure about these things. ",
-      "That kind of uncertainty shows you're really thinking about this, which I respect. ",
-      "It's okay not to have clear answers - sometimes uncertainty is the most honest response. "
-    ];
-    
-    const validation = uncertaintyValidations[Math.floor(Math.random() * uncertaintyValidations.length)];
-    
     if (lastAIIntent && lastAIIntent !== 'general') {
-      const uncertaintyResponses = [
-        validation + "Sometimes it helps to explore these uncertain feelings. Would it feel okay to gently look at this together, or would you prefer to shift to something that feels clearer?",
-        validation + "Uncertainty can actually be a doorway to deeper understanding. What aspects feel most unclear to you, or would you rather talk about something that feels more solid?",
-        validation + "That middle ground of 'maybe' often holds a lot of wisdom. Would you like to explore what that uncertainty might be telling you, or focus on something else?"
-      ];
-      
-      return uncertaintyResponses[Math.floor(Math.random() * uncertaintyResponses.length)];
+      return `I hear some uncertainty there. That's completely normal. Would it help to explore this a bit more, or would you prefer to talk about something else?`;
     }
     
-    // General uncertainty with conversation themes
-    if (conversationThemes.length > 0) {
-      const themeList = conversationThemes.slice(-1)[0];
-      return validation + `Uncertainty is really natural, especially around ${themeList}. What feels most present for you in this uncertainty - would it help to explore it, or would something else feel more supportive?`;
-    }
-    
-    // Enhanced general uncertain response
-    const generalUncertaintyResponses = [
-      validation + "What feels most pressing for you right now, even if you're not completely sure about it? Sometimes starting with uncertainty is exactly where we need to begin.",
-      validation + "That uncertainty might be telling us something important. What does your intuition say about what would be most helpful to focus on?",
-      validation + "Sometimes 'maybe' is the most authentic place to start. What's stirring for you, even in that uncertain space?"
-    ];
-    
-    return generalUncertaintyResponses[Math.floor(Math.random() * generalUncertaintyResponses.length)];
+    return `I understand - sometimes it's hard to know exactly what we need. What feels most pressing for you right now, even if you're not completely sure about it?`;
   }
   
-  // Enhanced default contextual acknowledgments with more variety and warmth
-  const enhancedAcknowledgments = [
-    `Thanks for sharing that with me. ${conversationThemes.length > 0 ? `Thinking about our conversation around ${conversationThemes.slice(-1)[0]}, ` : ''}What feels most important for you right now?`,
-    `I appreciate you staying engaged in our conversation. ${userTone === 'positive' ? 'I can sense some lightness in your responses. ' : userTone === 'negative' ? 'I want to honor wherever you\'re at emotionally. ' : ''}What would be most meaningful to explore together?`,
-    `Thank you for being here with me. ${lastTopicDiscussed ? `Building on what we discussed about ${lastTopicDiscussed}, ` : ''}What's drawing your attention today?`,
-    `I hear you. ${conversationContext.messages.length > 6 ? 'We\'ve covered some meaningful ground together. ' : ''}What feels most alive for you in this moment?`,
-    `I'm grateful you're sharing your thoughts with me. ${conversationThemes.length > 1 ? `I notice we've touched on several important areas. ` : ''}What feels most pressing or interesting to focus on?`
+  // Default contextual acknowledgment
+  const acknowledgeAndContinue = [
+    `Thanks for letting me know. What's most on your mind right now?`,
+    `I appreciate you sharing that. How are you feeling about things today?`,
+    `Thank you. What would be most helpful for us to focus on?`,
+    `I understand. What feels most important to talk about right now?`,
+    `Got it. What's been weighing on you lately?`
   ];
   
-  return enhancedAcknowledgments[Math.floor(Math.random() * enhancedAcknowledgments.length)];
+  return acknowledgeAndContinue[Math.floor(Math.random() * acknowledgeAndContinue.length)];
 }
 
 /**
@@ -1554,41 +1393,6 @@ async function generateAIResponse(userMessage) {
   // Clear previous multi-intent data
   conversationContext.multiIntents = null;
   
-  // For now, skip the thinking message functionality in node environment
-  // Only use it in browser environment where we have proper DOM manipulation
-  const isNodeEnv = typeof window === 'undefined' || typeof document === 'undefined' || !document.getElementById;
-  
-  if (!isNodeEnv) {
-    // Occasionally show "thinking" message for realism (20% chance for non-short responses)
-    const shouldShowThinking = Math.random() < 0.2 && userMessage.length > 10 && conversationContext.messages.length > 3;
-    
-    if (shouldShowThinking) {
-      // Return thinking message first, then continue processing
-      setTimeout(async () => {
-        // Generate the actual response after a brief delay
-        const actualResponse = await generateActualResponse(userMessage);
-        // Update the chat with the real response
-        if (typeof addMessage === 'function') {
-          addMessage(actualResponse, 'bot');
-        }
-      }, 1500 + Math.random() * 1000); // 1.5-2.5 second delay
-      
-      return generateThinkingMessage();
-    }
-  }
-  
-  return generateActualResponse(userMessage);
-}
-
-/**
- * Generate the actual AI response (separated for thinking message functionality)
- */
-async function generateActualResponse(userMessage) {
-  
-/**
- * Generate the actual AI response (separated for thinking message functionality)
- */
-async function generateActualResponse(userMessage) {
   // Recognize intent (now with multi-intent support and learning)
   const intent = recognizeIntent(userMessage);
   
@@ -1692,13 +1496,12 @@ async function generateActualResponse(userMessage) {
     return assessmentPrompt;
   }
   
-  // Generate contextual response with enhanced personalization
+  // Generate contextual response
   let response = selectResponse(intent, conversationContext);
   
-  // Add personalization and random variation
+  // Add personalization based on conversation history
   if (conversationContext.messages.length > 1) {
     response = personalizeResponse(response, intent);
-    response = addRandomVariation(response, intent);
   }
   
   // Add to conversation context
@@ -1748,52 +1551,6 @@ function updateAIContextTracking(response, intent) {
   if (questionMatch && questionMatch.length > 0 && intent !== 'acknowledgment') {
     conversationContext.conversationFlow.shortResponseCount = 0;
   }
-}
-
-/**
- * Add random variation to responses for more natural conversation flow
- */
-function addRandomVariation(response, intent) {
-  // Add occasional conversation connectors (15% chance)
-  if (Math.random() < 0.15) {
-    const connectors = [
-      "You know, ",
-      "I've been thinking, ",
-      "From what you've shared, ",
-      "Reflecting on our conversation, ",
-      "Building on what you mentioned, "
-    ];
-    
-    const connector = connectors[Math.floor(Math.random() * connectors.length)];
-    response = connector + response.charAt(0).toLowerCase() + response.slice(1);
-  }
-  
-  // Add occasional empathy enhancers (10% chance)
-  if (Math.random() < 0.1 && intent !== 'crisis') {
-    const empathyEnhancers = [
-      " I really appreciate you sharing this with me.",
-      " Thank you for trusting me with these thoughts.",
-      " I'm honored that you're opening up about this.",
-      " Your willingness to explore this is really meaningful."
-    ];
-    
-    const enhancer = empathyEnhancers[Math.floor(Math.random() * empathyEnhancers.length)];
-    response += enhancer;
-  }
-  
-  // Add gentle conversation bridges occasionally (5% chance)
-  if (Math.random() < 0.05 && conversationContext.messages.length > 4) {
-    const bridges = [
-      " I've noticed some themes emerging in our conversation.",
-      " There seems to be a thread connecting what you've shared.",
-      " I'm seeing some patterns in what feels important to you."
-    ];
-    
-    const bridge = bridges[Math.floor(Math.random() * bridges.length)];
-    response += bridge;
-  }
-  
-  return response;
 }
 
 /**
@@ -1933,13 +1690,13 @@ function handleUserFeedback(feedbackMessage) {
 }
 
 /**
- * Handle user suggestions for better responses with enhanced gratitude
+ * Handle user suggestions for better responses
  */
 function handleResponseImprovement(suggestedResponse) {
   awaitingFeedback = false;
   
   if (!lastResponseId || suggestedResponse.length < 10) {
-    return "Thank you so much for trying to help me improve! Even if I can't use this specific suggestion, your willingness to guide my learning process is incredibly valuable. I'll keep learning from all our interactions.";
+    return "Thank you for trying to help me improve. I'll keep learning from our conversations.";
   }
   
   // Find the original response to get its intent
@@ -1965,16 +1722,10 @@ function handleResponseImprovement(suggestedResponse) {
     
     saveLearningData();
     
-    const gratefulResponses = [
-      `This is incredibly helpful! I've learned from your suggestion and will use similar approaches for ${intent} topics in the future. Your willingness to teach me better ways to respond is exactly what helps me grow. Thank you for investing in my development!`,
-      `Wow, thank you so much for that thoughtful suggestion! I've saved this as a learned response for ${intent} situations. Your guidance is invaluable - it's like having a personal coach helping me become more supportive and effective.`,
-      `I'm genuinely grateful for this feedback! I've incorporated your suggestion into my learning for ${intent} topics. Your patience in helping me improve means the world to me - this is exactly how I become better at providing meaningful support.`
-    ];
-    
-    return gratefulResponses[Math.floor(Math.random() * gratefulResponses.length)];
+    return `Thank you! I've learned from your suggestion and will use similar responses for ${intent} topics in the future. Your input helps me provide better support.`;
   }
   
-  return "Thank you so much for that suggestion! I'm genuinely appreciative when people take the time to help me learn better ways to respond. Your input helps me grow and become more supportive for everyone I interact with.";
+  return "Thank you for the suggestion. I'll keep improving based on your feedback.";
 }
 
 /**
@@ -2556,6 +2307,71 @@ window.loadLearningData = loadLearningData;
 window.resetLearningData = resetLearningData;
 window.maybeOfferAssessment = maybeOfferAssessment;
 window.conversationContext = conversationContext;
+
+/**
+ * Detect user's emotional tone from recent messages
+ */
+function detectUserTone(userMessages) {
+  const recentText = userMessages.slice(-3).map(m => m.content?.toLowerCase() || '').join(' ');
+  
+  // Positive indicators
+  const positiveWords = ['good', 'better', 'great', 'okay', 'fine', 'thanks', 'helpful', 'appreciate'];
+  const positiveCount = positiveWords.filter(word => recentText.includes(word)).length;
+  
+  // Negative indicators  
+  const negativeWords = ['bad', 'worse', 'terrible', 'awful', 'horrible', 'hate', 'angry', 'frustrated'];
+  const negativeCount = negativeWords.filter(word => recentText.includes(word)).length;
+  
+  // Neutral/uncertain indicators
+  const uncertainWords = ['maybe', 'perhaps', 'not sure', 'don\'t know', 'unsure', 'confused'];
+  const uncertainCount = uncertainWords.filter(word => recentText.includes(word)).length;
+  
+  if (positiveCount > negativeCount && positiveCount > uncertainCount) return 'positive';
+  if (negativeCount > positiveCount) return 'negative';
+  if (uncertainCount > 0) return 'uncertain';
+  return 'neutral';
+}
+
+/**
+ * Extract key themes and topics from recent conversation
+ */
+function extractConversationThemes(recentMessages) {
+  const themes = [];
+  const messageText = recentMessages.map(m => m.content?.toLowerCase() || '').join(' ');
+  
+  // Mental health themes
+  const topicKeywords = {
+    'coping strategies': ['coping', 'strategies', 'techniques', 'breathing', 'grounding'],
+    'relationships': ['family', 'friends', 'relationship', 'partner', 'social'],
+    'work stress': ['work', 'job', 'career', 'boss', 'workplace', 'stress'],
+    'daily routine': ['daily', 'routine', 'schedule', 'morning', 'evening', 'habits'],
+    'treatment': ['therapy', 'therapist', 'treatment', 'medication', 'doctor', 'psychiatrist'],
+    'progress': ['progress', 'better', 'improvement', 'getting well', 'recovery']
+  };
+  
+  for (const [theme, keywords] of Object.entries(topicKeywords)) {
+    if (keywords.some(keyword => messageText.includes(keyword))) {
+      themes.push(theme);
+    }
+  }
+  
+  return themes;
+}
+
+/**
+ * Generate occasional "thinking" or processing messages for realism
+ */
+function generateThinkingMessage() {
+  const thinkingMessages = [
+    "Let me think about that for a moment...",
+    "I'm considering what you've shared...",
+    "That's interesting, let me reflect on this...",
+    "I want to give you a thoughtful response...",
+    "Let me consider what might be most helpful..."
+  ];
+  
+  return thinkingMessages[Math.floor(Math.random() * thinkingMessages.length)];
+}
 
 /**
  * Global function for providing feedback (called from HTML)
