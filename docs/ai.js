@@ -335,6 +335,22 @@ const responseTemplates = {
     "I'm glad you asked. Let me explain. What aspect would you like me to break down further?",
     "Absolutely - let me explain that better. What would you like to understand more about?",
     "Good question! What specifically can I help you understand better?"
+  ],
+  
+  // Mental health services responses
+  services: [
+    "I can provide information about various mental health treatment services and programs. What specific service would you like to learn about?",
+    "There are different levels of mental health care available depending on your needs. Which service or program are you interested in learning about?",
+    "I'm here to help explain different treatment options and services. What would you like to know more about?",
+    "Mental health services range from outpatient to inpatient care. Is there a particular program you'd like me to explain?"
+  ],
+  
+  // Service walkthrough responses  
+  service_walkthrough: [
+    "I'd be happy to walk you through what to expect. Which specific program or service would you like me to explain step by step?",
+    "I can provide a detailed overview of the process. What service are you interested in learning about?",
+    "Let me break that down for you step by step. Which program would you like me to explain?",
+    "I can guide you through what a typical experience looks like. What service are you curious about?"
   ]
 };
 
@@ -428,6 +444,27 @@ const intentPatterns = {
     /^(what does that mean|what do you mean)$/i,
     /^(i don't understand|i dont understand|huh|what)$/i,
     /^(can you explain|explain|tell me more)$/i
+  ],
+  
+  // Mental health services and programs
+  services: [
+    /(php|partial hospitalization program|partial hospitalization)/i,
+    /(iop|intensive outpatient program|intensive outpatient)/i,
+    /(outpatient program|outpatient treatment|op\b)/i,
+    /(crisis stabilization|crisis intervention|crisis support)/i,
+    /(inpatient program|inpatient treatment|inpatient care)/i,
+    /(residential treatment|residential care|residential program)/i,
+    /(mat|medication assisted treatment|medication-assisted)/i,
+    /(telehealth|teletherapy|online therapy|virtual therapy)/i,
+    /(aftercare|relapse prevention|continuing care)/i
+  ],
+  
+  // Service walkthroughs and process questions  
+  service_walkthrough: [
+    /(walk me through|how does.*work|what happens in|what to expect)/i,
+    /(step by step|process|procedure|what's it like)/i,
+    /(daily schedule|typical day|routine)/i,
+    /(admissions|intake|getting started)/i
   ]
 };
 
@@ -1392,6 +1429,21 @@ async function generateAIResponse(userMessage) {
     return medResponse + addFeedbackPrompt();
   }
   
+  // Check for mental health services questions
+  const serviceResponse = getServiceInfoFromMessage(userMessage);
+  if (serviceResponse) {
+    conversationContext.messages.push({
+      role: 'assistant',
+      content: serviceResponse,
+      timestamp: new Date().toISOString(),
+      intent: 'service_info',
+      responseId: 'service_' + Date.now()
+    });
+    
+    updateAIContextTracking(serviceResponse, 'service_info');
+    return serviceResponse + addFeedbackPrompt();
+  }
+  
   // Check if wellness assessment is in progress or being requested
   if (isWellnessAssessmentRequest(userMessage)) {
     const assessmentResponse = startWellnessAssessment();
@@ -1833,6 +1885,102 @@ function getMedicationInfoFromMessage(message) {
   }
 
   return null;
+}
+
+function generateMedicationResponse(medicationInfo) {
+  return `
+    <div class="medication-info">
+      <h3>${medicationInfo.name}</h3>
+      <p><strong>Type:</strong> ${medicationInfo.type}</p>
+      <p><strong>Common Uses:</strong> ${medicationInfo.commonUses.join(', ')}</p>
+      <p><strong>Common Side Effects:</strong> ${medicationInfo.commonSideEffects.join(', ')}</p>
+      <p><strong>Important Notes:</strong> ${medicationInfo.importantNotes}</p>
+      <div class="medication-warning">
+        <strong>⚠️ Important:</strong> ${medicationInfo.warning}
+      </div>
+      <p><small><em>This information is for educational purposes only. Always consult with your healthcare provider about your medications.</em></small></p>
+    </div>
+  `;
+}
+
+// Mental Health Services Information Functions
+function getServiceInfoFromMessage(userMessage) {
+  if (!window.fallbackData || !window.fallbackData.dictionary) return null;
+  
+  const lowerMessage = userMessage.toLowerCase();
+  
+  // Check for service walkthrough requests
+  const walkthroughKeywords = [
+    'walk me through', 'how does', 'what happens in', 'what to expect',
+    'step by step', 'process', 'procedure', 'what\'s it like', 'typical day'
+  ];
+  
+  const isWalkthroughRequest = walkthroughKeywords.some(keyword => 
+    lowerMessage.includes(keyword)
+  );
+  
+  // Check for specific services mentioned
+  const services = {
+    'php': ['php', 'partial hospitalization program', 'partial hospitalization'],
+    'iop': ['iop', 'intensive outpatient program', 'intensive outpatient'],
+    'op': ['op', 'outpatient program', 'outpatient treatment'],
+    'crisis stabilization': ['crisis stabilization', 'crisis intervention', 'crisis support'],
+    'inpatient program': ['inpatient program', 'inpatient treatment', 'inpatient care'],
+    'residential treatment': ['residential treatment', 'residential care', 'residential program'],
+    'mat': ['mat', 'medication assisted treatment', 'medication-assisted treatment'],
+    'telehealth': ['telehealth', 'teletherapy', 'online therapy', 'virtual therapy'],
+    'aftercare': ['aftercare', 'continuing care'],
+    'relapse prevention': ['relapse prevention']
+  };
+  
+  for (const [serviceKey, serviceTerms] of Object.entries(services)) {
+    for (const term of serviceTerms) {
+      if (lowerMessage.includes(term)) {
+        if (isWalkthroughRequest && window.fallbackData.walkthroughs && window.fallbackData.walkthroughs[serviceKey]) {
+          return generateServiceWalkthrough(serviceKey);
+        } else if (window.fallbackData.dictionary[serviceKey]) {
+          return generateServiceDefinition(serviceKey);
+        }
+      }
+    }
+  }
+  
+  // Handle single service acronyms or names with no other context
+  const singleServicePattern = /^(php|iop|op|mat)$/i;
+  const match = lowerMessage.trim().match(singleServicePattern);
+  if (match) {
+    const service = match[1].toLowerCase();
+    return generateServiceDefinition(service);
+  }
+  
+  return null;
+}
+
+function generateServiceDefinition(serviceKey) {
+  const definition = window.fallbackData.dictionary[serviceKey];
+  if (!definition) return null;
+  
+  const serviceName = serviceKey.toUpperCase() === serviceKey ? serviceKey : 
+    serviceKey.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  
+  const hasWalkthrough = window.fallbackData.walkthroughs && window.fallbackData.walkthroughs[serviceKey];
+  const walkthroughOffer = hasWalkthrough ? 
+    `\n\nWould you like me to walk you through what to expect in a ${serviceName} step by step?` : '';
+  
+  return `**${serviceName}:**\n\n${definition}${walkthroughOffer}\n\nI can also answer questions about admissions, daily schedules, insurance coverage, or other aspects of ${serviceName}. What would you like to know more about?`;
+}
+
+function generateServiceWalkthrough(serviceKey) {
+  const walkthrough = window.fallbackData.walkthroughs[serviceKey];
+  if (!walkthrough) return null;
+  
+  const serviceName = serviceKey === 'php' || serviceKey === 'iop' || serviceKey === 'op' || serviceKey === 'mat' ? 
+    serviceKey.toUpperCase() : 
+    serviceKey.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  
+  const steps = walkthrough.map((step, idx) => `${idx + 1}. ${step}`).join('\n\n');
+  
+  return `**Here's what you can expect in a ${serviceName}:**\n\n${steps}\n\nThis gives you a general overview of the process. Each program may vary slightly, and your treatment team will work with you to personalize your experience. Do you have any specific questions about any of these steps?`;
 }
 
 function generateMedicationResponse(medicationInfo) {
