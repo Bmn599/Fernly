@@ -58,6 +58,9 @@ let learningData = {
     bipolar: [],
     ocd: [],
     sleep: [],
+    addiction: [],
+    services: [],
+    help: [],
     general: []
   },
   
@@ -70,6 +73,9 @@ let learningData = {
     bipolar: [],
     ocd: [],
     sleep: [],
+    addiction: [],
+    services: [],
+    help: [],
     general: []
   },
   
@@ -298,6 +304,27 @@ const responseTemplates = {
     ]
   },
   
+  // Addiction and substance use responses
+  addiction: {
+    initial: [
+      "Thank you for having the courage to share this with me. Addiction is a medical condition, not a moral failing, and recovery is absolutely possible with the right support.",
+      "I appreciate your honesty about your struggles with substances. Many people face these challenges, and there are effective treatments and recovery paths available.",
+      "It takes strength to acknowledge addiction concerns. You're not alone in this - addiction affects many people, and recovery happens one day at a time with proper support.",
+      "I'm glad you felt comfortable sharing this with me. Substance use disorders are real medical conditions that respond well to treatment, and asking for help is the first step."
+    ],
+    followUp: [
+      "Recovery is a journey that looks different for everyone. Are you currently connected with any addiction treatment services, support groups, or recovery programs?",
+      "There are many effective approaches to addiction treatment, including therapy, medication-assisted treatment, and peer support. Have you explored any treatment options yet?",
+      "Cravings and urges are a normal part of recovery for many people. Do you have coping strategies or a support system to help during difficult moments?",
+      "Recovery often works best with professional support. Would you like information about local addiction treatment services or support groups in your area?"
+    ],
+    resources: [
+      "🔗 **Addiction Resources**: SAMHSA National Helpline: 1-800-662-4357 (free, confidential, 24/7) | Visit our Services page for local addiction treatment programs: [Fernly Addiction Services](/services#addiction)",
+      "🔗 **Recovery Support**: AA/NA meetings finder: [aa.org](https://placeholder-aa.org) | SMART Recovery: [smartrecovery.org](https://placeholder-smart.org) | Our addiction specialists: [Contact Fernly](/services#mat)",
+      "🔗 **Crisis Resources**: If you're in immediate danger from substance use, call 911 | Addiction crisis support: SAMHSA 1-800-662-4357 | Local emergency services: [Fernly Crisis Support](/services#crisis)"
+    ]
+  },
+  
   bipolar: {
     initial: [
       "I hear that you're dealing with bipolar disorder. Those mood swings between highs and lows can be really challenging to navigate.",
@@ -347,13 +374,49 @@ const responseTemplates = {
     "I want to make sure we're on the same page. What would be most useful for me to break down further?"
   ],
   
-  // Mental health services responses
-  services: [
-    "I can provide information about various mental health treatment services and programs. What specific service would you like to learn about?",
-    "There are different levels of mental health care available depending on your needs. Which service or program are you interested in learning about?",
-    "I'm here to help explain different treatment options and services. What would you like to know more about?",
-    "Mental health services range from outpatient to inpatient care. Is there a particular program you'd like me to explain?"
+  // Enhanced help responses with context-awareness
+  help: [
+    "I'm here to help in whatever way I can. Are you looking for emotional support, information about mental health topics, or guidance to professional services?",
+    "I want to provide the most helpful response possible. Can you tell me a bit more about what kind of help you're seeking today?",
+    "That's what I'm here for! Help can mean many things - are you looking for someone to listen, practical strategies, or information about treatment options?",
+    "I'm glad you reached out for help. What feels most pressing or important to you right now - emotional support, understanding a condition, or finding professional services?",
+    "You've come to the right place for support. To give you the most helpful response, can you share what area you'd most like help with today?",
+    "I'm here to support you through whatever you're facing. What would feel most helpful - talking through feelings, learning coping strategies, or connecting with professional resources?",
+    "Asking for help is a sign of strength. What's been weighing on you that I might be able to support you with?",
+    "I care about providing meaningful help. Are you looking for immediate emotional support, information about mental health, or guidance to treatment services?",
+    "Help comes in many forms, and I want to offer what you need most. What feels most urgent or important for us to focus on together?"
   ],
+  
+  // Mental health services responses
+  services: {
+    initial: [
+      "I'm here to help you understand your treatment options. Fernly Health offers several levels of care to meet different needs. What type of support are you looking for?",
+      "There are many paths to getting help, and I want to guide you to the right resources. Are you looking for immediate support, ongoing therapy, or specific addiction services?",
+      "I'm glad you're seeking help - that's a brave and important step. We have various services available. Can you tell me more about what kind of support would be most helpful?",
+      "It sounds like you're ready to explore treatment options. That's wonderful! Would you like to know about our outpatient programs, intensive services, or specific areas like addiction treatment?"
+    ],
+    followUp: [
+      "Based on what you've shared, I think there are several services that might be helpful. Would you like me to explain specific programs or connect you with someone who can do a proper assessment?",
+      "Here are some options that might fit your needs. Would you like more details about any of these programs, or shall I connect you with our intake team?",
+      "I can provide more information about these services. You can also visit our Services page at [Fernly Services](/services) or contact us directly to speak with a specialist.",
+      "These services are designed to meet people where they are in their journey. Would you like to know more about the admission process or daily structure of any particular program?"
+    ],
+    contextual: {
+      addiction: [
+        "Since you mentioned substance use concerns, I want you to know that Fernly offers specialized addiction treatment including Medication Assisted Treatment (MAT) and addiction counseling. You can find more details on our [Services page](/services#addiction).",
+        "For addiction-specific support, we provide comprehensive treatment including detox support, therapy, and recovery programs. Our MAT program has helped many people achieve lasting recovery. Would you like to learn more about these services?",
+        "Addiction treatment is one of our specialties. We offer both intensive outpatient programs and medication-assisted treatment specifically designed for substance use recovery. Visit [Fernly Addiction Services](/services#mat) for more information."
+      ],
+      crisis: [
+        "Given what you're going through, you might benefit from our Crisis Stabilization services for immediate support, followed by ongoing care. Please don't hesitate to contact us immediately if you need urgent help.",
+        "Our Crisis Intervention services are available when you need immediate support. For ongoing care, we also offer intensive programs. You can reach our crisis line or visit [Emergency Services](/services#crisis)."
+      ],
+      general: [
+        "We offer everything from individual therapy to intensive day programs. Our services include PHP (Partial Hospitalization), IOP (Intensive Outpatient), and regular therapy sessions. What feels most appropriate for your situation?",
+        "Our Services page has detailed information about all our programs: [Fernly Services](/services). You can also call us to speak with someone who can help determine the best fit for your needs."
+      ]
+    }
+  },
   
   // Service walkthrough responses  
   service_walkthrough: [
@@ -390,10 +453,11 @@ const intentPatterns = {
   ],
   
   adhd: [
-    /(adhd|add|attention deficit|hyperactive|can't focus|can't concentrate)/i,
+    /(adhd|attention deficit|hyperactive|can't focus|can't concentrate)/i,
     /(easily distracted|scattered|forgetful|procrastinate|disorganized)/i,
     /(restless|fidgety|impulsive|interrupt|can't sit still)/i,
-    /(hyperfocus|zoning out|daydreaming|mind wandering)/i
+    /(hyperfocus|zoning out|daydreaming|mind wandering)/i,
+    /(\ba\.d\.d\b|\ba\.d\.h\.d\b)/i  // Word boundaries for ADD/ADHD abbreviations
   ],
   
   ptsd: [
@@ -424,11 +488,30 @@ const intentPatterns = {
     /(sleep schedule|circadian|melatonin|sleep hygiene)/i
   ],
   
+  // Addiction and substance use patterns
+  addiction: [
+    /(addiction|addicted|substance use|substance abuse|alcoholism)/i,
+    /(drinking problem|alcohol problem|drug problem|substance problem)/i,
+    /(recovery|sobriety|sober|clean|relapse|relapsed)/i,
+    /(cravings|urges|temptation|withdrawal|detox)/i,
+    /(aa|na|alcoholics anonymous|narcotics anonymous|12 step)/i,
+    /(rehab|rehabilitation|treatment center|inpatient treatment)/i,
+    /(cocaine|heroin|opioids|meth|marijuana|cannabis)/i,
+    /(drinking too much|can't stop drinking|need to quit)/i,
+    /(using substances|using drugs|drug habit|dependency|dependent)/i,
+    /(alcohol|booze|getting high|getting drunk)/i,
+    /(intervention|enabling|rock bottom|hit bottom)/i,
+    /(overdose|od|blackout|binge drinking|daily drinking)/i,
+    /(addicted to drugs|drug addiction|using cocaine|using heroin)/i,
+    /(substance dependency|chemical dependency|drug dependency)/i
+  ],
+  
   medication: [
-    /(medication|pills|drugs|prescription|side effects)/i,
+    /(medication|pills|prescription|side effects)/i,
     /(ssri|snri|antidepressant|mood stabilizer|antipsychotic)/i,
     /(prozac|zoloft|lexapro|xanax|adderall|lithium)/i,
-    /(dosage|withdrawal|tapering|stopping|starting)/i
+    /(dosage|withdrawal|tapering|stopping|starting)/i,
+    /(prescribed drugs|prescription drugs|medical drugs)/i
   ],
   
   crisis: [
@@ -456,6 +539,15 @@ const intentPatterns = {
     /^(can you explain|explain|tell me more)$/i
   ],
   
+  // Help requests - general and context-aware
+  help: [
+    /^(help|help me|i need help)$/i,
+    /(can you help|need your help|help please|please help)/i,
+    /(what can you help with|how can you help|help with)/i,
+    /(assistance|support|guidance)/i,
+    /(don't know what to do|need guidance|lost|confused)/i
+  ],
+  
   // Mental health services and programs
   services: [
     /(php|partial hospitalization program|partial hospitalization)/i,
@@ -466,7 +558,11 @@ const intentPatterns = {
     /(residential treatment|residential care|residential program)/i,
     /(mat|medication assisted treatment|medication-assisted)/i,
     /(telehealth|teletherapy|online therapy|virtual therapy)/i,
-    /(aftercare|relapse prevention|continuing care)/i
+    /(aftercare|relapse prevention|continuing care)/i,
+    /(services|help|i need help|where can i get help|need support)/i,
+    /(treatment|therapy|counseling|what services|available services)/i,
+    /(mental health services|getting help|find help|seek help)/i,
+    /(what help|help me|support services|care services)/i
   ],
   
   // Service walkthroughs and process questions  
@@ -538,7 +634,15 @@ function checkSynonyms(message, intent) {
     const conditionData = window.fallbackData.dsm5[condition];
     if (conditionData.synonyms) {
       for (const synonym of conditionData.synonyms) {
-        if (lowerMessage.includes(synonym.toLowerCase())) {
+        // Use word boundaries for short synonyms like "add"
+        let synonymRegex;
+        if (synonym.length <= 3) {
+          synonymRegex = new RegExp(`\\b${synonym.toLowerCase()}\\b`, 'i');
+        } else {
+          synonymRegex = new RegExp(synonym.toLowerCase(), 'i');
+        }
+        
+        if (synonymRegex.test(lowerMessage)) {
           // Map condition to intent
           const conditionToIntent = {
             'ADHD': 'adhd',
@@ -566,7 +670,15 @@ function getDisorderInfo(query) {
 
   // Match against synonyms first for better accuracy
   for (const info of Object.values(window.dsm5Disorders)) {
-    if (info.synonyms && info.synonyms.some(s => lowerQuery.includes(s.toLowerCase()))) {
+    if (info.synonyms && info.synonyms.some(s => {
+      // Use word boundaries for short synonyms like "add"
+      if (s.length <= 3) {
+        const synonymRegex = new RegExp(`\\b${s.toLowerCase()}\\b`, 'i');
+        return synonymRegex.test(lowerQuery);
+      } else {
+        return lowerQuery.includes(s.toLowerCase());
+      }
+    })) {
       return info;
     }
   }
@@ -634,35 +746,6 @@ function levenshteinDistance(str1, str2) {
   return matrix[str2.length][str1.length];
 }
 
-// Enhanced synonym matching using fallback data
-function checkSynonyms(message, intent) {
-  if (!window.fallbackData || !window.fallbackData.dsm5) return false;
-  
-  const lowerMessage = message.toLowerCase();
-  for (const condition in window.fallbackData.dsm5) {
-    const conditionData = window.fallbackData.dsm5[condition];
-    if (conditionData.synonyms) {
-      for (const synonym of conditionData.synonyms) {
-        if (lowerMessage.includes(synonym.toLowerCase())) {
-          // Map condition to intent
-          const conditionToIntent = {
-            'ADHD': 'adhd',
-            'Depression': 'depression', 
-            'Anxiety': 'anxiety',
-            'PTSD': 'ptsd',
-            'Bipolar': 'bipolar',
-            'OCD': 'ocd',
-            'Insomnia': 'sleep'
-          };
-          if (conditionToIntent[condition] === intent) {
-            return true;
-          }
-        }
-      }
-    }
-  }
-  return false;
-}
 const extraIntentPatterns = {
   anxiety: [
     /(can't stop thinking|racing thoughts|catastrophizing|overthinking)/i,
@@ -715,10 +798,10 @@ const extraIntentPatterns = {
   ],
   
   adhd: [
-    /(adhd|add|attention deficit|hyperactive|can't focus|distracted)/i,
+    /(adhd|attention deficit|hyperactive|can't focus|distracted)/i,
     /(fidgeting|restless|impulsive|disorganized|forgetful)/i,
     // Variations and informal language
-    /(a\.d\.d|a\.d\.h\.d|cant focus|cant concentrate|scattered)/i,
+    /(\ba\.d\.d\b|\ba\.d\.h\.d\b|cant focus|cant concentrate|scattered)/i,
     /(hyper|bouncing off walls|all over the place|spacey)/i,
     /(procrastinating|putting things off|cant sit still)/i
   ],
@@ -913,7 +996,7 @@ function recognizeIntent(message) {
     
     // Prioritize mental health conditions and medication questions
     // Medication is checked right after crisis to ensure users get drug information when requested
-    const priorityOrder = ['crisis', 'medication', 'ptsd', 'ocd', 'bipolar', 'depression', 'anxiety', 'adhd', 'sleep', 'greeting', 'acknowledgment', 'clarification', 'general'];
+    const priorityOrder = ['crisis', 'medication', 'addiction', 'services', 'help', 'ptsd', 'ocd', 'bipolar', 'depression', 'anxiety', 'adhd', 'sleep', 'greeting', 'acknowledgment', 'clarification', 'general'];
     for (const priority of priorityOrder) {
       if (detectedIntents.includes(priority)) {
         return priority;
@@ -1118,6 +1201,35 @@ function selectResponse(intent, context) {
   
   // Store response ID for feedback tracking
   lastResponseId = responseId;
+  
+  // Special handling for services intent - provide contextual responses
+  if (intent === 'services' && templates.contextual) {
+    const recentTopics = conversationContext.userPreferences.previousTopics.slice(-3);
+    const detectedSymptoms = Object.keys(conversationContext.detectedSymptoms).filter(topic => 
+      conversationContext.detectedSymptoms[topic] && conversationContext.detectedSymptoms[topic].length > 0
+    );
+    
+    // Check if addiction was recently discussed
+    if (recentTopics.includes('addiction') || detectedSymptoms.includes('addiction')) {
+      const addictionResponses = templates.contextual.addiction;
+      selectedResponse += '\n\n' + addictionResponses[Math.floor(Math.random() * addictionResponses.length)];
+    }
+    // Check if crisis topics were discussed
+    else if (recentTopics.includes('crisis') || conversationContext.crisisKeywords.length > 0) {
+      const crisisResponses = templates.contextual.crisis;
+      selectedResponse += '\n\n' + crisisResponses[Math.floor(Math.random() * crisisResponses.length)];
+    }
+    // Default general service info
+    else {
+      const generalResponses = templates.contextual.general;
+      selectedResponse += '\n\n' + generalResponses[Math.floor(Math.random() * generalResponses.length)];
+    }
+  }
+  
+  // Add resources for addiction responses
+  if (intent === 'addiction' && templates.resources) {
+    selectedResponse += '\n\n' + templates.resources[Math.floor(Math.random() * templates.resources.length)];
+  }
   
   // Handle multi-intent responses
   if (conversationContext.multiIntents && conversationContext.multiIntents.length > 1) {
