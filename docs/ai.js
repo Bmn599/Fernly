@@ -1923,7 +1923,7 @@ function getServiceInfoFromMessage(userMessage) {
   const services = {
     'php': ['php', 'partial hospitalization program', 'partial hospitalization'],
     'iop': ['iop', 'intensive outpatient program', 'intensive outpatient'],
-    'op': ['outpatient program', 'outpatient treatment'],
+    'op': ['op', 'outpatient program', 'outpatient treatment'],
     'crisis stabilization': ['crisis stabilization', 'crisis intervention', 'crisis support'],
     'inpatient program': ['inpatient program', 'inpatient treatment', 'inpatient care'],
     'residential treatment': ['residential treatment', 'residential care', 'residential program'],
