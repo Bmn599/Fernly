@@ -1579,7 +1579,10 @@ try {
   console.log('File upload AI not available - mental health chat still fully functional');
   document.getElementById('aiUploadBtn').style.display = 'none';
   document.getElementById('aiFileInput').style.display = 'none';
-  document.querySelector('.upload-help').style.display = 'none';
+  const uploadHelpElement = document.querySelector('.upload-help');
+  if (uploadHelpElement) {
+    uploadHelpElement.style.display = 'none';
+  }
 }
 
 // Update status to indicate mental health AI is active
