@@ -1105,7 +1105,7 @@ function generateContextualAcknowledgment(context) {
   lastResponseId = responseId;
   
   // FIRST: Handle consecutive short responses - this takes priority over specific response handling
-  if (conversationContext.conversationFlow.shortResponseCount >= 2) {
+  if (conversationContext.conversationFlow.shortResponseCount >= 3) {
     const recentTopics = conversationContext.userPreferences.previousTopics.slice(-2);
     
     if (recentTopics.length > 0) {
