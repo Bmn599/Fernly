@@ -1183,6 +1183,7 @@ function generateContextualAcknowledgment(context) {
         `It seems like you might be taking time to think, which I really appreciate. Earlier you mentioned ${topicLabels.join(' and ')}. I'm here whenever you're ready to dive deeper, or if something entirely different comes to mind.`
       ];
       
+      conversationContext.conversationFlow.shortResponseCount = 0;
       return empathyResponses[Math.floor(Math.random() * empathyResponses.length)];
     }
     
