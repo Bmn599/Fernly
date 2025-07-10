@@ -62,6 +62,16 @@ Date: December 2024
       --g4: #b1dcb1;
       --g5: #add9c5;
       --g6: #e8c864;
+      
+      /* Stepper component colors */
+      --stepper-primary: #619251;
+      --stepper-primary-hover: #4F7942;
+      --stepper-secondary: #8fbf8f;
+      --stepper-accent: #e8c864;
+      --stepper-text: #333;
+      --stepper-text-light: #666;
+      --stepper-background: rgba(255, 255, 255, 0.95);
+      --stepper-border: rgba(255, 255, 255, 0.2);
     }
     * {
       margin: 0;
@@ -821,6 +831,280 @@ Date: December 2024
       color: white;
     }
 
+    /* How It Works Stepper Component */
+    #how-it-works {
+      padding: 6rem 0;
+      background: transparent;
+    }
+
+    .stepper-nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .stepper-nav__item {
+      background: var(--stepper-background);
+      border: 2px solid var(--stepper-border);
+      border-radius: 15px;
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--stepper-text);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stepper-nav__item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 1);
+    }
+
+    .stepper-nav__item--active {
+      background: var(--stepper-primary);
+      color: white;
+      border-color: var(--stepper-primary);
+    }
+
+    .stepper-nav__item--active:hover {
+      background: var(--stepper-primary-hover);
+      border-color: var(--stepper-primary-hover);
+    }
+
+    .stepper-nav__number {
+      background: var(--stepper-accent);
+      color: var(--stepper-text);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .stepper-nav__item--active .stepper-nav__number {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    .stepper-nav__label {
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    .stepper-content {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      min-height: 250px;
+    }
+
+    .stepper-content__panel {
+      background: var(--stepper-background);
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s ease;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      visibility: hidden;
+    }
+
+    .stepper-content__panel--active {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+      position: relative;
+    }
+
+    .stepper-content__title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--stepper-text);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+
+    .stepper-content__text {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--stepper-text-light);
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .stepper-content__cta {
+      display: inline-block;
+      background: var(--stepper-primary);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(97, 146, 81, 0.3);
+    }
+
+    .stepper-content__cta:hover {
+      background: var(--stepper-primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(97, 146, 81, 0.4);
+    }
+
+    /* Mobile responsive design */
+    @media (max-width: 768px) {
+      .stepper-nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .stepper-nav__item {
+        width: 100%;
+        max-width: 320px;
+        justify-content: center;
+      }
+
+      .stepper-content__panel {
+        padding: 2rem 1.5rem;
+      }
+
+      .stepper-content__title {
+        font-size: 1.5rem;
+      }
+
+      .stepper-content__text {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stepper-nav__label {
+        font-size: 0.9rem;
+      }
+
+      .stepper-nav__item {
+        padding: 0.75rem 1rem;
+      }
+
+      .stepper-content__panel {
+        padding: 1.5rem 1rem;
+      }
+    }
+
+    /* Chat Bubble Component */
+    .chat-bubble {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      max-width: 280px;
+      background: var(--stepper-background);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      padding: 1.5rem;
+      transform: translateY(100px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      z-index: 1000;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .chat-bubble--visible {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .chat-bubble__content {
+      margin-bottom: 1rem;
+    }
+
+    .chat-bubble__text {
+      font-size: 1rem;
+      color: var(--stepper-text);
+      font-weight: 500;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+
+    .chat-bubble__actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .chat-bubble__link {
+      background: var(--stepper-primary);
+      color: white;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .chat-bubble__link:hover {
+      background: var(--stepper-primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .chat-bubble__close {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--stepper-text-light);
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .chat-bubble__close:hover {
+      background: rgba(0, 0, 0, 0.1);
+      color: var(--stepper-text);
+    }
+
+    /* Mobile adjustments for chat bubble */
+    @media (max-width: 768px) {
+      .chat-bubble {
+        bottom: 15px;
+        left: 15px;
+        right: 15px;
+        max-width: none;
+        width: calc(100% - 30px);
+      }
+    }
+
     /* Blank section between hero and resources */
     .blank-section {
       height: 30vh; /* Reduced from 50vh to 30vh */
@@ -1207,6 +1491,91 @@ Date: December 2024
     </div>
   </section>
 
+  <!-- How It Works Stepper Section -->
+  <section id="how-it-works" data-aos="fade-up">
+    <div class="container">
+      <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">How It Works</h2>
+      
+      <!-- Stepper Navigation -->
+      <div class="stepper-nav" role="tablist" aria-label="How It Works Steps">
+        <button class="stepper-nav__item stepper-nav__item--active" 
+                role="tab" 
+                aria-selected="true" 
+                aria-controls="step-1-content" 
+                id="step-1-tab"
+                data-step="1">
+          <span class="stepper-nav__number">1</span>
+          <span class="stepper-nav__label">Schedule Intake</span>
+        </button>
+        <button class="stepper-nav__item" 
+                role="tab" 
+                aria-selected="false" 
+                aria-controls="step-2-content" 
+                id="step-2-tab"
+                data-step="2">
+          <span class="stepper-nav__number">2</span>
+          <span class="stepper-nav__label">Meet Your Healthcare Team</span>
+        </button>
+        <button class="stepper-nav__item" 
+                role="tab" 
+                aria-selected="false" 
+                aria-controls="step-3-content" 
+                id="step-3-tab"
+                data-step="3">
+          <span class="stepper-nav__number">3</span>
+          <span class="stepper-nav__label">Choose Services</span>
+        </button>
+        <button class="stepper-nav__item" 
+                role="tab" 
+                aria-selected="false" 
+                aria-controls="step-4-content" 
+                id="step-4-tab"
+                data-step="4">
+          <span class="stepper-nav__number">4</span>
+          <span class="stepper-nav__label">Begin Treatment</span>
+        </button>
+      </div>
+
+      <!-- Step Content Panels -->
+      <div class="stepper-content">
+        <div class="stepper-content__panel stepper-content__panel--active" 
+             role="tabpanel" 
+             aria-labelledby="step-1-tab" 
+             id="step-1-content">
+          <h3 class="stepper-content__title">Schedule Your Intake Appointment</h3>
+          <p class="stepper-content__text">Begin your journey with a comprehensive intake assessment. Our team will work with you to understand your unique needs, goals, and create a personalized treatment plan that fits your lifestyle.</p>
+          <a href="#contact" class="stepper-content__cta btn-primary">Schedule Now</a>
+        </div>
+        
+        <div class="stepper-content__panel" 
+             role="tabpanel" 
+             aria-labelledby="step-2-tab" 
+             id="step-2-content">
+          <h3 class="stepper-content__title">Meet Your Dedicated Healthcare Team</h3>
+          <p class="stepper-content__text">Connect with our board-certified psychiatrists, psychologists, therapists, and psychiatric nurse practitioners. Each team member brings specialized expertise to support your mental health journey with compassionate, evidence-based care.</p>
+          <a href="team.html" class="stepper-content__cta btn-primary">Meet Our Team</a>
+        </div>
+        
+        <div class="stepper-content__panel" 
+             role="tabpanel" 
+             aria-labelledby="step-3-tab" 
+             id="step-3-content">
+          <h3 class="stepper-content__title">Choose Your Treatment Services</h3>
+          <p class="stepper-content__text">Select from our comprehensive range of mental health services, including individual therapy, group sessions, medication management, and specialized programs. We offer both in-person and telehealth options to meet your preferences.</p>
+          <a href="services.html" class="stepper-content__cta btn-primary">View Services</a>
+        </div>
+        
+        <div class="stepper-content__panel" 
+             role="tabpanel" 
+             aria-labelledby="step-4-tab" 
+             id="step-4-content">
+          <h3 class="stepper-content__title">Begin Your Treatment Journey</h3>
+          <p class="stepper-content__text">Start your personalized treatment plan with confidence. Our integrated approach combines therapy, medication management, and ongoing support to help you achieve lasting mental wellness and reclaim your life.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Blank section between hero and resources -->
   <section class="blank-section"></section>
 
@@ -1304,6 +1673,17 @@ Date: December 2024
     </div>
   </section>
 
+  <!-- Chat Bubble Component -->
+  <div class="chat-bubble" id="chatBubble" aria-hidden="true">
+    <div class="chat-bubble__content">
+      <div class="chat-bubble__text">Not sure where to begin? Start here.</div>
+      <div class="chat-bubble__actions">
+        <a href="services.html" class="chat-bubble__link">View Services</a>
+        <a href="#contact" class="chat-bubble__link">Book Consultation</a>
+      </div>
+    </div>
+    <button class="chat-bubble__close" aria-label="Close chat bubble">&times;</button>
+  </div>
 
   <footer>
     <div class="container footer-flex">
@@ -1604,6 +1984,191 @@ try {
 if (document.getElementById('aiAIStatus')) {
   document.getElementById('aiAIStatus').innerText = 'Mental Health AI Active';
 }
+</script>
+
+<!-- How It Works Stepper Component JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const stepperNavItems = document.querySelectorAll('.stepper-nav__item');
+  const stepperPanels = document.querySelectorAll('.stepper-content__panel');
+  
+  // Initialize stepper functionality
+  function initializeStepper() {
+    stepperNavItems.forEach((item, index) => {
+      item.addEventListener('click', function() {
+        activateStep(index + 1);
+      });
+      
+      // Add keyboard navigation
+      item.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          activateStep(index + 1);
+        }
+        
+        // Arrow key navigation
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          const direction = e.key === 'ArrowLeft' ? -1 : 1;
+          const newIndex = index + direction;
+          
+          if (newIndex >= 0 && newIndex < stepperNavItems.length) {
+            stepperNavItems[newIndex].focus();
+            activateStep(newIndex + 1);
+          }
+        }
+      });
+    });
+  }
+  
+  // Activate a specific step
+  function activateStep(stepNumber) {
+    // Update nav items
+    stepperNavItems.forEach((item, index) => {
+      const isActive = index + 1 === stepNumber;
+      item.classList.toggle('stepper-nav__item--active', isActive);
+      item.setAttribute('aria-selected', isActive);
+    });
+    
+    // Update panels with smooth transition
+    stepperPanels.forEach((panel, index) => {
+      const isActive = index + 1 === stepNumber;
+      
+      if (isActive) {
+        panel.classList.add('stepper-content__panel--active');
+        panel.setAttribute('aria-hidden', 'false');
+      } else {
+        panel.classList.remove('stepper-content__panel--active');
+        panel.setAttribute('aria-hidden', 'true');
+      }
+    });
+  }
+  
+  // Initialize the stepper
+  initializeStepper();
+});
+</script>
+
+<!-- Chat Bubble Component JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const chatBubble = document.getElementById('chatBubble');
+  const chatBubbleClose = document.querySelector('.chat-bubble__close');
+  let chatBubbleTimer;
+  let isUserInteracting = false;
+  let chatBubbleShown = false;
+  
+  // Check if we're on a page with AI chat functionality
+  function isAIChatActive() {
+    const chatInterface = document.querySelector('.chat-interface');
+    const chatInput = document.getElementById('chatInput');
+    
+    // Check if chat interface exists and if user is actively typing
+    if (chatInterface && chatInput) {
+      return chatInput === document.activeElement || 
+             chatInput.value.length > 0 ||
+             document.querySelector('.message.user'); // Check if user has sent messages
+    }
+    return false;
+  }
+  
+  // Show chat bubble
+  function showChatBubble() {
+    if (!chatBubbleShown && !isAIChatActive()) {
+      chatBubble.classList.add('chat-bubble--visible');
+      chatBubble.setAttribute('aria-hidden', 'false');
+      chatBubbleShown = true;
+    }
+  }
+  
+  // Hide chat bubble
+  function hideChatBubble() {
+    chatBubble.classList.remove('chat-bubble--visible');
+    chatBubble.setAttribute('aria-hidden', 'true');
+    chatBubbleShown = false;
+  }
+  
+  // Start timer for chat bubble
+  function startChatBubbleTimer() {
+    clearTimeout(chatBubbleTimer);
+    chatBubbleTimer = setTimeout(() => {
+      if (!isUserInteracting && !isAIChatActive()) {
+        showChatBubble();
+      }
+    }, 60000); // 1 minute
+  }
+  
+  // Reset timer on user interaction
+  function resetChatBubbleTimer() {
+    isUserInteracting = true;
+    hideChatBubble();
+    clearTimeout(chatBubbleTimer);
+    
+    // Reset interaction flag after a short delay
+    setTimeout(() => {
+      isUserInteracting = false;
+      // Only restart timer if we're still in the hero section
+      if (isInHeroSection()) {
+        startChatBubbleTimer();
+      }
+    }, 2000);
+  }
+  
+  // Check if user is in hero section
+  function isInHeroSection() {
+    const heroSection = document.getElementById('home');
+    if (!heroSection) return false;
+    
+    const heroRect = heroSection.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    
+    // Consider user in hero section if hero is visible in viewport
+    return heroRect.top < viewportHeight && heroRect.bottom > 0;
+  }
+  
+  // Handle scroll events
+  function handleScroll() {
+    resetChatBubbleTimer();
+    
+    // Hide chat bubble if user scrolls past hero section
+    if (!isInHeroSection()) {
+      hideChatBubble();
+      clearTimeout(chatBubbleTimer);
+    }
+  }
+  
+  // Initialize chat bubble functionality
+  function initializeChatBubble() {
+    // Close button functionality
+    chatBubbleClose.addEventListener('click', function() {
+      hideChatBubble();
+      clearTimeout(chatBubbleTimer);
+    });
+    
+    // Start timer when page loads if in hero section
+    if (isInHeroSection()) {
+      startChatBubbleTimer();
+    }
+    
+    // Listen for scroll events
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Listen for mouse movement and keyboard activity
+    document.addEventListener('mousemove', resetChatBubbleTimer, { passive: true });
+    document.addEventListener('keydown', resetChatBubbleTimer, { passive: true });
+    document.addEventListener('click', resetChatBubbleTimer, { passive: true });
+    
+    // Hide chat bubble when AI chat is being used
+    const chatInput = document.getElementById('chatInput');
+    if (chatInput) {
+      chatInput.addEventListener('focus', hideChatBubble);
+      chatInput.addEventListener('input', hideChatBubble);
+    }
+  }
+  
+  // Initialize the chat bubble
+  initializeChatBubble();
+});
 </script>
 
 <!-- AOS (Animate On Scroll) JavaScript -->
