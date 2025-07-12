@@ -84,6 +84,8 @@ Date: December 2024
       height: 100%;
       font-family: 'Poppins', sans-serif;
       color: #333;
+      font-size: 1rem;
+      line-height: 1.6;
     }
 
     h1,
@@ -1120,9 +1122,62 @@ Date: December 2024
     .section-title {
       text-align: center;
       color: #fff;
-      font-size: 2.5rem;
+      font-size: 1.5rem;
       margin-bottom: 3rem;
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .card:hover {
+      transform: translateY(-12px) scale(1.03);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+    }
+
+    .card img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin: 0 auto 1.5rem;
+      display: block;
+      background: transparent;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
+
+    .card h3 {
+      color: #4F7942;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      color: #666;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .card a {
+      color: #619251;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .card a:hover {
+      color: #4F7942;
     }
 
     .blog-grid {
@@ -1370,6 +1425,10 @@ Date: December 2024
         grid-template-columns: 1fr;
       }
 
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
       .container {
         padding: 0 1rem;
       }
@@ -1441,69 +1500,6 @@ Date: December 2024
     </div>
   </section>
 
-  <!-- AI Chat Section -->
-  <section id="ai-chat" data-aos="fade-up">
-    <div class="container">
-      <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Ask Away We're Listening</h2>
-      <p class="chat-intro" data-aos="fade-up" data-aos-delay="200">Have a quick question about your prescription or wellness plan but can’t make it into the clinic? Fernly AI delivers private, judgment free guidance 24/7 on medications, mental health conditions, and mini wellness check-ins. Just type your question and get clear, expert backed answers in seconds.</p>
-
-      <div class="chat-interface">
-        <div class="chat-messages" id="chatMessages">
-          <!-- Chat output area for compatibility -->
-          <div id="chatOutput" style="display: none;"></div>
-          <div class="message bot">
-            <div class="message-content">
-              <div class="message-text">
-                Hi there! I'm here to listen and help. How are you feeling today?
-              </div>
-            </div>
-          </div>
-          <!-- AI/Fallback Status Indicator moved below greeting -->
-          <div id="aiStatusIndicator" class="ai-status-indicator" style="display: none;">
-            <div class="status-content">
-              <span class="status-icon">⏳</span>
-              <span class="status-text">Loading AI model...</span>
-            </div>
-          </div>
-          <div class="message bot">
-            <div class="message-content">
-              <div class="message-text">
-                <div class="medical-disclaimer">
-                  <strong>Wellness Support:</strong> I can provide general information about mental health and medications, and help you explore your wellness concerns. Please consult with a healthcare provider for medical advice.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="chat-input-area">
-          <form id="chatForm">
-            <div class="input-container">
-              <textarea 
-                class="chat-input" 
-                id="chatInput" 
-                placeholder="Tell me what's on your mind..."
-                rows="1"
-              ></textarea>
-              <button type="submit" class="chat-send" id="chatSend" aria-label="Send message">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-            </div>
-          </form>
-          <input type="file" id="aiFileInput" multiple title="Select up to 10 text files under 1 MB each">
-          <button id="aiUploadBtn" title="Upload selected files for AI search">Upload Files</button>
-          <div class="upload-help">Upload up to 10 plain text files (max 1&nbsp;MB each). Sources below each answer show which file snippet was used.</div>
-          <span id="aiFileStatus" style="font-size:0.9em;color:#888;"></span>
-          <span id="aiAIStatus" style="font-size:0.9em;color:#888;margin-left:1em;"></span>
-          <div class="disclaimer">
-            This AI assistant provides general information only. It's not a substitute for professional medical advice. If you're in crisis, please call 988 or seek immediate help.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- How It Works Stepper Section -->
   <section id="how-it-works" data-aos="fade-up">
@@ -1593,6 +1589,103 @@ Date: December 2024
       </div>
     </div>
   </section>
+
+  <!-- Services Preview Section -->
+  <section id="services-preview" data-aos="fade-up">
+    <div class="container">
+      <div class="services-grid">
+        <div class="card" data-aos="fade-up" data-aos-delay="100">
+          <img src="images/php.png" alt="Partial Hospitalization">
+          <h3>Partial Hospitalization (PHP)</h3>
+          <p>Structured day program with intensive clinical services.</p>
+          <a href="services.html">Learn More →</a>
+        </div>
+        <div class="card" data-aos="fade-up" data-aos-delay="200">
+          <img src="images/iop.png" alt="Intensive Outpatient">
+          <h3>Intensive Outpatient (IOP)</h3>
+          <p>Therapeutic groups several days per week.</p>
+          <a href="services.html">Learn More →</a>
+        </div>
+        <div class="card" data-aos="fade-up" data-aos-delay="300">
+          <img src="images/therapy.png" alt="Therapy & Counseling">
+          <h3>Therapy & Counseling</h3>
+          <p>Personal sessions that foster genuine healing.</p>
+          <a href="services.html">Learn More →</a>
+        </div>
+        <div class="card" data-aos="fade-up" data-aos-delay="400">
+          <img src="images/mat.png" alt="Medication Assisted Treatment">
+          <h3>Medication Assisted Treatment</h3>
+          <p>Compassionate medication support for recovery.</p>
+          <a href="services.html">Learn More →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- AI Chat Section -->
+
+  <section id="ai-chat" data-aos="fade-up">
+    <div class="container">
+      <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Ask Away We're Listening</h2>
+      <p class="chat-intro" data-aos="fade-up" data-aos-delay="200">Have a quick question about your prescription or wellness plan but can’t make it into the clinic? Fernly AI delivers private, judgment free guidance 24/7 on medications, mental health conditions, and mini wellness check-ins. Just type your question and get clear, expert backed answers in seconds.</p>
+
+      <div class="chat-interface">
+        <div class="chat-messages" id="chatMessages">
+          <!-- Chat output area for compatibility -->
+          <div id="chatOutput" style="display: none;"></div>
+          <div class="message bot">
+            <div class="message-content">
+              <div class="message-text">
+                Hi there! I'm here to listen and help. How are you feeling today?
+              </div>
+            </div>
+          </div>
+          <!-- AI/Fallback Status Indicator moved below greeting -->
+          <div id="aiStatusIndicator" class="ai-status-indicator" style="display: none;">
+            <div class="status-content">
+              <span class="status-icon">⏳</span>
+              <span class="status-text">Loading AI model...</span>
+            </div>
+          </div>
+          <div class="message bot">
+            <div class="message-content">
+              <div class="message-text">
+                <div class="medical-disclaimer">
+                  <strong>Wellness Support:</strong> I can provide general information about mental health and medications, and help you explore your wellness concerns. Please consult with a healthcare provider for medical advice.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-input-area">
+          <form id="chatForm">
+            <div class="input-container">
+              <textarea 
+                class="chat-input" 
+                id="chatInput" 
+                placeholder="Tell me what's on your mind..."
+                rows="1"
+              ></textarea>
+              <button type="submit" class="chat-send" id="chatSend" aria-label="Send message">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </form>
+          <input type="file" id="aiFileInput" multiple title="Select up to 10 text files under 1 MB each">
+          <button id="aiUploadBtn" title="Upload selected files for AI search">Upload Files</button>
+          <div class="upload-help">Upload up to 10 plain text files (max 1&nbsp;MB each). Sources below each answer show which file snippet was used.</div>
+          <span id="aiFileStatus" style="font-size:0.9em;color:#888;"></span>
+          <span id="aiAIStatus" style="font-size:0.9em;color:#888;margin-left:1em;"></span>
+          <div class="disclaimer">
+            This AI assistant provides general information only. It's not a substitute for professional medical advice. If you're in crisis, please call 988 or seek immediate help.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
   <!-- Blank section between hero and resources -->
   <section class="blank-section"></section>
