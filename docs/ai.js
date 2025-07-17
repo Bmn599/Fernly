@@ -320,7 +320,7 @@ const responseTemplates = {
     ],
     resources: [
       "🔗 **Addiction Resources**: SAMHSA National Helpline: 1-800-662-4357 (free, confidential, 24/7) | Visit our Services page for local addiction treatment programs: [Fernly Addiction Services](/services#addiction)",
-      "🔗 **Recovery Support**: AA/NA meetings finder: [aa.org](https://placeholder-aa.org) | SMART Recovery: [smartrecovery.org](https://placeholder-smart.org) | Our addiction specialists: [Contact Fernly](/services#mat)",
+      "🔗 **Recovery Support**: SAMHSA Helpline 1-800-662-4357 | AA/NA meetings finder: [aa.org](https://placeholder-aa.org) | SMART Recovery: [smartrecovery.org](https://placeholder-smart.org) | Our addiction specialists: [Contact Fernly](/services#mat)",
       "🔗 **Crisis Resources**: If you're in immediate danger from substance use, call 911 | Addiction crisis support: SAMHSA 1-800-662-4357 | Local emergency services: [Fernly Crisis Support](/services#crisis)"
     ]
   },
@@ -363,15 +363,15 @@ const responseTemplates = {
   // Responses for clarification requests with enhanced empathy and variety
   clarification: [
     "I'd be happy to explain that more clearly. What specific part would be most helpful for me to break down?",
-    "Of course! I want to make sure I'm being really clear with you. What aspect feels confusing or unclear?",
+    "Of course! I want to make sure I'm being really clear with you. What would help me explain it better?",
     "Absolutely - let me try a different way of explaining this. What would be most helpful for me to clarify?",
     "I appreciate you asking for clarification - that shows you're really engaged. What part can I explain better?",
     "Good question! I'd rather over-explain than leave you wondering. What would you like me to go deeper on?",
-    "That's totally fair to ask about. Sometimes I assume understanding when I shouldn't. What feels unclear?",
+    "That's totally fair to ask about. What part can I clarify or explain further?",
     "I'm glad you're comfortable asking questions - that's so important. What aspect would be most helpful to explore?",
     "Let me slow down and explain that better. What specifically would help clarify things for you?",
     "You're absolutely right to ask about that. What part feels like it needs more explanation?",
-    "I want to make sure we're on the same page. What would be most useful for me to break down further?"
+    "I want to make sure we're on the same page. What would help clarify things for you?"
   ],
   
   // Enhanced help responses with context-awareness
@@ -1090,10 +1090,10 @@ function calculateMatchConfidence(message, intent) {
  */
 function generateClarificationResponse(message, suggestedIntent = null) {
   const clarificationPrompts = [
-    "I want to make sure I understand what you're going through. Could you tell me a bit more about what you're experiencing?",
+    "I want to help you the best I can. Could you clarify a bit more about what you're experiencing?",
     "I'm here to help, and I want to give you the most relevant support. Can you share more details about what's on your mind?",
     "To better assist you, could you help me understand what specific area you'd like to focus on?",
-    "I'm listening and want to provide the best support. Could you elaborate on what you're feeling or experiencing?"
+    "I'm listening and want to provide the best support. Could you clarify what you're feeling or experiencing?"
   ];
   
   let response = clarificationPrompts[Math.floor(Math.random() * clarificationPrompts.length)];
