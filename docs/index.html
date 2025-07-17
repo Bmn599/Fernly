@@ -1163,7 +1163,6 @@ Date: December 2024
     }
 
     .blog-image {
-      height: 200px;
       background: linear-gradient(45deg, #8fbf8f, #619251);
       display: flex;
       align-items: center;
@@ -1184,13 +1183,17 @@ Date: December 2024
 
     /* Container to enforce consistent aspect ratio for card images */
     .card-img-container {
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 3 / 2;
       width: 100%;
+      max-width: 350px;
+      max-height: 200px;
       overflow: hidden;
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-left: auto;
+      margin-right: auto;
       margin-bottom: 1rem;
     }
 
@@ -1411,6 +1414,12 @@ Date: December 2024
       
       .message-content {
         max-width: 90%;
+      }
+
+      .card-img-container {
+        max-width: 100%;
+        max-height: 120px;
+        aspect-ratio: 4 / 3;
       }
 
       /* Images fill their containers on small screens */
@@ -1655,8 +1664,8 @@ Date: December 2024
       </div>
       <div class="blog-grid">
         <div class="blog-card" data-aos="fade-up" data-aos-delay="200">
-          <div class="blog-image">
-            <img src="Images2/pexels-alexander-mass-748453803-31053876.jpg" alt="Mental Health Resources">
+          <div class="blog-image card-img-container">
+            <img class="card-img" src="Images2/pexels-alexander-mass-748453803-31053876.jpg" alt="Mental Health Resources">
           </div>
           <div class="blog-content">
             <div class="blog-source">Psychology Today</div>
@@ -1667,8 +1676,8 @@ Date: December 2024
           </div>
         </div>
         <div class="blog-card" data-aos="fade-up" data-aos-delay="300">
-          <div class="blog-image">
-            <img src="Images2/pexels-diva-plavalaguna-5710721.jpg" alt="Mental Health Resources">
+          <div class="blog-image card-img-container">
+            <img class="card-img" src="Images2/pexels-diva-plavalaguna-5710721.jpg" alt="Mental Health Resources">
           </div>
           <div class="blog-content">
             <div class="blog-source">American Psychological Association</div>
@@ -1679,8 +1688,8 @@ Date: December 2024
           </div>
         </div>
         <div class="blog-card" data-aos="fade-up" data-aos-delay="400">
-          <div class="blog-image">
-            <img src="Images2/pexels-jishu-shill-17629318-10634925.jpg" alt="Mental Health Resources">
+          <div class="blog-image card-img-container">
+            <img class="card-img" src="Images2/pexels-jishu-shill-17629318-10634925.jpg" alt="Mental Health Resources">
           </div>
           <div class="blog-content">
             <div class="blog-source">PsychCentral</div>
@@ -1691,8 +1700,8 @@ Date: December 2024
           </div>
         </div>
         <div class="blog-card" data-aos="fade-up" data-aos-delay="500">
-          <div class="blog-image">
-            <img src="Images2/pexels-katerina-holmes-5910849.jpg" alt="Mental Health Resources">
+          <div class="blog-image card-img-container">
+            <img class="card-img" src="Images2/pexels-katerina-holmes-5910849.jpg" alt="Mental Health Resources">
           </div>
           <div class="blog-content">
             <div class="blog-source">PsyPost</div>
@@ -1703,8 +1712,8 @@ Date: December 2024
           </div>
         </div>
         <div class="blog-card" data-aos="fade-up" data-aos-delay="600">
-          <div class="blog-image">
-            <img src="Images2/pexels-nicola-barts-7943965.jpg" alt="Mental Health Resources">
+          <div class="blog-image card-img-container">
+            <img class="card-img" src="Images2/pexels-nicola-barts-7943965.jpg" alt="Mental Health Resources">
           </div>
           <div class="blog-content">
             <div class="blog-source">Verywell Mind</div>
@@ -1715,8 +1724,8 @@ Date: December 2024
           </div>
         </div>
         <div class="blog-card" data-aos="fade-up" data-aos-delay="700">
-          <div class="blog-image">
-            <img src="Images2/pexels-tuan-pm-1320993433-29133902.jpg" alt="Mental Health Resources">
+          <div class="blog-image card-img-container">
+            <img class="card-img" src="Images2/pexels-tuan-pm-1320993433-29133902.jpg" alt="Mental Health Resources">
           </div>
           <div class="blog-content">
             <div class="blog-source">MedlinePlus</div>
