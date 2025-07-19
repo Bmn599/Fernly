@@ -59,6 +59,8 @@ let learningData = {
     ocd: [],
     sleep: [],
     addiction: [],
+    grief: [],
+    relationships: [],
     services: [],
     help: [],
     general: []
@@ -74,6 +76,8 @@ let learningData = {
     ocd: [],
     sleep: [],
     addiction: [],
+    grief: [],
+    relationships: [],
     services: [],
     help: [],
     general: []
@@ -192,6 +196,8 @@ function resetLearningData() {
       bipolar: [],
       ocd: [],
       sleep: [],
+      grief: [],
+      relationships: [],
       general: []
     },
     learnedResponses: {
@@ -202,6 +208,8 @@ function resetLearningData() {
       bipolar: [],
       ocd: [],
       sleep: [],
+      grief: [],
+      relationships: [],
       general: []
     },
     responseMetrics: {},
@@ -337,6 +345,32 @@ const responseTemplates = {
       "Managing bipolar disorder often involves medication, therapy, and lifestyle strategies. Having a good support system is also crucial."
     ]
   },
+
+  grief: {
+    initial: [
+      "I'm so sorry for your loss. Grief can come in waves and feel overwhelming at times. Would you like to share a memory of your loved one?",
+      "Losing someone important to us can leave a huge emptiness. I'm here to listen if you'd like to talk about what you're going through.",
+      "Grief affects everyone differently. There's no right or wrong way to feel. How have you been coping so far?"
+    ],
+    followUp: [
+      "It's normal for grief to resurface unexpectedly. Do you have any supports or rituals that help you honor your loss?",
+      "Many people find that talking about their feelings or joining a support group helps. Would exploring those options be helpful?",
+      "Grieving takes time and self-compassion. What small acts of self-care could you practice to help yourself through this?"
+    ]
+  },
+
+  relationships: {
+    initial: [
+      "Relationships can be complex and sometimes painful. What's been weighing on you about your current situation?",
+      "It sounds like you're dealing with some relationship stress. I'm here to listen—feel free to share what's happening.",
+      "Navigating relationship challenges can stir up many emotions. What aspect feels most pressing right now?"
+    ],
+    followUp: [
+      "Communication is often key in resolving relationship issues. Have you had a chance to express your feelings openly?",
+      "Setting boundaries can help protect your well-being. Would you like to explore ways to establish healthier boundaries?",
+      "Relationships evolve over time. What outcome would feel healthiest for you as you move forward?"
+    ]
+  },
   
   crisis: [
     "🚨 I'm very concerned about what you're going through. If you're having thoughts of harming yourself, please reach out for immediate help: Call 988 (Suicide & Crisis Lifeline) - available 24/7, or text 'HELLO' to 741741. You're not alone.",
@@ -370,7 +404,7 @@ const responseTemplates = {
     "That's totally fair to ask about. What part can I clarify or explain further?",
     "I'm glad you're comfortable asking questions - that's so important. What aspect would be most helpful to explore?",
     "Let me slow down and explain that better. What specifically would help clarify things for you?",
-    "You're absolutely right to ask about that. What part feels like it needs more explanation?",
+    "You're absolutely right to ask about that. What part can I explain in more detail to help you?",
     "I want to make sure we're on the same page. What would help clarify things for you?"
   ],
   
@@ -486,6 +520,18 @@ const intentPatterns = {
     /(nightmares|night terrors|sleep paralysis|sleepwalking)/i,
     /(tired|exhausted|fatigue|drowsy|sleep deprived)/i,
     /(sleep schedule|circadian|melatonin|sleep hygiene)/i
+  ],
+
+  grief: [
+    /(grief|grieving|loss of|passed away|mourning|bereavement)/i,
+    /(lost my|lost a|dealing with loss|coping with death)/i,
+    /(sad about losing|can't believe they're gone|miss them so much)/i
+  ],
+
+  relationships: [
+    /(relationship|breakup|partner|spouse|divorce|argument|couple)/i,
+    /(fight with|conflict with|my boyfriend|my girlfriend|my husband|my wife)/i,
+    /(communication issues|trust issues|cheating|infidelity)/i
   ],
   
   // Addiction and substance use patterns
@@ -826,6 +872,18 @@ const extraIntentPatterns = {
     /(wiped out|drained|burnt out|running on empty)/i,
     /(bad dreams|scary dreams|waking up tired|never rested)/i
   ],
+
+  grief: [
+    /(grieving|lost my|lost someone|mourning|bereaved)/i,
+    /(funeral|passed away|after the loss|coping with grief)/i,
+    /(can't move on|miss them|feels empty without)/i
+  ],
+
+  relationships: [
+    /(breakup|broken up|ended things|split up|separation)/i,
+    /(arguing|fighting|can't communicate|trust issues)/i,
+    /(cheated|infidelity|jealous|controlling partner)/i
+  ],
   
   bipolar: [
     /(bipolar|manic|mood swings|elevated mood|grandiose)/i,
@@ -1107,6 +1165,8 @@ function generateClarificationResponse(message, suggestedIntent = null) {
       'bipolar': 'mood changes',
       'ocd': 'repetitive thoughts or behaviors',
       'sleep': 'sleep problems',
+      'grief': 'grief and loss',
+      'relationships': 'relationship concerns',
       'medication': 'medication questions'
     };
     
@@ -1129,6 +1189,8 @@ function generateMultiOptionResponse(intents) {
     'bipolar': 'mood swings',
     'ocd': 'repetitive thoughts or behaviors',
     'sleep': 'sleep issues',
+    'grief': 'grief and loss',
+    'relationships': 'relationship concerns',
     'medication': 'medication questions'
   };
   

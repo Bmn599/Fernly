@@ -651,29 +651,6 @@ Date: December 2024
       line-height: 1.4;
     }
 
-    .upload-help {
-      font-size: 0.75rem;
-      color: #555;
-      margin-top: 0.5rem;
-    }
-
-    #aiFileInput {
-      margin-top: 0.5rem;
-    }
-
-    #aiUploadBtn {
-      background: #619251;
-      color: white;
-      border: none;
-      padding: 0.25rem 0.75rem;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-left: 0.25rem;
-    }
-
-    #aiUploadBtn:hover {
-      background: #4F7942;
-    }
 
     /* Medical Disclaimer - NEW */
     .medical-disclaimer {
@@ -1529,7 +1506,7 @@ Date: December 2024
   <section id="ai-chat" data-aos="fade-up">
     <div class="container">
       <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Ask Away We're Listening</h2>
-      <p class="chat-intro" data-aos="fade-up" data-aos-delay="200">Have a quick question about your prescription or wellness plan but can’t make it into the clinic? Fernly AI delivers private, judgment free guidance 24/7 on medications, mental health conditions, and mini wellness checkins. Just type your question and get clear, expert backed answers in seconds.</p>
+      <p class="chat-intro" data-aos="fade-up" data-aos-delay="200">Have a quick question about your prescription or wellness plan but can’t make it into the clinic? Fernly AI delivers private, judgment free guidance 24/7 on medications, mental health conditions, and mini wellness check-ins. Just type your question and get clear, expert backed answers in seconds.</p>
 
       <div class="chat-interface">
         <div class="chat-messages" id="chatMessages">
@@ -1576,10 +1553,6 @@ Date: December 2024
               </button>
             </div>
           </form>
-          <input type="file" id="aiFileInput" multiple title="Select up to 10 text files under 1 MB each">
-          <button id="aiUploadBtn" title="Upload selected files for AI search">Upload Files</button>
-          <div class="upload-help">Upload up to 10 plain text files (max 1&nbsp;MB each). Sources below each answer show which file snippet was used.</div>
-          <span id="aiFileStatus" style="font-size:0.9em;color:#888;"></span>
           <span id="aiAIStatus" style="font-size:0.9em;color:#888;margin-left:1em;"></span>
           <div class="disclaimer">
             This AI assistant provides general information only. It's not a substitute for professional medical advice. If you're in crisis, please call 988 or seek immediate help.
@@ -1986,22 +1959,6 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
 </script>
 
 <script type="module">
-// Optional file upload functionality - independent of main mental health AI
-try {
-  const { aiHandleFileUpload, aiGetAnswer } = await import('./aiAssistant.js');
-  window.aiGetAnswer = aiGetAnswer;
-  window.aiHandleFileUpload = aiHandleFileUpload;
-  document.getElementById('aiUploadBtn').onclick = () => aiHandleFileUpload('aiFileInput', 'aiFileStatus');
-} catch (error) {
-  console.log('File upload AI not available - mental health chat still fully functional');
-  document.getElementById('aiUploadBtn').style.display = 'none';
-  document.getElementById('aiFileInput').style.display = 'none';
-  const uploadHelpElement = document.querySelector('.upload-help');
-  if (uploadHelpElement) {
-    uploadHelpElement.style.display = 'none';
-  }
-}
-
 // Update status to indicate mental health AI is active
 if (document.getElementById('aiAIStatus')) {
   document.getElementById('aiAIStatus').innerText = 'Mental Health AI Active';
