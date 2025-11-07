@@ -1,0 +1,209 @@
+/**
+ * Fernly Health - Professional CSS Polish Override
+ * 
+ * Purpose: Subtle, non-invasive visual refinements
+ * - Does not alter layout, gradients, fonts, colors, or spacing logic
+ * - Only adds polish through shadows, hover effects, and consistency
+ * - Safe to apply over existing styles without conflicts
+ */
+
+/* ==========================================================================
+   CARDS - Consistent border-radius (18px), borders, and shadows
+   ========================================================================== */
+
+/* Service cards (services.html) */
+.card {
+  border-radius: 18px !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+.card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-8px) !important;
+}
+
+/* Team member cards (team.html) */
+.team-member {
+  border-radius: 18px !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+.team-member:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-6px) !important;
+}
+
+/* Resource cards (index.html - AI chat responses) */
+.resource-card {
+  border-radius: 18px !important;
+  border: 1px solid rgba(224, 224, 224, 0.8) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+.resource-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+  transform: translateY(-4px) !important;
+}
+
+/* Chat interface card */
+.chat-interface {
+  border-radius: 18px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* ==========================================================================
+   BUTTONS - Smooth hover with lift and shadow
+   ========================================================================== */
+
+.btn-primary {
+  box-shadow: 0 2px 8px rgba(97, 146, 81, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 16px rgba(97, 146, 81, 0.3) !important;
+  transform: translateY(-3px) !important;
+}
+
+.btn-secondary {
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.25) !important;
+  transform: translateY(-3px) !important;
+}
+
+.btn-ai {
+  box-shadow: 0 3px 10px rgba(97, 146, 81, 0.25);
+}
+
+.btn-ai:hover {
+  box-shadow: 0 8px 20px rgba(97, 146, 81, 0.35) !important;
+  transform: translateY(-3px) !important;
+}
+
+/* ==========================================================================
+   CONTACT FORM - Consistent padding, soft radius, green focus ring
+   ========================================================================== */
+
+form input,
+form textarea {
+  padding: 1rem 1.25rem !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+form input:focus,
+form textarea:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(97, 146, 81, 0.25) !important;
+  border-color: rgba(97, 146, 81, 0.4) !important;
+}
+
+form button[type="submit"] {
+  box-shadow: 0 2px 8px rgba(97, 146, 81, 0.2);
+}
+
+form button[type="submit"]:hover {
+  box-shadow: 0 6px 16px rgba(97, 146, 81, 0.3) !important;
+}
+
+/* ==========================================================================
+   RESOURCE CARD IMAGES - Fixed height with object-fit
+   ========================================================================== */
+
+.resource-card img {
+  height: 180px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* ==========================================================================
+   HEADER - Enhanced translucency and polish
+   ========================================================================== */
+
+header {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(12px) !important;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ==========================================================================
+   STEPPER COMPONENT - Subtle polish for interactive elements
+   ========================================================================== */
+
+.stepper-nav button {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.stepper-nav button:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.stepper-nav button.active {
+  box-shadow: 0 4px 12px rgba(97, 146, 81, 0.25);
+}
+
+/* ==========================================================================
+   CHAT INPUT - Polish for chat interface
+   ========================================================================== */
+
+.chat-input-area {
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.input-container {
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.input-container:focus-within {
+  box-shadow: 0 4px 12px rgba(97, 146, 81, 0.15) !important;
+}
+
+/* ==========================================================================
+   NAVIGATION LINKS - Subtle hover enhancement
+   ========================================================================== */
+
+.nav-links a:not(.btn-primary) {
+  transition: all 0.3s ease;
+}
+
+.nav-links a:not(.btn-primary):hover {
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   LOGIN FORM - Polish for login page (if exists)
+   ========================================================================== */
+
+.login-card {
+  border-radius: 18px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ==========================================================================
+   RESPONSIVE ADJUSTMENTS - Maintain polish on smaller screens
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .card:hover,
+  .team-member:hover,
+  .resource-card:hover {
+    transform: translateY(-4px) !important;
+  }
+  
+  .btn-primary:hover,
+  .btn-secondary:hover,
+  .btn-ai:hover {
+    transform: translateY(-2px) !important;
+  }
+}
