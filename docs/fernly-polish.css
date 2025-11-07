@@ -53,6 +53,18 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
 }
 
+/* Blog/Resource cards (index.html - Mental Health Resources) */
+.blog-card {
+  border-radius: 18px !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+.blog-card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-8px) !important;
+}
+
 /* ==========================================================================
    BUTTONS - Smooth hover with lift and shadow
    ========================================================================== */
@@ -122,6 +134,12 @@ form button[type="submit"]:hover {
   width: 100%;
   object-fit: cover;
   border-radius: 12px;
+}
+
+/* Blog card images (already have object-fit but ensuring consistency) */
+.blog-image img {
+  object-fit: cover !important;
+  border-radius: 18px 18px 0 0;
 }
 
 /* ==========================================================================
