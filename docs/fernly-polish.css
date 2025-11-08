@@ -25,7 +25,7 @@
 
 /* Team member cards (team.html) */
 .team-member {
-  border-radius: 18px !important;
+  border-radius: 15px !important;
   border: 1px solid rgba(255, 255, 255, 0.3) !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
 }
