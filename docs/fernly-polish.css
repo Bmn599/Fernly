@@ -90,7 +90,7 @@
 }
 
 .btn-ai {
-  box-shadow: 0 3px 10px rgba(97, 146, 81, 0.25);
+  box-shadow: 0 3px 10px rgba(97, 146, 81, 0.25) !important;
 }
 
 .btn-ai:hover {
