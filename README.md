@@ -1,6 +1,6 @@
-# Fernly Health
+# GotWell
 
-Fernly Health is a mental health clinic website designed to provide comprehensive mental wellness services and support. Our mission is to help patients recover, rebuild, and thrive through evidence-based care and compassionate support.
+GotWell is a mental health clinic website designed to provide comprehensive mental wellness services and support. Our mission is to help patients recover, rebuild, and thrive through evidence-based care and compassionate support.
 
 ## Features
 

@@ -1,6 +1,6 @@
 /* GitHub Pages Deployment Fix - Force rebuild to clear caches - December 2024 */
 /**
- * AI Chat Functionality for Fernly Health - Self-Improving Pattern-Based AI Implementation
+ * AI Chat Functionality for GotWell - Self-Improving Pattern-Based AI Implementation
  * 
  * SELF-IMPROVEMENT CAPABILITIES:
  * 
@@ -145,6 +145,7 @@ const conversationContext = {
 function saveLearningData() {
   try {
     learningData.lastUpdated = new Date().toISOString();
+    // TODO: Consider renaming localStorage key from 'fernly_ai_learning' to 'gotwell_ai_learning' in future update
     localStorage.setItem('fernly_ai_learning', JSON.stringify(learningData));
     console.log('Learning data saved to localStorage');
     return true;
@@ -159,6 +160,7 @@ function saveLearningData() {
  */
 function loadLearningData() {
   try {
+    // TODO: Consider migrating from 'fernly_ai_learning' to 'gotwell_ai_learning' in future update
     const stored = localStorage.getItem('fernly_ai_learning');
     if (stored) {
       const parsed = JSON.parse(stored);
@@ -327,9 +329,9 @@ const responseTemplates = {
       "Recovery often works best with professional support. Would you like information about local addiction treatment services or support groups in your area?"
     ],
     resources: [
-      "🔗 **Addiction Resources**: SAMHSA National Helpline: 1-800-662-4357 (free, confidential, 24/7) | Visit our Services page for local addiction treatment programs: [Fernly Addiction Services](/services#addiction)",
-      "🔗 **Recovery Support**: SAMHSA Helpline 1-800-662-4357 | AA/NA meetings finder: [aa.org](https://placeholder-aa.org) | SMART Recovery: [smartrecovery.org](https://placeholder-smart.org) | Our addiction specialists: [Contact Fernly](/services#mat)",
-      "🔗 **Crisis Resources**: If you're in immediate danger from substance use, call 911 | Addiction crisis support: SAMHSA 1-800-662-4357 | Local emergency services: [Fernly Crisis Support](/services#crisis)"
+      "🔗 **Addiction Resources**: SAMHSA National Helpline: 1-800-662-4357 (free, confidential, 24/7) | Visit our Services page for local addiction treatment programs: [GotWell Addiction Services](/services#addiction)",
+      "🔗 **Recovery Support**: SAMHSA Helpline 1-800-662-4357 | AA/NA meetings finder: [aa.org](https://placeholder-aa.org) | SMART Recovery: [smartrecovery.org](https://placeholder-smart.org) | Our addiction specialists: [Contact GotWell](/services#mat)",
+      "🔗 **Crisis Resources**: If you're in immediate danger from substance use, call 911 | Addiction crisis support: SAMHSA 1-800-662-4357 | Local emergency services: [GotWell Crisis Support](/services#crisis)"
     ]
   },
   
@@ -424,7 +426,7 @@ const responseTemplates = {
   // Mental health services responses
   services: {
     initial: [
-      "I'm here to help you understand your treatment options. Fernly Health offers several levels of care to meet different needs. What type of support are you looking for?",
+      "I'm here to help you understand your treatment options. GotWell offers several levels of care to meet different needs. What type of support are you looking for?",
       "There are many paths to getting help, and I want to guide you to the right resources. Are you looking for immediate support, ongoing therapy, or specific addiction services?",
       "I'm glad you're seeking help - that's a brave and important step. We have various services available. Can you tell me more about what kind of support would be most helpful?",
       "It sounds like you're ready to explore treatment options. That's wonderful! Would you like to know about our outpatient programs, intensive services, or specific areas like addiction treatment?"
@@ -432,14 +434,14 @@ const responseTemplates = {
     followUp: [
       "Based on what you've shared, I think there are several services that might be helpful. Would you like me to explain specific programs or connect you with someone who can do a proper assessment?",
       "Here are some options that might fit your needs. Would you like more details about any of these programs, or shall I connect you with our intake team?",
-      "I can provide more information about these services. You can also visit our Services page at [Fernly Services](/services) or contact us directly to speak with a specialist.",
+      "I can provide more information about these services. You can also visit our Services page at [GotWell Services](/services) or contact us directly to speak with a specialist.",
       "These services are designed to meet people where they are in their journey. Would you like to know more about the admission process or daily structure of any particular program?"
     ],
     contextual: {
       addiction: [
-        "Since you mentioned substance use concerns, I want you to know that Fernly offers specialized addiction treatment including Medication Assisted Treatment (MAT) and addiction counseling. You can find more details on our [Services page](/services#addiction).",
+        "Since you mentioned substance use concerns, I want you to know that GotWell offers specialized addiction treatment including Medication Assisted Treatment (MAT) and addiction counseling. You can find more details on our [Services page](/services#addiction).",
         "For addiction-specific support, we provide comprehensive treatment including detox support, therapy, and recovery programs. Our MAT program has helped many people achieve lasting recovery. Would you like to learn more about these services?",
-        "Addiction treatment is one of our specialties. We offer both intensive outpatient programs and medication-assisted treatment specifically designed for substance use recovery. Visit [Fernly Addiction Services](/services#mat) for more information."
+        "Addiction treatment is one of our specialties. We offer both intensive outpatient programs and medication-assisted treatment specifically designed for substance use recovery. Visit [GotWell Addiction Services](/services#mat) for more information."
       ],
       crisis: [
         "Given what you're going through, you might benefit from our Crisis Stabilization services for immediate support, followed by ongoing care. Please don't hesitate to contact us immediately if you need urgent help.",
@@ -447,7 +449,7 @@ const responseTemplates = {
       ],
       general: [
         "We offer everything from individual therapy to intensive day programs. Our services include PHP (Partial Hospitalization), IOP (Intensive Outpatient), and regular therapy sessions. What feels most appropriate for your situation?",
-        "Our Services page has detailed information about all our programs: [Fernly Services](/services). You can also call us to speak with someone who can help determine the best fit for your needs."
+        "Our Services page has detailed information about all our programs: [GotWell Services](/services). You can also call us to speak with someone who can help determine the best fit for your needs."
       ]
     }
   },

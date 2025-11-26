@@ -1,7 +1,7 @@
-# Fernly Clinic Website Context
+# GotWell Clinic Website Context
 
 ## Purpose
-Fernly is a clinic website designed to provide information about the clinic, its services, and enable users to contact or book appointments. Fernly Health specializes in mental health and recovery services, offering comprehensive care to help patients recover, rebuild, and thrive.
+GotWell is a clinic website designed to provide information about the clinic, its services, and enable users to contact or book appointments. GotWell specializes in mental health and recovery services, offering comprehensive care to help patients recover, rebuild, and thrive.
 
 ## User Goals
 - Find clinic hours and location information
