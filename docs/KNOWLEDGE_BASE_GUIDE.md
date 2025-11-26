@@ -1,6 +1,6 @@
 # Knowledge Base Expansion Guide
 
-This guide explains how to expand and maintain the Fernly Health AI knowledge base for mental health conditions and medications.
+This guide explains how to expand and maintain the GotWell AI knowledge base for mental health conditions and medications.
 
 ## Overview
 
@@ -209,4 +209,4 @@ Planned improvements to the knowledge base:
 
 ---
 
-*This guide ensures the Fernly Health AI maintains high-quality, accurate, and helpful mental health information while remaining accessible to users from all backgrounds.*
+*This guide ensures the GotWell AI maintains high-quality, accurate, and helpful mental health information while remaining accessible to users from all backgrounds.*

@@ -1,4 +1,4 @@
-/* Fallback Data for Fernly Health AI Assistant */
+/* Fallback Data for GotWell AI Assistant */
 // DSM-5 and Dictionary fallback data for client-side AI functionality
 // This ensures the AI can always respond even if WebLLM fails to load
 
