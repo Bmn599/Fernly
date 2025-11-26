@@ -14,7 +14,7 @@
       --g3: #a6d3a6;
       --g4: #b1dcb1;
       --g5: #add9c5;
-      --g6: #e8c864;
+      --g6: #8fbf8f; /* Changed from yellow to green for consistent palette */
     }
 
     * {
@@ -1374,8 +1374,16 @@
         }
       });
 
-      // Remember me functionality
+      // Remember me functionality with migration from old key
       const rememberMeCheckbox = document.getElementById('rememberMe');
+      
+      // Migrate from old localStorage key if present
+      const oldStoredEmail = localStorage.getItem('fernly_remembered_email');
+      if (oldStoredEmail) {
+        localStorage.setItem('gotwell_remembered_email', oldStoredEmail);
+        localStorage.removeItem('fernly_remembered_email');
+      }
+      
       const storedEmail = localStorage.getItem('gotwell_remembered_email');
       
       if (storedEmail) {

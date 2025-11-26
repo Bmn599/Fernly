@@ -63,13 +63,13 @@ Date: December 2024
       --g3: #a6d3a6;
       --g4: #b1dcb1;
       --g5: #add9c5;
-      --g6: #e8c864;
+      --g6: #8fbf8f; /* Changed from #e8c864 (yellow) to match green palette */
       
       /* Stepper component colors */
       --stepper-primary: #619251;
       --stepper-primary-hover: #4F7942;
       --stepper-secondary: #8fbf8f;
-      --stepper-accent: #e8c864;
+      --stepper-accent: #4F7942; /* Changed from #e8c864 (yellow) to dark green for consistent palette */
       --stepper-text: #333;
       --stepper-text-light: #666;
       --stepper-background: rgba(255, 255, 255, 0.95);
@@ -862,7 +862,7 @@ Date: December 2024
 
     .stepper-nav__number {
       background: var(--stepper-accent);
-      color: var(--stepper-text);
+      color: white; /* Changed from var(--stepper-text) for better contrast with dark green background */
       width: 32px;
       height: 32px;
       border-radius: 50%;
