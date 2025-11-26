@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Fernly Health</title>
+  <title>Login - GotWell</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-  <!-- Fernly Polish - Subtle visual refinements -->
+  <!-- GotWell Polish - Subtle visual refinements -->
   <link rel="stylesheet" href="fernly-polish.css">
   <style>
     :root {
@@ -783,8 +783,8 @@
     <div class="container">
       <nav>
         <div class="logo">
-          <img src="images/Fernly-logo.png" alt="Fernly Health Logo">
-          <span>Fernly Health</span>
+          <img src="images/gotwell-logo.png" alt="GotWell Logo">
+          <span>GotWell</span>
         </div>
         <ul class="nav-links">
           <li><a href="index.html">Home</a></li>
@@ -995,7 +995,7 @@
     <div class="modal-content">
       <span class="close" id="closeCreateModal">&times;</span>
       <h2>Create Account</h2>
-      <p>Join Fernly Health and start your mental wellness journey today.</p>
+      <p>Join GotWell and start your mental wellness journey today.</p>
       <form id="createAccountForm">
         <div class="form-group">
           <label for="newFullName">Full Name</label>
@@ -1222,12 +1222,12 @@
           loadingSpinner.style.display = 'none';
           
           // Demo login - in production, this would make an API call
-          if (email === 'demo@fernly.com' && password === 'demo123') {
-            alert('Login successful! Welcome to Fernly Health.');
+          if (email === 'demo@gotwell.com' && password === 'demo123') {
+            alert('Login successful! Welcome to GotWell.');
             // Redirect to dashboard or home page
             window.location.href = 'index.html';
           } else {
-            alert('Invalid credentials. Try demo@fernly.com / demo123');
+            alert('Invalid credentials. Try demo@gotwell.com / demo123');
             // Shake animation for failed login
             loginForm.style.animation = 'shake 0.5s ease-in-out';
             setTimeout(() => {
@@ -1376,7 +1376,7 @@
 
       // Remember me functionality
       const rememberMeCheckbox = document.getElementById('rememberMe');
-      const storedEmail = localStorage.getItem('fernly_remembered_email');
+      const storedEmail = localStorage.getItem('gotwell_remembered_email');
       
       if (storedEmail) {
         emailInput.value = storedEmail;
@@ -1385,16 +1385,16 @@
       
       rememberMeCheckbox.addEventListener('change', function() {
         if (this.checked) {
-          localStorage.setItem('fernly_remembered_email', emailInput.value);
+          localStorage.setItem('gotwell_remembered_email', emailInput.value);
         } else {
-          localStorage.removeItem('fernly_remembered_email');
+          localStorage.removeItem('gotwell_remembered_email');
         }
       });
 
       // Update remember me storage when email changes
       emailInput.addEventListener('input', function() {
         if (rememberMeCheckbox.checked) {
-          localStorage.setItem('fernly_remembered_email', this.value);
+          localStorage.setItem('gotwell_remembered_email', this.value);
         }
       });
     });

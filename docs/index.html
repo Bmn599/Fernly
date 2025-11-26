@@ -10,11 +10,11 @@ Date: December 2024
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fernly Health - Mental Wellness Reimagined</title>
+  <title>GotWell - Mental Wellness Reimagined</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <!-- AOS (Animate On Scroll) Library -->
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
-  <!-- Fernly Polish - Subtle visual refinements -->
+  <!-- GotWell Polish - Subtle visual refinements -->
   <link rel="stylesheet" href="fernly-polish.css">
   <!-- SMART AI SYSTEM - BROWSER-COMPATIBLE INTELLIGENT RESPONSES -->
   <!-- Reliable pattern-based AI with comprehensive mental health knowledge -->
@@ -991,98 +991,7 @@ Date: December 2024
       }
     }
 
-    /* Chat Bubble Component */
-    .chat-bubble {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      max-width: 280px;
-      background: var(--stepper-background);
-      border-radius: 20px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-      padding: 1.5rem;
-      transform: translateY(100px);
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.4s ease;
-      z-index: 1000;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .chat-bubble--visible {
-      transform: translateY(0);
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .chat-bubble__content {
-      margin-bottom: 1rem;
-    }
-
-    .chat-bubble__text {
-      font-size: 1rem;
-      color: var(--stepper-text);
-      font-weight: 500;
-      margin-bottom: 1rem;
-      line-height: 1.4;
-    }
-
-    .chat-bubble__actions {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .chat-bubble__link {
-      background: var(--stepper-primary);
-      color: white;
-      padding: 0.75rem 1rem;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.9rem;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-
-    .chat-bubble__link:hover {
-      background: var(--stepper-primary-hover);
-      transform: translateY(-1px);
-    }
-
-    .chat-bubble__close {
-      position: absolute;
-      top: 8px;
-      right: 12px;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--stepper-text-light);
-      cursor: pointer;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
-
-    .chat-bubble__close:hover {
-      background: rgba(0, 0, 0, 0.1);
-      color: var(--stepper-text);
-    }
-
-    /* Mobile adjustments for chat bubble */
-    @media (max-width: 768px) {
-      .chat-bubble {
-        bottom: 15px;
-        left: 15px;
-        right: 15px;
-        max-width: none;
-        width: calc(100% - 30px);
-      }
-    }
+    /* TODO: Chat bubble CSS removed as component was removed during rebranding */
 
     /* Blank section placeholder */
     .blank-section {
@@ -1374,7 +1283,7 @@ Date: December 2024
 
   <div class="loading-screen" id="loadingScreen">
     <div class="loading-content">
-      <div class="loading-text">Welcome to Fernly Health</div>
+      <div class="loading-text">Welcome to GotWell</div>
     </div>
   </div>
 
@@ -1383,8 +1292,8 @@ Date: December 2024
     <div class="container">
       <nav>
         <div class="logo">
-          <img src="images/Fernly-logo.png" alt="Fernly Health Logo">
-          <span>Fernly Health</span>
+          <img src="images/gotwell-logo.png" alt="GotWell Logo">
+          <span>GotWell</span>
         </div>
         <ul class="nav-links">
           <li><a href="#home">Home</a></li>
@@ -1408,7 +1317,7 @@ Date: December 2024
       </h1>
       <p class="tagline">Because just 'okay' isn't good enough</p>
       <div class="hero-buttons">
-        <a href="#ai-chat" class="btn-ai">Chat with Fernly</a>
+        <a href="#ai-chat" class="btn-ai">Chat with GotWell</a>
         <a href="services.html" class="btn-primary">Our Services</a>
         <a href="#contact" class="btn-secondary">Free Consultation</a>
       </div>
@@ -1508,7 +1417,7 @@ Date: December 2024
   <section id="ai-chat" data-aos="fade-up">
     <div class="container">
       <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Ask Away We're Listening</h2>
-      <p class="chat-intro" data-aos="fade-up" data-aos-delay="200">Have a quick question about your prescription or wellness plan but can’t make it into the clinic? Fernly AI delivers private, judgment free guidance 24/7 on medications, mental health conditions, and mini wellness check-ins. Just type your question and get clear, expert backed answers in seconds.</p>
+      <p class="chat-intro" data-aos="fade-up" data-aos-delay="200">Have a quick question about your prescription or wellness plan but can’t make it into the clinic? GotWell AI delivers private, judgment free guidance 24/7 on medications, mental health conditions, and mini wellness check-ins. Just type your question and get clear, expert backed answers in seconds.</p>
 
       <div class="chat-interface">
         <div class="chat-messages" id="chatMessages">
@@ -1649,8 +1558,8 @@ Date: December 2024
 
   <section id="about" data-aos="fade-up">
     <div class="container">
-      <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Reclaim Your Well Being with Fernly Health</h2>
-      <p data-aos="fade-up" data-aos-delay="200">At Fernly Health, we partner with you every step of your mental health and recovery journey. Helping you heal, grow, and reclaim balance. Our Arizona wide team of board certified psychiatrists, psychologists, therapists, and psychiatric nurse practitioners deliver compassionate, evidence based care in person or online. Ready to take the first step? Visit us today.</p>
+      <h2 class="section-title" data-aos="fade-up" data-aos-delay="100">Reclaim Your Well Being with GotWell</h2>
+      <p data-aos="fade-up" data-aos-delay="200">At GotWell, we partner with you every step of your mental health and recovery journey. Helping you heal, grow, and reclaim balance. Our Arizona wide team of board certified psychiatrists, psychologists, therapists, and psychiatric nurse practitioners deliver compassionate, evidence based care in person or online. Ready to take the first step? Visit us today.</p>
     </div>
   </section>
 
@@ -1667,17 +1576,7 @@ Date: December 2024
     </div>
   </section>
 
-  <!-- Chat Bubble Component -->
-  <div class="chat-bubble" id="chatBubble" aria-hidden="true">
-    <div class="chat-bubble__content">
-      <div class="chat-bubble__text">Not sure where to begin? Start here.</div>
-      <div class="chat-bubble__actions">
-        <a href="services.html" class="chat-bubble__link">View Services</a>
-        <a href="#contact" class="chat-bubble__link">Book Consultation</a>
-      </div>
-    </div>
-    <button class="chat-bubble__close" aria-label="Close chat bubble">&times;</button>
-  </div>
+  <!-- TODO: "Not sure where to begin" chat bubble popup removed as per rebranding requirements -->
 
   <footer>
     <div class="container footer-flex">
@@ -1686,7 +1585,7 @@ Date: December 2024
         <a href="#">Careers</a>
       </div>
       <p class="footer-blurb">Proudly serving Phoenix, Tucson and communities across Arizona.</p>
-      <p>&copy; 2025 Fernly Health. All rights reserved.</p>
+      <p>&copy; 2025 GotWell. All rights reserved.</p>
     </div>
   </footer>
 
@@ -2032,124 +1931,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- Chat Bubble Component JavaScript -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const chatBubble = document.getElementById('chatBubble');
-  const chatBubbleClose = document.querySelector('.chat-bubble__close');
-  let chatBubbleTimer;
-  let isUserInteracting = false;
-  let chatBubbleShown = false;
-  
-  // Check if we're on a page with AI chat functionality
-  function isAIChatActive() {
-    const chatInterface = document.querySelector('.chat-interface');
-    const chatInput = document.getElementById('chatInput');
-    
-    // Check if chat interface exists and if user is actively typing
-    if (chatInterface && chatInput) {
-      return chatInput === document.activeElement || 
-             chatInput.value.length > 0 ||
-             document.querySelector('.message.user'); // Check if user has sent messages
-    }
-    return false;
-  }
-  
-  // Show chat bubble
-  function showChatBubble() {
-    if (!chatBubbleShown && !isAIChatActive()) {
-      chatBubble.classList.add('chat-bubble--visible');
-      chatBubble.setAttribute('aria-hidden', 'false');
-      chatBubbleShown = true;
-    }
-  }
-  
-  // Hide chat bubble
-  function hideChatBubble() {
-    chatBubble.classList.remove('chat-bubble--visible');
-    chatBubble.setAttribute('aria-hidden', 'true');
-    chatBubbleShown = false;
-  }
-  
-  // Start timer for chat bubble
-  function startChatBubbleTimer() {
-    clearTimeout(chatBubbleTimer);
-    chatBubbleTimer = setTimeout(() => {
-      if (!isUserInteracting && !isAIChatActive()) {
-        showChatBubble();
-      }
-    }, 60000); // 1 minute
-  }
-  
-  // Reset timer on user interaction
-  function resetChatBubbleTimer() {
-    isUserInteracting = true;
-    hideChatBubble();
-    clearTimeout(chatBubbleTimer);
-    
-    // Reset interaction flag after a short delay
-    setTimeout(() => {
-      isUserInteracting = false;
-      // Only restart timer if we're still in the hero section
-      if (isInHeroSection()) {
-        startChatBubbleTimer();
-      }
-    }, 2000);
-  }
-  
-  // Check if user is in hero section
-  function isInHeroSection() {
-    const heroSection = document.getElementById('home');
-    if (!heroSection) return false;
-    
-    const heroRect = heroSection.getBoundingClientRect();
-    const viewportHeight = window.innerHeight;
-    
-    // Consider user in hero section if hero is visible in viewport
-    return heroRect.top < viewportHeight && heroRect.bottom > 0;
-  }
-  
-  // Handle scroll events
-  function handleScroll() {
-    resetChatBubbleTimer();
-    
-    // Hide chat bubble if user scrolls past hero section
-    if (!isInHeroSection()) {
-      hideChatBubble();
-      clearTimeout(chatBubbleTimer);
-    }
-  }
-  
-  // Initialize chat bubble functionality
-  function initializeChatBubble() {
-    // Close button functionality
-    chatBubbleClose.addEventListener('click', function() {
-      hideChatBubble();
-      clearTimeout(chatBubbleTimer);
-    });
-    
-    // Start timer when page loads if in hero section
-    if (isInHeroSection()) {
-      startChatBubbleTimer();
-    }
-    
-    // Listen for scroll events
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    // Listen for mouse movement and keyboard activity
-    document.addEventListener('mousemove', resetChatBubbleTimer, { passive: true });
-    document.addEventListener('keydown', resetChatBubbleTimer, { passive: true });
-    document.addEventListener('click', resetChatBubbleTimer, { passive: true });
-    
-    // Hide chat bubble when AI chat is being used
-    const chatInput = document.getElementById('chatInput');
-    if (chatInput) {
-      chatInput.addEventListener('focus', hideChatBubble);
-      chatInput.addEventListener('input', hideChatBubble);
-    }
-  }
-  
-  // Initialize the chat bubble
-  initializeChatBubble();
-});
+// TODO: Chat bubble ("Not sure where to begin") code removed as per rebranding requirements
 </script>
 
 <script>
